@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using DungeonSlayers.Models;
+using System.Web.Configuration;
 
 namespace DungeonSlayers
 {
@@ -57,12 +58,12 @@ namespace DungeonSlayers
             //app.UseFacebookAuthentication(
             //   appId: "",
             //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = WebConfigurationManager.AppSettings["GoogClientID"],
+                ClientSecret = WebConfigurationManager.AppSettings["GoogClientSecret"]
+            });
         }
     }
 }
