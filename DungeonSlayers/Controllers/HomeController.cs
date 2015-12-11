@@ -15,16 +15,16 @@ namespace DungeonSlayers.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Active()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Hero Sheet for your current active character.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Characters()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "This is a list of all Character Templates.";
 
             return View();
         }

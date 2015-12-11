@@ -20,6 +20,8 @@ namespace DungeonSlayers.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<RacialAbility> RacialAbilities { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -28,6 +30,20 @@ namespace DungeonSlayers.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Character>()
+                .HasMany(e => e.RacialAbilities)
+                .WithMany()
+                .Map(s =>
+                {
+                    s.MapLeftKey("CharacterId");
+                    s.MapRightKey("RacialId");
+                    s.ToTable("CharacterRacialAbilities");
+                });
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
