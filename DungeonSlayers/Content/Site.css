@@ -9,6 +9,10 @@
     padding-right: 15px;
 }
 
+.input-group .form-control {
+    min-width: 50px;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -17,11 +21,11 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
-}
+}*/
 
 .row-no-padding 
   [class*="col-"] {
@@ -78,4 +82,137 @@ textarea {
 }
 .dropdown-menu > li > a.additem:hover, .dropdown-menu > li > a.additem:focus {
     color: #222;
+}
+
+.attribute > div, .trait > div{
+    font-size: x-large;
+    font-weight:bold;
+    text-align:center;
+}
+.attribute input, .trait input {
+    width:50px;
+    text-align:center;
+    font-size: x-large;
+}
+.strokeme, .trait > div
+{
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+.col-xs-1b8,
+.col-sm-1b8,
+.col-md-1b8,
+.col-lg-1b8 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+@media(min-width: 992px) {
+    .col-md-1b8 {
+        width: 12.5%;
+        float: left;
+    }
+}
+@media (min-width: 768px) {
+    .col-sm-1b8 {
+        width: 12.5%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-1b8 {
+        width: 12.5%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-1b8 {
+        width: 12.5%;
+        float: left;
+    }
+}
+.combat-offset {
+    margin-left:24px;
+}
+.input-group[class*="col-"] {
+    float:left;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.centered {
+    display: inline-block;
+}
+.goldLabel{
+    position:absolute;
+    width:90px;
+    text-align:center;
+    top:54px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
+.cvLabel{
+    position:absolute;
+    width:90px;
+    text-align:center;
+}
+.cvName{
+    top:90px;
+    text-transform:uppercase;
+    font-weight:bold;
+}
+.cvEquation{
+    top:115px;
+    font-size:x-small
+}
+.input-group > .input-group-vert-addon {
+    display:block;
+}
+.input-group-vert-addon:first-child {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group-vert-addon:last-child {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.input-group-vert-addon{
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;    
+    width: 100%;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding-bottom: 12px;
+    /*display: table-cell;*/
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td
+ {
+    border-color:black;
+}
+.table th {
+    background-color:lightgray;
+}
+.table-thin > thead > tr > th, 
+.table-thin > tbody > tr > th, 
+.table-thin > tfoot > tr > th, 
+.table-thin > thead > tr > td, 
+.table-thin > tbody > tr > td, 
+.table-thin > tfoot > tr > td {
+    padding: 2px 8px;
+}
+.form-control{
+    padding: 6px;
 }

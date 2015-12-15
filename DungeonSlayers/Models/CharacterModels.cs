@@ -29,19 +29,19 @@ namespace DungeonSlayers.Models
     {
         public ApplicationUser Owner { get; set; }
         public string Race { get; set; }
-        public int Level { get; set; }
+        public int Level { get; set; } = 1;
         [NotMapped]
         public int TotalPP { get; set; }
-        public int PP { get; set; }
+        public int PP { get; set; } = 0;
         [NotMapped]
         public int TotalTP { get; set; }
-        public int TP { get; set; }
+        public int TP { get; set; } = 0;
         public string ClassName { get; set; }
         public string HeroClassName { get; set; }
-        public int ExperiencePoints { get; set; }
-        public Size Size { get; set; }
+        public int ExperiencePoints { get; set; } = 0;
+        public Size Size { get; set; } = Size.Small;
 
-        public Gender Gender { get; set; }
+        public Gender Gender { get; set; } = Gender.Male;
         public string PlaceOfBirth { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -54,7 +54,44 @@ namespace DungeonSlayers.Models
         public string Special { get; set; }
         public string Languages { get; set; }
         public string Alphabets { get; set; }
-        
+
+        [NotMapped]
+        public Property Body { get { return Properties[0]; } set { Properties[0] = value; } }
+        [NotMapped]
+        public Property Stength { get; set; }
+        [NotMapped]
+        public Property Constitution { get; set; }
+        [NotMapped]
+        public Property Mobility { get; set; }
+        [NotMapped]
+        public Property Agility { get; set; }
+        [NotMapped]
+        public Property Dexterity { get; set; }
+        [NotMapped]
+        public Property Mind { get; set; }
+        [NotMapped]
+        public Property Intellect { get; set; }
+        [NotMapped]
+        public Property Aura { get; set; }
+        [NotMapped]
+        public Property AV { get; set; }
+        [NotMapped]
+        public Property HitPoints { get; set; }
+        [NotMapped]
+        public Property Defense { get; set; }
+        [NotMapped]
+        public Property Initiative { get; set; }
+        [NotMapped]
+        public Property Movement { get; set; }
+        [NotMapped]
+        public Property MeleeAttack { get; set; }
+        [NotMapped]
+        public Property RangedAttack { get; set; }
+        [NotMapped]
+        public Property SpellCast { get; set; }
+        [NotMapped]
+        public Property TargettedSpellCast { get; set; }
+
         public ICollection<RacialAbility> RacialAbilities { get; set; }
         
         public ICollection<Spell> Spells { get; set; }
@@ -132,15 +169,22 @@ namespace DungeonSlayers.Models
     {
         public string Check{ get; set; }
     }
-    public enum PropertyName { Body, Mobility, Mind, Strength, Constitution, Agility, Dexterity, Intellect, Aura, HitPoints, Defense, Initiative, MovementRate, MeleeAttack, RangedAttack, Spellcasting, TargetedSpellcasting }
+    public enum PropertyName { Body, Mobility, Mind, Strength, Constitution, Agility, Dexterity, Intellect, Aura, HitPoints, Defense, Initiative, MovementRate, MeleeAttack, RangedAttack, Spellcasting, TargetedSpellcasting, ArmorValue, WeaponBonus, SpellModifier }
+    public enum PropertyType { Attribute, Trait, CombatValue, Misc}
     public class Property : Identifiable
     {
         public Character Character { get; set; }
+        public float Base { get; set; }
+        public PropertyDef Definition { get; set; }
+    }
+    public class PropertyDef : Identifiable
+    {
         public PropertyName Name { get; set; }
+        public PropertyType PropType { get; set; }
         public string Acronym { get; set; }
-        public float Value { get; set; }
-        public bool Derived { get; set; }
-        public string Equation { get; set; }
+        public string DisplayName { get; set; }
+        public bool Derived { get; set; } = false;
+        public string Equation { get; set; } = "";
     }
     ////Body, Mobility, Mind
     //public class Attribute : Characteristic

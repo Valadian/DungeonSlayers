@@ -24,3 +24,25 @@ function addSelectInpKeyPress(t, ev) {
         addSelectItem($(t).next(), ev);
     }
 }
+
+//$(document).ready(function () {
+//    $('.selectpicker').selectpicker();
+//});
+(function () { Math.clamp = function (a, b, c) { return Math.max(b, Math.min(c, a)); } })();
+
+$(document).ready(function () {
+    var $width = $(window).width() / 10;
+    $('img.resize-1b8').attr({
+        width: Math.clamp($width, 90, 125)
+    })
+    $(window).bind('resize', function () {
+        var $width = $(window).width() / 10;
+        $('img.resize-1b8').attr({
+            width: Math.clamp($width, 90, 125)
+        })
+    })
+})
+
+$(function () {
+    $('.input-group:has(.input-group-vert-addon)').css('display', 'block');;
+})

@@ -167,10 +167,12 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CharactersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Extensions\HtmlExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -181,10 +183,24 @@
     <Compile Include="Models\EquipmentModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RefModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CharacterRepo.cs" />
+    <Compile Include="Repositories\ChoicesRepo.cs" />
+    <Compile Include="Repositories\PropertyRepo.cs" />
     <Compile Include="Startup.cs" />
-    <Content Include="Views\Shared\EditorTemplates\AddOnEditorFor.cshtml" />
-    <None Include="Views\Shared\EditorTemplates\EditableDropDown.cshtml" />
+    <Content Include="Content\CombatIcons_xcf-Defense.png" />
+    <Content Include="Content\CombatIcons_xcf-HitPoints.png" />
+    <Content Include="Content\CombatIcons_xcf-Initiative.png" />
+    <Content Include="Content\CombatIcons_xcf-MeleeAttack.png" />
+    <Content Include="Content\CombatIcons_xcf-MovementRate.png" />
+    <Content Include="Content\CombatIcons_xcf-RangedAttack.png" />
+    <Content Include="Content\CombatIcons_xcf-Spellcasting.png" />
+    <Content Include="Content\CombatIcons_xcf-TargetedSpellcasting.png" />
+    <Content Include="Content\DungeonSlayersTitle.png" />
+    <Content Include="Content\gold.png" />
+    <Content Include="Views\Shared\EditorTemplates\AddOnField.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EditableDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-select.min.css" />
@@ -255,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Context\" />
     <Folder Include="Views\Extensions\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>

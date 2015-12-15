@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DungeonSlayers.Models;
+using DungeonSlayers.Repositories;
 
 namespace DungeonSlayers.Controllers
 {
@@ -39,31 +40,20 @@ namespace DungeonSlayers.Controllers
         // GET: Characters/Create
         public ActionResult Create()
         {
-            ViewBag.OwnerChoices = new[] { "berge403", "unitive", "jacky" }.Select(s => new SelectListItem() { Text = s }); //["OwnerChoices"] = 
-            ViewBag.RaceChoices = new[] { "Human", "Elf", "Dwarf", "Orc" }.Select(s => new SelectListItem() { Text = s }); //["RaceChoices"] = 
-            ViewBag.ClassChoices = new[] { "Fighter", "Scout", "Healer", "Wizard", "Sorcerer" }.Select(s => new SelectListItem() { Text = s});
-
-            ViewBag.RacialAbilitiesChoices = db.RacialAbilities.Select(ra => new SelectListItem() { Text = ra.Name });
-
-            var groups = new Dictionary<string, SelectListGroup>()
-            {
-                {"Fighter", new SelectListGroup() { Name = "Fighter" }},
-                {"Scout", new SelectListGroup() { Name = "Scout" }},
-                {"Healer", new SelectListGroup() { Name = "Healer" }},
-                {"Wizard", new SelectListGroup() { Name = "Wizard" }},
-                {"Sorcerer", new SelectListGroup() { Name = "Sorcerer" }},
-            };
-
-            var heroclasses = new List<SelectListItem>();
-            heroclasses.Add(new SelectListItem() { Text="Nothing selected", Value=""});
-            heroclasses.AddRange(new[] { "Berserker", "Paladin", "Weapon Master" }.Select(hc => new SelectListItem() { Text = hc, Group = groups["Fighter"] }));
-            heroclasses.AddRange(new[] { "Assassin", "Ranger", "Rogue" }.Select(hc => new SelectListItem() { Text = hc, Group = groups["Scout"] }));
-            heroclasses.AddRange(new[] { "Cleric", "Druid", "Monk" }.Select(hc => new SelectListItem() { Text = hc, Group = groups["Healer"] }));
-            heroclasses.AddRange(new[] { "Archmage", "Battle Mage", "Elementalist" }.Select(hc => new SelectListItem() { Text = hc, Group = groups["Wizard"] }));
-            heroclasses.AddRange(new[] { "Blood Mage", "Demonologist", "Necromancer" }.Select(hc => new SelectListItem() { Text = hc, Group = groups["Sorcerer"] }));
-
-            ViewBag.HeroClasses = heroclasses;
+            AddChoicesToViewBag(ViewBag);
+            var character = new Character().Initialize(db);
+            character.Owner = db.Users.Where(u => u.UserName == User.Identity.Name).First();
+            ViewBag.PropertyDefs = db.PropertyDefs;
             return View();
+        }
+        private void AddChoicesToViewBag(dynamic ViewBag)
+        {
+            ViewBag.OwnerChoices = db.Users.AsChoices();
+            ViewBag.RaceChoices = db.DefaultRaces.AsChoices(valueStrings: true);
+            ViewBag.ClassChoices = db.Classes.AsChoices(valueStrings: true);
+            ViewBag.RacialAbilitiesChoices = db.RacialAbilities.AsChoices();
+            ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
+
         }
 
         // POST: Characters/Create
@@ -71,10 +61,12 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note")] Character character)
+        public async Task<ActionResult> Create([Bind(Include = "Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note")] Character character)
         {
             if (ModelState.IsValid)
             {
+                //character.Owner = db.Users.Where(u => u.UserName==User.Identity.Name).First();
+                character.DateOfBirth = DateTime.Now;
                 db.Characters.Add(character);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -95,6 +87,8 @@ namespace DungeonSlayers.Controllers
             {
                 return HttpNotFound();
             }
+            AddChoicesToViewBag(ViewBag);
+            ViewBag.PropertyDefs = db.PropertyDefs;
             return View(character);
         }
 

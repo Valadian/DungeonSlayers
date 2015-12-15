@@ -1,198 +1,424 @@
-﻿@model DungeonSlayers.Models.Character
+﻿@using DungeonSlayers.Extensions
+@using DungeonSlayers.Models
+@using DungeonSlayers.Repositories
+@model DungeonSlayers.Models.Character
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit - Character";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
+<div class="row">
+    <div class="col-md-6"><h2>Edit - Character</h2></div>
+</div>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Character</h4>
+
+
+    <div class="form-vertical">
         <hr />
+        @*<div class="btn-group btn-lg">*@
+        @*</div>*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Race, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Race, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Race, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <div class="col-sm-offset-4 col-sm-4">
+                <img src="~/Content/DungeonSlayersTitle.png" class="img-responsive text-center" style="max-width: 300px;" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group col-sm-4">
+                @Html.AddOnEditorFor(model => model.Owner, "editabledropdown", label: "Player", editable: false)
+            </div>
+            <div class="input-group col-sm-4 pull-right">
+                @Html.AddOnEditorFor(model => model.Name, label: "Name")
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group col-sm-4">
+                @Html.AddOnEditorFor(model => model.Race, "editabledropdown")
+            </div>
+            <div class="col-sm-4">
+                <div class="row row-no-padding" style="margin-left:0px;margin-right:0px;">
+                    <div class="input-group col-md-4">
+                        @Html.AddOnEditorFor(model => model.Level, label: "Lvl", width: 25)
+                    </div>
+                    <div class="input-group col-md-4">
+                        @Html.AddOnEditorFor(model => model.PP, abbr: "Progress Points", width: 25)
+                    </div>
+                    <div class="input-group col-md-4">
+                        @Html.AddOnEditorFor(model => model.TP, abbr: "Talent Points", width: 25)
+                    </div>
+                </div>
+            </div>
+            <div class="input-group col-sm-4">
+                @Html.AddOnEditorFor(model => model.ClassName, "editabledropdown", label: "Class", choices: (object)ViewBag.ClassChoices, editable: false)
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group col-sm-12 col-md-4">
+                @Html.AddOnEditorFor(model => model.RacialAbilities, "editabledropdown", label: "Racials", multiple: true, editable: false)
+            </div>
+            <div class="input-group col-sm-12 col-md-4">
+                @Html.AddOnEditorFor(model => model.ExperiencePoints, label: "XP", abbr: "Experience Points", width: 25)
+            </div>
+            <div class="input-group col-sm-12 col-md-4">
+                @Html.AddOnEditorFor(model => model.HeroClassName, "editabledropdown", label: "Hero Cls", editable: false, choices: (object)ViewBag.HeroClasses)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Level, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Level, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Level, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Body, true)
+            </div>
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Mobility, true)
+            </div>
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Mind, true)
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PP, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PP, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PP, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Stength)
             </div>
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Agility)
+            </div>
+            <div class="col-sm-4" style="margin-bottom: 15px;">
+                @Html.AttributeEditorFor(model => model.Intellect)
+            </div>
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Constitution)
+            </div>
+            <div class="col-sm-4">
+                @Html.AttributeEditorFor(model => model.Dexterity)
+            </div>
+            <div class="col-sm-4" style="margin-bottom: 15px;">
+                @Html.AttributeEditorFor(model => model.Aura)
+            </div>
+        </div>
+        <div class="form-group row">
+            @foreach (PropertyDef cv in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).CombatValues())
+            {
+                //background - image:url(/ Content / CombatIcons_xcf -@(cv).png); background - repeat: no - repeat;
+                <div class="col-xs-3 col-sm-1b8" style="min-height:145px;">
+                    <img style="position:absolute;width:90px;" src="/Content/CombatIcons_xcf-@(cv.Name).png" />
+                    <br style="line-height: 2em" />
+                    <div class="row">
+                        <div class="col-sm-1 combat-offset">
+                            @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
+                        </div>
+                    </div>
+                    <span class="cvLabel cvName">@cv.DisplayName</span>
+                    <span class="cvLabel cvEquation"><nobr>@cv.Equation.Replace("@", "")</nobr></span>
+                    @*<img src="" style="width:100px"/>*@
+                </div>
+            }
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TP, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TP, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TP, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>WEAPON</th>
+                        <th width="6%">WB</th>
+                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-MeleeAttack.png" width="20" /> </th>
+                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-RangedAttack.png" width="20" /> </th>
+                        <th width="10%">TOTAL</th>
+                        <th>SPECIAL</th>
+                    </tr>
+                    <tr>
+                        <td>UNARMED</td>
+                        <td>+0</td>
+                        <td></td>
+                        <td style="background-color:darkgray"></td>
+                        <td></td>
+                        <td>OPPONENT'S DEFENSE +5</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-5">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ARMOR</th>
+                        <th width="10%">AV</th>
+                        <th>SPECIAL</th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>SPELL</th>
+                        <th width="10%">CB</th>
+                        <th width="5%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
+                        <th width="5%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
+                        <th width="10%">TOTAL</th>
+                        <th width="10%">DISTANCE</th>
+                        <th width="10%">CP</th>
+                        <th>EFFECT</th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
         </div>
+        <div class="row" style="font-size:smaller;">
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered table-thin">
+                    <tr>
+                        <th>PP RECORD</th>
+                        <th>START/MAX. VALUE</th>
+                        <th>INCREASE</th>
+                        <th>SPECIAL</th>
+                        <th>TOTAL</th>
+                    </tr>
+                    @foreach (var trait in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Traits())
+                {
+                        <tr>
+                            <td>@trait.DisplayName</td>
+                            <td style="text-align:center"> / </td>
+                            <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@trait.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
+                            <td></td>
+                            <td>@trait.Acronym :</td>
+                        </tr>
+                    }
+                    @{
+                        var hitpoints = ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Where(def => def.Acronym == "HP").First();
+                    }
+                    <tr>
+                        <td>@hitpoints.DisplayName</td>
+                        <td style="background-color:darkgray"></td>
+                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@hitpoints.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
+                        <td></td>
+                        <td>@hitpoints.Acronym :</td>
+                    </tr>
+                    <tr>
+                        <td>Additional TP</td>
+                        <td style="background-color:darkgray"></td>
+                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;TP (&nbsp;&nbsp;&nbsp; PP)</td>
+                        <td></td>
+                        <td style="background-color:darkgray"></td>
+                    </tr>
+                    <tr>
+                        <td>Language/Alphabet</td>
+                        <td style="text-align:center">2 / -</td>
+                        <td style="text-align:right">&nbsp;&nbsp;&nbsp; (&nbsp;&nbsp;&nbsp; PP)</td>
+                        <td style="background-color:darkgray"></td>
+                        <td style="background-color:darkgray"></td>
+                    </tr>
+                </table>
+            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ClassName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ClassName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+            <div class="col-sm-12 col-md-6">
+                <div class="row" style="text-align:center;border:1px solid black;margin:0px;margin-bottom:15px;padding:15px;">
+                    <div class="col-xs-12"><h3>Loot & Treasure</h3></div>
+                    <div class="form-group row" style="text-align:left">
+                        <div class="col-xs-4" style="min-height:100px;">
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <br style="line-height: 2em" />
+                            <div class="row">
+                                <div class="col-sm-1 combat-offset">
+                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                </div>
+                            </div>
+                            <span class="goldLabel">Gold</span>
+                        </div>
+                        <div class="col-xs-4" style="min-height:100px;">
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <br style="line-height: 2em" />
+                            <div class="row">
+                                <div class="col-sm-1 combat-offset">
+                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                </div>
+                            </div>
+                            <span class="goldLabel">Silver</span>
+                        </div>
+                        <div class="col-xs-4" style="min-height:100px;">
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <br style="line-height: 2em" />
+                            <div class="row">
+                                <div class="col-sm-1 combat-offset">
+                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                </div>
+                            </div>
+                            <span class="goldLabel">Bronze</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">1 Gold = 10 Silver = 100 Copper</div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HeroClassName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HeroClassName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HeroClassName, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Where Carried?</th>
+                        <th>Special</th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Herbs, Potions, Artifacts</th>
+                        <th>Effect</th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Talent</th>
+                        <th>Rank</th>
+                        <th>Effect</th>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Characteristics</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Gender)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.PlaceOfBirth)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.DateOfBirth)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Age)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Height)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Weight)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.HairColor)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.HairColor, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.EyeColor)</span>
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.EditorFor(model => model.EyeColor, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Special)</span>
+                            </div>
+                            <div class="col-xs-9">
+                                @Html.EditorFor(model => model.Special, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Languages)</span>
+                            </div>
+                            <div class="col-xs-9">
+                                @Html.EditorFor(model => model.Languages, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-xs-3">
+                                <span>@Html.LabelFor(model => model.Alphabets)</span>
+                            </div>
+                            <div class="col-xs-9">
+                                @Html.EditorFor(model => model.Alphabets, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ExperiencePoints, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ExperiencePoints, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ExperiencePoints, "", new { @class = "text-danger" })
-            </div>
+        <div>
+            <button type="submit" value="Create" class="btn btn-primary">Save</button>
+            <a href="/Characters" class="btn btn-danger">Back</a>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Size, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PlaceOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PlaceOfBirth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HairColor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.HairColor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HairColor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EyeColor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EyeColor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EyeColor, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Special, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Special, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Special, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Languages, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Languages, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Languages, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Alphabets, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Alphabets, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Alphabets, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>*@
     </div>
-}
+                        }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
