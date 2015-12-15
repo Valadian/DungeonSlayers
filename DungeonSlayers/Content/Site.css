@@ -139,6 +139,9 @@ textarea {
 .combat-offset {
     margin-left:24px;
 }
+.gold-offset {
+    margin-left:15px;
+}
 .input-group[class*="col-"] {
     float:left;
     padding-right: 15px;
