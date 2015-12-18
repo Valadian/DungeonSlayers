@@ -1,5 +1,4 @@
-﻿@model string
-
+﻿@using System.Collections.Generic
 @{    
     IEnumerable<SelectListItem> selectList = (IEnumerable<SelectListItem>) ViewData["selectList"] ?? new SelectListItem[] { };
     bool isMultiple = ViewData["multiple"] as bool? ?? false;
@@ -27,7 +26,15 @@
         }
         @foreach (SelectListItem option in selectList.Where(s => s.Group == null))
         {
-            <option disabled="@option.Disabled" @(option.Selected || option.Value==Model ? "selected" : "") @(option.Value!=null?"value ="+@option.Value:"")>@option.Text</option>
+            var isChecked = false;
+            if (Model is string) {
+                isChecked = Model == option.Value;
+            }
+            else if(Model is ICollection<string>)
+            {
+                isChecked = (Model as ICollection<string>).Contains(option.Value);
+            }
+            <option disabled="@option.Disabled" @(option.Selected || isChecked ? "selected" : "") @(option.Value!=null?"value ="+@option.Value:"")>@option.Text</option>
         }
         @if (editable)
         {

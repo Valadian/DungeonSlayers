@@ -46,3 +46,11 @@ $(document).ready(function () {
 $(function () {
     $('.input-group:has(.input-group-vert-addon)').css('display', 'block');;
 })
+
+jQuery(document).ready(function ($) {
+    $('#add-weapon').on('click', function () {
+        jQuery.get('/Characters/AddWeapon').done(function (html) {
+            $('#weapons-list').append(html);
+        });
+    });
+});

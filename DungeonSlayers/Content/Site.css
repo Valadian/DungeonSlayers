@@ -215,6 +215,11 @@ textarea {
 .table-thin > tbody > tr > td, 
 .table-thin > tfoot > tr > td {
     padding: 2px 8px;
+    vertical-align: middle;
+}
+.table-thin .btn {
+    padding: 1px 4px;
+    margin: 2px 0px;
 }
 .form-control{
     padding: 6px;

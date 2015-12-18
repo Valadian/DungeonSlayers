@@ -1,0 +1,8 @@
+﻿@using DungeonSlayers.Models
+@using DungeonSlayers.Extensions
+@model IEnumerable<CharacterWeapon>
+@{ 
+    Layout = null;
+}
+
+@Html.EditorForMany(x => x, "Weapons")

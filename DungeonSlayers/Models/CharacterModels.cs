@@ -18,8 +18,18 @@ namespace DungeonSlayers.Models
     public abstract class Entity : Identifiable
     {
         public string Name { get; set; }
-        public List<Property> Properties { get; set; }
+        //public List<Property> Properties { get; set; }
         public string Note { get; set; }
+        
+        public Property Body { get; set; }
+        public Property Mobility { get; set; }
+        public Property Mind { get; set; }
+        public Property Strength { get; set; }
+        public Property Constitution { get; set; }
+        public Property Agility { get; set; }
+        public Property Dexterity { get; set; }
+        public Property Intellect { get; set; }
+        public Property Aura { get; set; }
     }
     public class Companion : Entity
     {
@@ -56,24 +66,6 @@ namespace DungeonSlayers.Models
         public string Alphabets { get; set; }
 
         [NotMapped]
-        public Property Body { get { return Properties[0]; } set { Properties[0] = value; } }
-        [NotMapped]
-        public Property Stength { get; set; }
-        [NotMapped]
-        public Property Constitution { get; set; }
-        [NotMapped]
-        public Property Mobility { get; set; }
-        [NotMapped]
-        public Property Agility { get; set; }
-        [NotMapped]
-        public Property Dexterity { get; set; }
-        [NotMapped]
-        public Property Mind { get; set; }
-        [NotMapped]
-        public Property Intellect { get; set; }
-        [NotMapped]
-        public Property Aura { get; set; }
-        [NotMapped]
         public Property AV { get; set; }
         [NotMapped]
         public Property HitPoints { get; set; }
@@ -92,27 +84,27 @@ namespace DungeonSlayers.Models
         [NotMapped]
         public Property TargettedSpellCast { get; set; }
 
-        public ICollection<RacialAbility> RacialAbilities { get; set; }
-        
-        public ICollection<Spell> Spells { get; set; }
-        
-        public ICollection<CharacterTalent> Talents { get; set; }
-        
-        public ICollection<CharacterEquipment> Weapons { get; set; }
-        
-        public ICollection<CharacterArmor> Armors { get; set; }
-        
-        public ICollection<CharacterEquipment> Equipment { get; set; }
+        public virtual ICollection<RacialAbility> RacialAbilities { get; set; } = new List<RacialAbility>();
 
-        public ICollection<Companion> Companions { get; set;}
+        public virtual ICollection<Spell> Spells { get; set; } = new List<Spell>();
+
+        public virtual ICollection<CharacterTalent> Talents { get; set; } = new List<CharacterTalent>();
+        
+        public virtual ICollection<CharacterWeapon> Weapons { get; set; } = new List<CharacterWeapon>();
+
+        public virtual ICollection<CharacterArmor> Armors { get; set; } = new List<CharacterArmor>();
+
+        public virtual ICollection<CharacterEquipment> Equipment { get; set; } = new List<CharacterEquipment>();
+
+        public virtual ICollection<Companion> Companions { get; set; } = new List<Companion>();
     }
     public enum Size { Tiny, Small, Normal, Large, Huge, Colossal}
     public enum Gender { Male, Female, Other }
     public class CharacterTalent
     {
-        [Key, Column(Order = 0)]
+        [Key, ForeignKey("Character"), Column(Order = 0)]
         public int CharacterId { get; set; }
-        [Key, Column(Order = 1)]
+        [Key, ForeignKey("Talent"), Column(Order = 1)]
         public int TalentId { get; set; }
 
         public virtual Character Character { get; set; }
@@ -145,11 +137,10 @@ namespace DungeonSlayers.Models
     }
     public class CharacterWeapon
     {
-        [Key, Column(Order = 0)]
+        [Key, ForeignKey("Character"), Column(Order = 0)]
         public int CharacterId { get; set; }
-        [Key, Column(Order = 1)]
+        [Key, ForeignKey("Weapon"), Column(Order = 1)]
         public int WeaponId { get; set; }
-
         public virtual Character Character { get; set; }
         public virtual Weapon Weapon { get; set; }
         public bool Equipped { get; set; }

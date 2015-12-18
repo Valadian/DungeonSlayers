@@ -189,6 +189,7 @@
     <Compile Include="Repositories\ChoicesRepo.cs" />
     <Compile Include="Repositories\PropertyRepo.cs" />
     <Compile Include="Startup.cs" />
+    <None Include="Views\Characters\AddWeapon.cshtml" />
     <Content Include="Content\CombatIcons_xcf-Defense.png" />
     <Content Include="Content\CombatIcons_xcf-HitPoints.png" />
     <Content Include="Content\CombatIcons_xcf-Initiative.png" />
@@ -199,8 +200,9 @@
     <Content Include="Content\CombatIcons_xcf-TargetedSpellcasting.png" />
     <Content Include="Content\DungeonSlayersTitle.png" />
     <Content Include="Content\gold.png" />
-    <Content Include="Views\Shared\EditorTemplates\AddOnField.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EditableDropDown.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Weapon.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CharacterWeapon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-select.min.css" />

@@ -82,7 +82,7 @@
 
         <div class="form-group row">
             <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Stength)
+                @Html.AttributeEditorFor(model => model.Strength)
             </div>
             <div class="col-sm-4">
                 @Html.AttributeEditorFor(model => model.Agility)
@@ -121,8 +121,9 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-7">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-thin">
                     <tr>
+                        <th width="6%"><button type="button" id="add-weapon" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></th>
                         <th>WEAPON</th>
                         <th width="6%">WB</th>
                         <th width="6%"> <img src="~/Content/CombatIcons_xcf-MeleeAttack.png" width="20" /> </th>
@@ -131,6 +132,7 @@
                         <th>SPECIAL</th>
                     </tr>
                     <tr>
+                        <td style="background-color:darkgray"></td>
                         <td>UNARMED</td>
                         <td>+0</td>
                         <td></td>
@@ -138,6 +140,17 @@
                         <td></td>
                         <td>OPPONENT'S DEFENSE +5</td>
                     </tr>
+                    <tbody id="weapons-list">
+                        @Html.EditorForMany(m => m.Weapons)
+                    </tbody>
+                    @*<tr>
+                        <td>UNARMED</td>
+                        <td>+0</td>
+                        <td></td>
+                        <td style="background-color:darkgray"></td>
+                        <td></td>
+                        <td>OPPONENT'S DEFENSE +5</td>
+                    </tr>*@
                 </table>
             </div>
             <div class="col-sm-12 col-md-5">

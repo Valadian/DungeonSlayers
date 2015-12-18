@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="col-sm-4">
                 @Html.AttributeEditorFor(model => model.Body, true)
             </div>
@@ -77,9 +77,9 @@
             <div class="col-sm-4">
                 @Html.AttributeEditorFor(model => model.Mind, true)
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="col-sm-4">
                 @Html.AttributeEditorFor(model => model.Stength)
             </div>
@@ -98,8 +98,8 @@
             <div class="col-sm-4" style="margin-bottom: 15px;">
                 @Html.AttributeEditorFor(model => model.Aura)
             </div>
-        </div>
-        <div class="form-group row">
+        </div>*@
+        @*<div class="form-group row">
             @foreach (PropertyDef cv in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).CombatValues())
             {
                 //background - image:url(/ Content / CombatIcons_xcf -@(cv).png); background - repeat: no - repeat;
@@ -113,12 +113,11 @@
                     </div>
                     <span class="cvLabel cvName">@cv.DisplayName</span>
                     <span class="cvLabel cvEquation"><nobr>@cv.Equation.Replace("@", "")</nobr></span>
-                    @*<img src="" style="width:100px"/>*@
                 </div>
             }
-        </div>
+        </div>*@
 
-        <div class="row">
+        @*<div class="row">
             <div class="col-sm-12 col-md-7">
                 <table class="table table-bordered">
                     <tr>
@@ -177,8 +176,8 @@
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="row" style="font-size:smaller;">
+        </div>*@
+        @*<div class="row" style="font-size:smaller;">
             <div class="col-sm-12 col-md-6">
                 <table class="table table-bordered table-thin">
                     <tr>
@@ -263,8 +262,8 @@
                     <div class="col-xs-12">1 Gold = 10 Silver = 100 Copper</div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>*@
+        @*<div class="row">
             <div class="col-sm-12 col-md-6">
                 <table class="table table-bordered">
                     <tr>
@@ -305,7 +304,7 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </div>*@
         <div>
             <button type="submit" value="Create" class="btn btn-primary">Save</button>
             <a href="/Characters" class="btn btn-danger">Back</a>

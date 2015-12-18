@@ -16,32 +16,33 @@ namespace DungeonSlayers.Migrations
 
         protected override void Seed(DungeonSlayers.Models.ApplicationDbContext context)
         {
+            RacialAbility Gift, Fleet, Night, Immort, Dark, Long, Tough;
             #region Seed RacialAbilities
             context.RacialAbilities.AddOrUpdate(p => p.Name,
                 new RacialAbility { Name = "Allergic to Metal -2RP",Value = -2},
                 new RacialAbility { Name = "Arrogant -1RP", Value = -1 },
-                new RacialAbility { Name = "Darkvision +1RP", Value = 1 },
+                Dark = new RacialAbility { Name = "Darkvision +1RP", Value = 1 },
                 new RacialAbility { Name = "Monocular -1RP", Value = -1 },
                 new RacialAbility { Name = "Fragile -1RP", Value = -1 },
                 new RacialAbility { Name = "Quick +1RP", Value = 1 },
                 new RacialAbility { Name = "Gold Lust -1RP", Value = -1 },
                 new RacialAbility { Name = "Large +4RP", Value = 4 },
                 new RacialAbility { Name = "Small -4RP", Value = -4 },
-                new RacialAbility { Name = "Longevity +0RP", Value = 0 },
-                new RacialAbility { Name = "Fleet Footed +1RP", Value = 1 },
+                Long = new RacialAbility { Name = "Longevity +0RP", Value = 0 },
+                Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1 },
                 new RacialAbility { Name = "Light Sensitivity -1RP", Value = -1 },
                 new RacialAbility { Name = "Magic Resistance -1RP", Value = -1 },
                 new RacialAbility { Name = "Magically Gifted +1RP", Value = 1 },
                 new RacialAbility { Name = "Magically Impotent -1RP", Value = -1 },
-                new RacialAbility { Name = "Night Vision +1RP", Value = 1 },
+                Night = new RacialAbility { Name = "Night Vision +1RP", Value = 1 },
                 new RacialAbility { Name = "Fast +1RP", Value = 1 },
-                new RacialAbility { Name = "Gifted +2RP", Value = 2 },
+                Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2 },
                 new RacialAbility { Name = "Clumsy -2RP", Value = -2 },
                 new RacialAbility { Name = "Unkempt -1RP", Value = -1 },
-                new RacialAbility { Name = "Immortal +0RP", Value = 0 },
+                Immort = new RacialAbility { Name = "Immortal +0RP", Value = 0 },
                 new RacialAbility { Name = "Incompetent -4RP", Value = -4 },
                 new RacialAbility { Name = "Despised -1RP", Value = -1 },
-                new RacialAbility { Name = "Tough +1RP", Value = 1 },
+                Tough = new RacialAbility { Name = "Tough +1RP", Value = 1 },
                 new RacialAbility { Name = "More than meets the eye +3RP", Value = 3 },
                 new RacialAbility { Name = "Sure Shot +1RP", Value = 1 },
                 new RacialAbility { Name = "Slow -1RP", Value = -1 }
@@ -51,21 +52,24 @@ namespace DungeonSlayers.Migrations
             context.DefaultRaces.AddOrUpdate(p => p.Name,
                 new Race { Name = "Human",
                     RacialAbilities = new List<RacialAbility>() {
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Gifted")).First(),
+                        Gift
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Gifted")).First(),
                     }
                 },
                 new Race { Name = "Elf",
                     RacialAbilities = new List<RacialAbility>() {
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Fleet")).First(),
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Night")).First(),
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Immortal")).First(),
+                        Fleet, Night, Immort
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Fleet")).First(),
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Night")).First(),
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Immortal")).First(),
                     }
                 },
                 new Race { Name = "Dwarf",
                     RacialAbilities = new List<RacialAbility>() {
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Dark")).First(),
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Longevity")).First(),
-                        context.RacialAbilities.Where(ra => ra.Name.StartsWith("Tough")).First(),
+                        Dark, Long, Tough
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Dark")).First(),
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Longevity")).First(),
+                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Tough")).First(),
                     }
                 }
             );

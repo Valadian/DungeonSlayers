@@ -103,5 +103,41 @@ namespace DungeonSlayers.Extensions
 
             return new MvcHtmlString(body.ToString());
         }
+
+        public static MvcHtmlString EditorForMany<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, IEnumerable<TValue>>> expression, string htmlFieldName = null) where TModel : class
+        {
+            var items = expression.Compile()(html.ViewData.Model);
+            var sb = new StringBuilder();
+
+            if (String.IsNullOrEmpty(htmlFieldName))
+            {
+                var prefix = html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix;
+
+                htmlFieldName = (prefix.Length > 0 ? (prefix + ".") : String.Empty) + ExpressionHelper.GetExpressionText(expression);
+            }
+
+            foreach (var item in items)
+            {
+                var dummy = new { Item = item };
+                var guid = Guid.NewGuid().ToString();
+
+                var memberExp = Expression.MakeMemberAccess(Expression.Constant(dummy), dummy.GetType().GetProperty("Item"));
+                var singleItemExp = Expression.Lambda<Func<TModel, TValue>>(memberExp, expression.Parameters);
+
+                sb.Append("<tr>");
+                sb.Append(String.Format(@"<input type=""hidden"" name=""{0}.Index"" value=""{1}"" />", htmlFieldName, guid));
+                try
+                {
+                    sb.Append(html.EditorFor(singleItemExp, null, String.Format("{0}[{1}]", htmlFieldName, guid)));
+                }
+                catch (Exception e)
+                {
+                    var a = 1 + 1;
+                }
+                sb.Append("</tr>");
+            }
+
+            return new MvcHtmlString(sb.ToString());
+        }
     }
 }

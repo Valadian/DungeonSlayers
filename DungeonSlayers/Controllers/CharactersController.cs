@@ -91,6 +91,13 @@ namespace DungeonSlayers.Controllers
             ViewBag.PropertyDefs = db.PropertyDefs;
             return View(character);
         }
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult AddWeapon()
+        {
+            return View(new List<CharacterWeapon>() { new CharacterWeapon() {
+                Weapon = db.Weapons.Find(3)
+            } });
+        }
 
         // POST: Characters/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

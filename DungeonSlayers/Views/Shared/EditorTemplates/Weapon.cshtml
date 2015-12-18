@@ -1,0 +1,12 @@
+﻿@using DungeonSlayers.Models
+@model Weapon
+
+<tr>
+    <td></td>
+    <td>@Model.Name</td>
+    <td>+@Model.WeaponBonus</td>
+    <td @(Model.Ranged?"style='background-color:darkgray'":"")></td>
+    <td @(!Model.Ranged?"style='background-color:darkgray'":"")></td>
+    <td></td>
+    <td>@Model.Effect</td>
+</tr>

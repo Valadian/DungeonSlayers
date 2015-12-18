@@ -17,6 +17,7 @@ namespace DungeonSlayers.Models
         public DbSet<BaseClass> Classes { get; set; }
         public DbSet<HeroClass> HeroClasses { get; set; }
         public DbSet<PropertyDef> PropertyDefs { get; set; }
+        public DbSet<Weapon> Weapons { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -48,6 +49,25 @@ namespace DungeonSlayers.Models
                     s.MapRightKey("RacialId");
                     s.ToTable("RefRaceRacialAbilities");
                 });
+
+            //modelBuilder.Entity<Character>()
+            //    .HasMany(c => c.Weapons)
+            //    .WithRequired(cw => cw.Character)
+            //    .Map(s =>
+            //    {
+            //        s.MapKey("CharacterId");
+            //    });
+            //modelBuilder.Entity<CharacterWeapon>().HasKey(cw => new { cw.CharacterId, cw.WeaponId });
+            //modelBuilder.Entity<Character>()
+            //    .HasMany(c => c.Weapons)
+            //    .WithRequired(cw => cw.Character)
+            //    .HasForeignKey(cw => cw.CharacterId);
+
+            //modelBuilder.Entity<CharacterWeapon>()
+            //    .HasRequired(cw => cw.Weapon)
+            //    .WithMany()
+            //    .HasForeignKey(cw => cw.WeaponId);
+
             base.OnModelCreating(modelBuilder);
         }
     }
