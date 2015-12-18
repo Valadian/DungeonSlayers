@@ -22,6 +22,13 @@ namespace DungeonSlayers
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                        "~/Scripts/knockout-3.4.0.js",
+                        "~/Scripts/knockout.mapping-latest.js"));
+            bundles.Add(new ScriptBundle("~/bundles/knockout-debug").Include(
+                        "~/Scripts/knockout-3.4.0.debug.js",
+                        "~/Scripts/knockout.mapping-latest-debug.js"));
             //bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
             //          "~/Scripts/bootstrap-select.min.js"));
 

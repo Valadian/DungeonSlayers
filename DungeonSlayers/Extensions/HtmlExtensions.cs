@@ -71,7 +71,7 @@ namespace DungeonSlayers.Extensions
             var callsite = CallSite<Func<CallSite, object, object>>.Create(binder);
             return callsite.Target(callsite, obj);
         }
-        public static MvcHtmlString AttributeEditorFor(this HtmlHelper<Character> Html, Expression<Func<Character, Property>> expr,
+        public static MvcHtmlString AttributeEditorFor(this HtmlHelper<Character> Html, Expression<Func<Character, int>> expr,
             bool attribute = false)
         {
             var metaData = ModelMetadata.FromLambdaExpression(expr, Html.ViewData);
@@ -95,7 +95,7 @@ namespace DungeonSlayers.Extensions
 
             var input = new TagBuilder("div");
             input.AddCssClass("col-xs-4");
-            input.InnerHtml = Html.EditorFor(model => model.Body.Base, new { htmlAttributes = new { @class = "form-control" } }).ToString();
+            input.InnerHtml = Html.EditorFor(expr, new { htmlAttributes = new { @class = "form-control", data_bind = "value: "+name } }).ToString();
 
             row.InnerHtml = label.ToString() + input.ToString();
 

@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace DungeonSlayers.Models
 {
@@ -21,15 +22,15 @@ namespace DungeonSlayers.Models
         //public List<Property> Properties { get; set; }
         public string Note { get; set; }
         
-        public Property Body { get; set; }
-        public Property Mobility { get; set; }
-        public Property Mind { get; set; }
-        public Property Strength { get; set; }
-        public Property Constitution { get; set; }
-        public Property Agility { get; set; }
-        public Property Dexterity { get; set; }
-        public Property Intellect { get; set; }
-        public Property Aura { get; set; }
+        public int Body { get; set; }
+        public int Mobility { get; set; }
+        public int Mind { get; set; }
+        public int Strength { get; set; }
+        public int Constitution { get; set; }
+        public int Agility { get; set; }
+        public int Dexterity { get; set; }
+        public int Intellect { get; set; }
+        public int Aura { get; set; }
     }
     public class Companion : Entity
     {
@@ -141,6 +142,7 @@ namespace DungeonSlayers.Models
         public int CharacterId { get; set; }
         [Key, ForeignKey("Weapon"), Column(Order = 1)]
         public int WeaponId { get; set; }
+        [JsonIgnore]
         public virtual Character Character { get; set; }
         public virtual Weapon Weapon { get; set; }
         public bool Equipped { get; set; }
@@ -176,6 +178,7 @@ namespace DungeonSlayers.Models
         public string DisplayName { get; set; }
         public bool Derived { get; set; } = false;
         public string Equation { get; set; } = "";
+        public string DataBinding { get; set; } = "";
     }
     ////Body, Mobility, Mind
     //public class Attribute : Characteristic

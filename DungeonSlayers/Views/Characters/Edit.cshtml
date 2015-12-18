@@ -1,6 +1,7 @@
 ﻿@using DungeonSlayers.Extensions
 @using DungeonSlayers.Models
 @using DungeonSlayers.Repositories
+@using Newtonsoft.Json
 @model DungeonSlayers.Models.Character
 
 @{
@@ -109,7 +110,7 @@
                     <br style="line-height: 2em" />
                     <div class="row">
                         <div class="col-sm-1 combat-offset">
-                            @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
+                            @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })
                         </div>
                     </div>
                     <span class="cvLabel cvName">@cv.DisplayName</span>
@@ -439,4 +440,31 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        
+        $(function () {
+
+            var jsonModel = '@Html.Raw(JsonConvert.SerializeObject(this.Model, Formatting.None, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }))';
+            var mvcModel = ko.mapping.fromJSON(jsonModel);
+
+            mvcModel.ArmorValue = ko.computed(function () {
+                return 0;
+            }, this);
+
+            mvcModel.SpellModifier = ko.computed(function () {
+                return 0;
+            }, this);
+
+            mvcModel.WeaponBonus = ko.computed(function () {
+                return 0;
+            }, this);
+            //var myViewModel = new viewModel();
+            //var g = ko.mapping.fromJS(myViewModel, mvcModel);
+
+            ko.applyBindings(mvcModel);
+        });
+    </script>
 }
