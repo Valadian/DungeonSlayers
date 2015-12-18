@@ -110,7 +110,8 @@
                     <br style="line-height: 2em" />
                     <div class="row">
                         <div class="col-sm-1 combat-offset">
-                            @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })
+                            @*@Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })*@
+                            <div data-bind="text: @cv.DataBinding" style = "width:45px;text-align:center;font-size:x-large;"></div>
                         </div>
                     </div>
                     <span class="cvLabel cvName">@cv.DisplayName</span>
