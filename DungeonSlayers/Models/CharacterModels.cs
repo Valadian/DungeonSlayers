@@ -84,6 +84,9 @@ namespace DungeonSlayers.Models
         public Property SpellCast { get; set; }
         [NotMapped]
         public Property TargettedSpellCast { get; set; }
+        public int Gold { get; set; }
+        public int Silver { get; set; }
+        public int Copper { get; set; }
 
         public virtual ICollection<RacialAbility> RacialAbilities { get; set; } = new List<RacialAbility>();
 

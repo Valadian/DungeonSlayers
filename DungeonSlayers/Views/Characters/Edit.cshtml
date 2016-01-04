@@ -246,34 +246,34 @@
                     <div class="col-xs-12"><h3>Loot & Treasure</h3></div>
                     <div class="form-group row" style="text-align:left">
                         <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="gold" />
                             <br style="line-height: 2em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
                                 </div>
                             </div>
                             <span class="goldLabel">Gold</span>
                         </div>
                         <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="silver"/>
                             <br style="line-height: 2em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
                                 </div>
                             </div>
                             <span class="goldLabel">Silver</span>
                         </div>
                         <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
+                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="copper" />
                             <br style="line-height: 2em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
                                 </div>
                             </div>
-                            <span class="goldLabel">Bronze</span>
+                            <span class="goldLabel">Copper</span>
                         </div>
                     </div>
                     <div class="col-xs-12">1 Gold = 10 Silver = 100 Copper</div>
@@ -423,9 +423,13 @@
                 </table>
             </div>
         </div>
-        <div>
+        <div class="row">
             <button type="submit" value="Create" class="btn btn-primary">Save</button>
-            <a href="/Characters" class="btn btn-danger">Back</a>
+            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
+        </div>
+        <br />
+        <div class="row" style="color:red">
+                @Html.ValidationSummary()
         </div>
         @*<div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -433,12 +437,32 @@
                 </div>
             </div>*@
     </div>
-                        }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
+}
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0">
+    <defs>
+        <filter id="gold">
+            <feColorMatrix type="matrix"
+                           values="1.0 0 0 0 0
+             0.843 0 0 0 0
+             0 0 0 0 0
+             0   0   0   1 0" />
+        </filter>
+        <filter id="silver">
+            <feColorMatrix type="matrix"
+                           values="0.75 0 0 0 0
+             0.75 0 0 0 0
+             0.75 0 0 0 0
+             0   0   0   1 0" />
+        </filter>
+        <filter id="copper">
+            <feColorMatrix type="matrix"
+                           values="0.784 0 0 0 0
+             0.459 0 0 0 0
+             0.2 0 0 0 0
+             0   0   0   1 0" />
+        </filter>
+    </defs>
+</svg>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">

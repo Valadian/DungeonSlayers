@@ -224,3 +224,20 @@ textarea {
 .form-control{
     padding: 6px;
 }
+
+.input-validation-error, .input-validation-error:focus{
+    border-color:red;
+    box-shadow: red 0px 0px 20px; 
+}
+.gold{
+    -webkit-filter: url("#gold");
+    filter: url("/Content/filters.svg#gold");
+}
+.silver{
+    -webkit-filter: url("#silver");
+    filter: url("/Content/filters.svg#silver");
+}
+.copper{
+    -webkit-filter: url("#copper");
+    filter: url("/Content/filters.svg#copper");
+}
