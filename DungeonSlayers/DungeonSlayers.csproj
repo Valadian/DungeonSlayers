@@ -202,6 +202,7 @@
     <Compile Include="Repositories\ChoicesRepo.cs" />
     <Compile Include="Repositories\PropertyRepo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\SelectListUtil.cs" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Content\filters.svg" />
     <Content Include="Scripts\jquery-2.1.1.js" />

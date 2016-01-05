@@ -137,7 +137,7 @@
                         <td style="background-color:darkgray"></td>
                         <td>UNARMED</td>
                         <td>+0</td>
-                        <td></td>
+                        <td data-bind="text: +MAT()"></td>
                         <td style="background-color:darkgray"></td>
                         <td></td>
                         <td>OPPONENT'S DEFENSE +5</td>
@@ -247,30 +247,30 @@
                     <div class="form-group row" style="text-align:left">
                         <div class="col-xs-4" style="min-height:100px;">
                             <img style="position:absolute;width:90px;" src="/Content/gold.png" class="gold" />
-                            <br style="line-height: 2em" />
+                            <br style="line-height: 1.5em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
                                 </div>
                             </div>
                             <span class="goldLabel">Gold</span>
                         </div>
                         <div class="col-xs-4" style="min-height:100px;">
                             <img style="position:absolute;width:90px;" src="/Content/gold.png" class="silver"/>
-                            <br style="line-height: 2em" />
+                            <br style="line-height: 1.5em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
                                 </div>
                             </div>
                             <span class="goldLabel">Silver</span>
                         </div>
                         <div class="col-xs-4" style="min-height:100px;">
                             <img style="position:absolute;width:90px;" src="/Content/gold.png" class="copper" />
-                            <br style="line-height: 2em" />
+                            <br style="line-height: 1.5em" />
                             <div class="row">
                                 <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:60px;text-align:center;" } })
+                                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
                                 </div>
                             </div>
                             <span class="goldLabel">Copper</span>
@@ -332,7 +332,8 @@
                                 <span>@Html.LabelFor(model => model.Gender)</span>
                             </div>
                             <div class="col-xs-3">
-                                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.Gender, "EditableDropDown", new { SelectList = (object)ViewBag.GenderChoices, editable = false, multiple = false })
+                                @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })*@
                             </div>
                             <div class="col-xs-3">
                                 <span>@Html.LabelFor(model => model.PlaceOfBirth)</span>
@@ -486,6 +487,7 @@
             mvcModel.WeaponBonus = ko.computed(function () {
                 return 0;
             }, this);
+
             //var myViewModel = new viewModel();
             //var g = ko.mapping.fromJS(myViewModel, mvcModel);
 

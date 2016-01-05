@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using DungeonSlayers.Models;
 using DungeonSlayers.Repositories;
+using DungeonSlayers.Utils;
 
 namespace DungeonSlayers.Controllers
 {
@@ -53,7 +54,7 @@ namespace DungeonSlayers.Controllers
             ViewBag.ClassChoices = db.Classes.AsChoices(valueStrings: true);
             ViewBag.RacialAbilitiesChoices = db.RacialAbilities.AsChoices();
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
-
+            ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
         }
 
         // POST: Characters/Create
