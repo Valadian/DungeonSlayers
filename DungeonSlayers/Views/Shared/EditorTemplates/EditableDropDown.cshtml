@@ -1,13 +1,15 @@
 ﻿@using System.Collections.Generic
 @{    
-    IEnumerable<SelectListItem> selectList = (IEnumerable<SelectListItem>) ViewData["selectList"] ?? new SelectListItem[] { };
+    IEnumerable<SelectListItem> selectList = (IEnumerable<SelectListItem>)ViewData["selectList"] ?? new SelectListItem[] { };
     bool isMultiple = ViewData["multiple"] as bool? ?? false;
-    string multiple = isMultiple?"multiple":"";
+    string multiple = isMultiple ? "multiple" : "";
     int numShown = ViewData["numShown"] as int? ?? 3;
     bool editable = ViewData["editable"] as bool? ?? true;
+    string exprText = ViewData["exprText"] as string ?? "";
+    string evnt = ViewData["evnt"] as string ?? "";
 }
 
-    <select class="selectpicker show-tick form-control" @multiple data-selected-text-format="count>@numShown" data-show-content="false" data-multiple-separator=" | " id="@ViewData.ModelMetadata.PropertyName" name="@ViewData.ModelMetadata.PropertyName">
+    <select class="selectpicker show-tick form-control" @multiple data-bind="@evnt value: @exprText" data-selected-text-format="count>@numShown" data-show-content="false" data-multiple-separator=" | " id="@ViewData.ModelMetadata.PropertyName" name="@ViewData.ModelMetadata.PropertyName">
 
         @if(selectList.Where(s => s.Group!=null).Count()>0)
         {

@@ -14,6 +14,7 @@ namespace DungeonSlayers.Models
     public abstract class Identifiable
     {
         [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
     }
     public abstract class Entity : Identifiable
@@ -22,15 +23,15 @@ namespace DungeonSlayers.Models
         //public List<Property> Properties { get; set; }
         public string Note { get; set; }
         
-        public int Body { get; set; }
-        public int Mobility { get; set; }
-        public int Mind { get; set; }
-        public int Strength { get; set; }
-        public int Constitution { get; set; }
-        public int Agility { get; set; }
-        public int Dexterity { get; set; }
-        public int Intellect { get; set; }
-        public int Aura { get; set; }
+        public int BOD { get; set; }
+        public int MOB { get; set; }
+        public int MND { get; set; }
+        public int ST { get; set; }
+        public int CO { get; set; }
+        public int AG { get; set; }
+        public int DX { get; set; }
+        public int IN { get; set; }
+        public int AU { get; set; }
     }
     public class Companion : Entity
     {

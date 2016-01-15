@@ -2,11 +2,11 @@
 @model CharacterWeapon
 
 @*<tr>*@
-    <td><button type="button" id="add-weapon" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+    <td><button type="button" id="remove-weapon" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
     <td>@Model.Weapon.Name</td>
     <td>+@Model.Weapon.WeaponBonus</td>
-    <td @(Model.Weapon.Ranged?"style='background-color:darkgray'":"")></td>
-    <td @(!Model.Weapon.Ranged?"style='background-color:darkgray'":"")></td>
+    <td @Html.Raw(Model.Weapon.Ranged?"style='background-color:darkgray'":"data-bind='text: +MAT()'")></td>
+    <td @Html.Raw(!Model.Weapon.Ranged?"style='background-color:darkgray'":"data-bind='text: +RAT()'")></td>
     <td></td>
     <td>@Model.Weapon.Effect</td>
 @*</tr>*@

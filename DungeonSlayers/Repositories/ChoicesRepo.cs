@@ -33,6 +33,10 @@ namespace DungeonSlayers.Repositories
 
             //ViewBag.ClassChoices = new[] { "Fighter", "Scout", "Healer", "Wizard", "Sorcerer" }.Select(s => new SelectListItem() { Value = s, Text = s});
         }
+        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Weapon> classes, bool valueStrings = false)
+        {
+            return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
+        }
         public static IEnumerable<SelectListItem> AsChoices(this IDbSet<HeroClass> classes, bool valueStrings = false)
         {
             return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name, Group = new SelectListGroup() { Name = s.BaseClass.Name } }).ToList()

@@ -41,15 +41,15 @@ namespace DungeonSlayers.Extensions
             switch (comptype.ToLower())
             {
                 case "editor":
-                    body.Append(Html.EditorFor(expr, new { htmlAttributes = new { @class = "form-control" } }));
+                    body.Append(Html.EditorFor(expr, new { htmlAttributes = new { @class = "form-control", @data_bind="value: "+name } }));
                     break;
                 case "dropdown":
                     choices = choices ?? GetChoices(Html, Html.NameFor(expr).ToString());
-                    body.Append(Html.DropDownListFor(expr, (IEnumerable<SelectListItem>)choices, new { @class = "form-control" }));
+                    body.Append(Html.DropDownListFor(expr, (IEnumerable<SelectListItem>)choices, new { @class = "form-control", @data_bind = "value: " + name }));
                     break;
                 case "editabledropdown":
                     choices = choices ?? GetChoices(Html, Html.NameFor(expr).ToString());
-                    body.Append(Html.EditorFor(expr, "EditableDropDown", new { SelectList = choices, editable = editable, multiple = multiple, numShown = numShown }));
+                    body.Append(Html.EditorFor(expr, "EditableDropDown", new { SelectList = choices, editable = editable, multiple = multiple, numShown = numShown, exprText = name }));
                     break;
                 default:
                     body.Append("comptype: '" + comptype + "' Invalid ");
@@ -72,10 +72,11 @@ namespace DungeonSlayers.Extensions
             return callsite.Target(callsite, obj);
         }
         public static MvcHtmlString AttributeEditorFor(this HtmlHelper<Character> Html, Expression<Func<Character, int>> expr,
-            bool attribute = false)
+            string labelText = null, bool attribute = false)
         {
             var metaData = ModelMetadata.FromLambdaExpression(expr, Html.ViewData);
-            string name = ExpressionHelper.GetExpressionText(expr);
+            var name = ExpressionHelper.GetExpressionText(expr);
+            labelText = labelText ?? name;
             string id = HtmlHelper.GenerateIdFromName(name) ?? metaData.PropertyName;
             var body = new StringBuilder();
 
@@ -91,7 +92,7 @@ namespace DungeonSlayers.Extensions
             }
             var label = new TagBuilder("div");
             label.AddCssClass("col-xs-8");
-            label.InnerHtml = name.ToUpper();
+            label.InnerHtml = labelText.ToUpper();
 
             var input = new TagBuilder("div");
             input.AddCssClass("col-xs-4");
@@ -126,14 +127,7 @@ namespace DungeonSlayers.Extensions
 
                 sb.Append("<tr>");
                 sb.Append(String.Format(@"<input type=""hidden"" name=""{0}.Index"" value=""{1}"" />", htmlFieldName, guid));
-                try
-                {
-                    sb.Append(html.EditorFor(singleItemExp, null, String.Format("{0}[{1}]", htmlFieldName, guid)));
-                }
-                catch (Exception e)
-                {
-                    var a = 1 + 1;
-                }
+                sb.Append(html.EditorFor(singleItemExp, null, String.Format("{0}[{1}]", htmlFieldName, guid)));
                 sb.Append("</tr>");
             }
 

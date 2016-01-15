@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using DungeonSlayers.Models;
 using DungeonSlayers.Repositories;
 using DungeonSlayers.Utils;
+using DungeonSlayers.Extensions;
 
 namespace DungeonSlayers.Controllers
 {
@@ -55,6 +56,8 @@ namespace DungeonSlayers.Controllers
             ViewBag.RacialAbilitiesChoices = db.RacialAbilities.AsChoices();
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
+            ViewBag.WeaponChoices = db.Weapons.AsChoices();
+            ViewBag.Weapons = db.Weapons.ToList();
         }
 
         // POST: Characters/Create
@@ -104,11 +107,19 @@ namespace DungeonSlayers.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,Body,Mobility,Mind,Strength,Agility,Intellect,Constitution,Dexterity,Aura,Gold,Silver,Copper")] Character character)
+        [MyValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons")] Character character)
         {
             if (ModelState.IsValid)
             {
+                foreach (var weap in character.Weapons)
+                {
+                    if (weap.Weapon == null)
+                    {
+                        weap.Weapon = db.Weapons.Find(weap.WeaponId);
+                        db.Entry(weap).State = EntityState.Added;
+                    }
+                }
                 db.Entry(character).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

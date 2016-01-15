@@ -49,6 +49,10 @@ namespace DungeonSlayers.Models
                     s.MapRightKey("RacialId");
                     s.ToTable("RefRaceRacialAbilities");
                 });
+            //modelBuilder.Entity<Character>()
+            //    .HasMany(s => s.Weapons)
+            //    .WithRequired(s => s.Character)
+            //    .W
 
             //modelBuilder.Entity<Character>()
             //    .HasMany(c => c.Weapons)
@@ -67,7 +71,20 @@ namespace DungeonSlayers.Models
             //    .HasRequired(cw => cw.Weapon)
             //    .WithMany()
             //    .HasForeignKey(cw => cw.WeaponId);
-
+            modelBuilder.Entity<Equipment>().Map(m =>
+            {
+                m.ToTable("Equipments");
+            });
+            modelBuilder.Entity<Weapon>().Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("Weapons");
+            });
+            modelBuilder.Entity<Armor>().Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("Armors");
+            });
             base.OnModelCreating(modelBuilder);
         }
     }
