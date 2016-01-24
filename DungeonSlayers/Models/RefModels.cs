@@ -5,22 +5,19 @@ using System.Web;
 
 namespace DungeonSlayers.Models
 {
-    public class Race : Identifiable
+    public class Race : NamedIdentifiable
     {
-        public string Name { get; set; }
         public ICollection<RacialAbility> RacialAbilities { get; set; }
     }
 
-    public class BaseClass : Identifiable
+    public class BaseClass : NamedIdentifiable
     {
-        public string Name { get; set; }
 
         public ICollection<HeroClass> HeroClasses { get; set; }
     }
 
-    public class HeroClass : Identifiable
+    public class HeroClass : NamedIdentifiable
     {
-        public string Name { get; set; }
         public BaseClass BaseClass { get; set; }
     }
 }

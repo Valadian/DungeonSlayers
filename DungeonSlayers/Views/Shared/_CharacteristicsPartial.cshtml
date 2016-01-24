@@ -1,0 +1,105 @@
+﻿@using DungeonSlayers.Extensions
+@using DungeonSlayers.Models
+@using DungeonSlayers.Repositories
+@model DungeonSlayers.Models.Character
+
+<table class="table table-bordered">
+    <tr>
+        <th>Characteristics</th>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.Gender)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.Gender, "EditableDropDown", new { SelectList = (object)ViewBag.GenderChoices, editable = false, multiple = false, exprText = "Gender" })
+                @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })*@
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.PlaceOfBirth, "Birthplace")</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.DateOfBirth, "Birthdate")</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.Age)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.Height)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.Weight)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.HairColor)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.HairColor, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                <span>@Html.LabelFor(model => model.EyeColor)</span>
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.EditorFor(model => model.EyeColor, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-2">
+                <span>@Html.LabelFor(model => model.Special)</span>
+            </div>
+            <div class="col-xs-10">
+                @Html.EditorFor(model => model.Special, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-2">
+                <span>@Html.LabelFor(model => model.Languages)</span>
+            </div>
+            <div class="col-xs-10">
+                @Html.EditorFor(model => model.Languages, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="col-xs-2">
+                <span>@Html.LabelFor(model => model.Alphabets)</span>
+            </div>
+            <div class="col-xs-10">
+                @Html.EditorFor(model => model.Alphabets, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </td>
+    </tr>
+</table>

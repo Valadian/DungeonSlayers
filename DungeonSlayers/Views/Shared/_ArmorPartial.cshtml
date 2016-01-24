@@ -1,0 +1,34 @@
+﻿@model DungeonSlayers.Models.Character
+
+<table class="table table-bordered table-thin" id="armorTable">
+    <tr>
+        <th width="35px">
+            <button type="button" class="btn btn-success" data-bind="click: addArmor"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        </th>
+        <th>ARMOR</th>
+        <th width="8%">AV</th>
+        <th>SPECIAL</th>
+        <th width="100px">Action</th>
+    </tr>
+    <tbody>
+        <!-- ko foreach: Armors -->
+        <tr data-bind="css: {equipped: Equipped()}">
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.removeArmor"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </td>
+            <td>@Html.EditorFor(model => model.Armors, "EditableDropDown", new { SelectList = (object)ViewBag.ArmorChoices, editable = false, multiple = false, exprText = "ArmorId" })</td>
+            <td>+<span data-bind="text: Armor.AV"></span></td>
+            <td data-bind="text: Armor.Effect"></td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}"></button>
+                </div>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
+    <tr>
+        <th colspan="2" style="text-align:right">SUM AV</th>
+        <th>= <span data-bind="text: AV"></span></th>
+    </tr>
+</table>

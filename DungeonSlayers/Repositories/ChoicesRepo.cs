@@ -37,6 +37,10 @@ namespace DungeonSlayers.Repositories
         {
             return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
         }
+        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Armor> classes, bool valueStrings = false)
+        {
+            return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
+        }
         public static IEnumerable<SelectListItem> AsChoices(this IDbSet<HeroClass> classes, bool valueStrings = false)
         {
             return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name, Group = new SelectListGroup() { Name = s.BaseClass.Name } }).ToList()

@@ -42,6 +42,10 @@ textarea {
     user-select: none;
 }
 
+.equipped, .equipped .btn-group {
+    background-color: aquamarine;
+}
+
 .dropdown-menu a {
    overflow: hidden;
    outline: none;
@@ -247,4 +251,17 @@ input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.naColumn{
+    background-color:darkgray;
+}
+.btn-group {
+    white-space: nowrap;
+}
+.btn-group > .btn {
+    float: inherit;
+}
+.btn-group > .btn + .btn {
+    margin-left: -4px;
 }

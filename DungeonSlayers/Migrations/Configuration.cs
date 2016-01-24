@@ -166,15 +166,15 @@ namespace DungeonSlayers.Migrations
             #endregion
             #region Seed Weapons
             context.Weapons.AddOrUpdate(p => p.Name,
-                new Weapon { Name = "Axes", TwoHanded=true, WeaponBonus=3,Effect="INI -2",Availability=Availability.Hamlets,Price = 7},
+                new Weapon { Name = "Axes", TwoHanded = true, WeaponBonus = 3, Effect = "INI -2", Availability = Availability.Hamlets, Price = 7 },
                 new Weapon { Name = "Battle Flail", WeaponBonus = 3, Effect = "INI -4, OpDef -4", Availability = Availability.Villages, Price = 16, HitsSelfFumble = true },
-                new Weapon { Name = "Bow, elven", TwoHanded = true, WeaponBonus = 3, Effect = "INI +1", Availability = Availability.Elven, Price = 75, Unwieldy = true },
-                new Weapon { Name = "Bow, long", TwoHanded = true, WeaponBonus = 2, Effect = "INI +1", Availability = Availability.Villages, Price = 10, Unwieldy = true },
-                new Weapon { Name = "Bow, short", TwoHanded = true, WeaponBonus = 1, Effect = "INI +1", Availability = Availability.Hamlets, Price = 6},
+                new Weapon { Name = "Bow, elven", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, Effect = "INI +1", Availability = Availability.Elven, Price = 75, Unwieldy = true },
+                new Weapon { Name = "Bow, long", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, Effect = "INI +1", Availability = Availability.Villages, Price = 10, Unwieldy = true },
+                new Weapon { Name = "Bow, short", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 1, Effect = "INI +1", Availability = Availability.Hamlets, Price = 6},
                 new Weapon { Name = "Brass Knuckles", WeaponBonus = 0, Availability = Availability.Villages, Price = 1 },
                 new Weapon { Name = "Club", WeaponBonus = 1, Availability = Availability.Hamlets, Price = 0.2, BreakMATFumble = true },
-                new Weapon { Name = "Crossbow, heavy", TwoHanded = true, WeaponBonus = 3, Effect = "INI -4, OpDef -2", Availability = Availability.Villages, Price = 15 },
-                new Weapon { Name = "Crossbow, light", TwoHanded = true, WeaponBonus = 2, Effect = "INI -2", Availability = Availability.Hamlets, Price = 8 },
+                new Weapon { Name = "Crossbow, heavy", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, Effect = "INI -4, OpDef -2", Availability = Availability.Villages, Price = 15 },
+                new Weapon { Name = "Crossbow, light", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, Effect = "INI -2", Availability = Availability.Hamlets, Price = 8 },
                 new Weapon { Name = "Dagger", WeaponBonus = 0, Effect = "INI +1", Availability = Availability.Hamlets, Price = 2 },
                 new Weapon { Name = "Dwarven Axe", TwoHanded = true, WeaponBonus = 3, Effect = "INI -1, OpDef -2", Availability = Availability.Dwarven, Price = 60 },
                 new Weapon { Name = "Flail", WeaponBonus = 2, Effect = "INI -2", Availability = Availability.Hamlets, Price = 8 },
@@ -185,16 +185,62 @@ namespace DungeonSlayers.Migrations
                 new Weapon { Name = "Lance", WeaponBonus = 1, Effect = "IF gallop WB=+4", Availability = Availability.Villages, Price = 2 },
                 new Weapon { Name = "Mace/Morningstar", WeaponBonus = 1, Effect = "OpDef -1", Availability = Availability.Hamlets, Price = 7 },
                 new Weapon { Name = "Quarterstaff", TwoHanded = true, WeaponBonus = 1, Effect = "TSC +1", Availability = Availability.Hamlets, Price = 0.5 },
-                new Weapon { Name = "Sling", WeaponBonus = 0, Effect = "DistMod -1 per 2m", Availability = Availability.Hamlets, Price = 0.1 },
-                new Weapon { Name = "Spear", WeaponBonus = 1, Effect = "Melee or Ranged", Availability = Availability.Hamlets, Price = 1, BreakRATFumble = true },
+                new Weapon { Name = "Sling", Ranged = true, Melee = false, WeaponBonus = 0, Effect = "DistMod -1 per 2m", Availability = Availability.Hamlets, Price = 0.1 },
+                new Weapon { Name = "Spear", Ranged = true, Melee = true, WeaponBonus = 1, Effect = "Melee or Ranged", Availability = Availability.Hamlets, Price = 1, BreakRATFumble = true },
                 new Weapon { Name = "Sword, broad", WeaponBonus = 1, Effect = "OpDef -2", Availability = Availability.Hamlets, Price = 8 },
                 new Weapon { Name = "Sword, long", WeaponBonus = 2, Availability = Availability.Hamlets, Price = 7 },
                 new Weapon { Name = "Sword, short", WeaponBonus = 1, Availability = Availability.Hamlets, Price = 6 },
-                new Weapon { Name = "Throwing Knife", WeaponBonus = 0, Effect="Melee or Ranged, DistMode -1 per 2m", Availability = Availability.Hamlets, Price = 2 },
+                new Weapon { Name = "Throwing Knife", Ranged = true, Melee = true, WeaponBonus = 0, Effect="Melee or Ranged, DistMode -1 per 2m", Availability = Availability.Hamlets, Price = 2 },
                 new Weapon { Name = "Two-handed Sword", TwoHanded = true, WeaponBonus = 3, Effect ="INI -2, OpDef -4", Availability = Availability.Hamlets, Price = 10 },
                 new Weapon { Name = "Uarmed", WeaponBonus = 0, Effect = "OpDef -4"},
                 new Weapon { Name = "War Hammer", TwoHanded = true, WeaponBonus = 3, Availability = Availability.Hamlets, Price = 6 }
             );
+            #endregion
+            #region
+            context.Armors.AddOrUpdate(c => c.Name,
+                new Armor { Name = "Chainmail", AV = 2, Effect = "MR -0.5", Availability = Availability.Villages, Price = 10 },
+                new Armor { Name = "Leather Armor", AV = 1, Availability = Availability.Hamlets, Price = 4 },
+                new Armor { Name = "Leather Vambraces & Greaves", AV = 1, Availability = Availability.Hamlets, Price = 4 },
+                new Armor { Name = "Metal Helmet", AV = 1, Effect = "INI -1", Availability = Availability.Hamlets, Price = 6 },
+                new Armor { Name = "Plate Greaves", AV = 1, Effect = "MR -0.5", Availability = Availability.Villages, Price = 8 },
+                new Armor { Name = "Plate Vambrace", AV = 1, Effect = "MR -0.5", Availability = Availability.Villages, Price = 7 },
+                new Armor { Name = "Plate Armor", AV = 3, Effect = "MR -1", Availability = Availability.Villages, Price = 50 },
+                new Armor { Name = "Mount Plate Armor", AV = 3, Effect = "MR -1", Availability = Availability.Villages, Price = 150 },
+                new Armor { Name = "Robe", AV = 0, Availability = Availability.Hamlets, Price = 1 },
+                new Armor { Name = "Runic Robe", AV = 0, Effect = "AU +1", Availability = Availability.Villages, Price = 8 },
+                new Armor { Name = "Shield, Metal", AV = 1, Effect = "MR -0.5", Availability = Availability.Hamlets, Price = 8 },
+                new Armor { Name = "Shield, Tower", AV = 2, Effect = "MR -1", Availability = Availability.Villages, Price = 15 },
+                new Armor { Name = "Shield, Wooden", AV = 1, Availability = Availability.Hamlets, Price = 1, BreakDEFFumble = true }
+            );
+            #endregion
+            #region Seed Checks
+            context.Checks.AddOrUpdate(c => c.Name,
+                new Check { Name = "Appraise Treasure", DataBinding= "+MOB() + +IN()"},
+                new Check { Name = "Climb", DataBinding = "+MOB() + +ST()" },
+                new Check { Name = "Communicate", DataBinding = "+MND() + +DX()" },
+                new Check { Name = "Decipher Script", DataBinding = "+MND + IN()" },
+                new Check { Name = "Defy Poison", DataBinding = "+BOD() + +CO()" },
+                new Check { Name = "Disable Traps", DataBinding = "+MND() + +DX()" },
+                new Check { Name = "Feat of Strength", DataBinding = "+BOD() + +ST()" },
+                new Check { Name = "Flirt", DataBinding = "+MND() + +AU()" },
+                new Check { Name = "Haggle", DataBinding = "Math.max(+MND() + +IN(), +MND() + +AU())" },
+                new Check { Name = "Hide", DataBinding = "+MOB() + +AG()" },
+                new Check { Name = "Jump", DataBinding = "+MOB() + +AG()" },
+                new Check { Name = "Knowledge", DataBinding = "+MND() + +IN()" },
+                new Check { Name = "Open Lock", DataBinding = "+MND() + +DX()" },
+                new Check { Name = "Perception", DataBinding = "Math.max(+MND() + +IN(),8)" },
+                new Check { Name = "Performance", DataBinding = "" },
+                new Check { Name = "Pick Pocket", DataBinding = "+MOB() + +DX()" },
+                new Check { Name = "Read Tracks", DataBinding = "+MND() + +IN()" },
+                new Check { Name = "Resist Disease", DataBinding = "+BOD() + +CO()" },
+                new Check { Name = "Ride", DataBinding = "Math.max(+MOB() + +AG(),+MOB() + +AU())" },
+                new Check { Name = "Search", DataBinding = "Math.max(+MND() + +IN(),8)" },
+                new Check { Name = "Sneak", DataBinding = "+MOB() + +AG()" },
+                new Check { Name = "Start Fire", DataBinding = "+MND() + +DX()" },
+                new Check { Name = "Swimming", DataBinding = "+MOB() + +DX()" },
+                new Check { Name = "Wake Up", DataBinding = "+MND() + +IN()" },
+                new Check { Name = "Work Mechanism", DataBinding = "Math.max(+MND() + +DX(), +MND() + +AU())" }
+                );
             #endregion
 
 

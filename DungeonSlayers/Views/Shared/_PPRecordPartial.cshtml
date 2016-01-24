@@ -1,0 +1,48 @@
+﻿@using DungeonSlayers.Extensions
+@using DungeonSlayers.Models
+@using DungeonSlayers.Repositories
+@model DungeonSlayers.Models.Character
+
+<table class="table table-bordered table-thin">
+    <tr>
+        <th>PP RECORD</th>
+        <th>START/MAX. VALUE</th>
+        <th>INCREASE</th>
+        <th>SPECIAL</th>
+        <th>TOTAL</th>
+    </tr>
+    @foreach (var trait in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Traits())
+    {
+        <tr>
+            <td>@trait.DisplayName</td>
+            <td style="text-align:center"> / </td>
+            <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@trait.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
+            <td></td>
+            <td>@trait.Acronym :</td>
+        </tr>
+    }
+    @{
+        var hitpoints = ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Where(def => def.Acronym == "HP").First();
+    }
+    <tr>
+        <td>@hitpoints.DisplayName</td>
+        <td style="background-color:darkgray"></td>
+        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@hitpoints.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
+        <td></td>
+        <td>@hitpoints.Acronym :</td>
+    </tr>
+    <tr>
+        <td>Additional TP</td>
+        <td style="background-color:darkgray"></td>
+        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;TP (&nbsp;&nbsp;&nbsp; PP)</td>
+        <td></td>
+        <td style="background-color:darkgray"></td>
+    </tr>
+    <tr>
+        <td>Language/Alphabet</td>
+        <td style="text-align:center">2 / -</td>
+        <td style="text-align:right">&nbsp;&nbsp;&nbsp; (&nbsp;&nbsp;&nbsp; PP)</td>
+        <td style="background-color:darkgray"></td>
+        <td style="background-color:darkgray"></td>
+    </tr>
+</table>

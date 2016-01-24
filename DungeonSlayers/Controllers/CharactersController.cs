@@ -11,6 +11,7 @@ using DungeonSlayers.Models;
 using DungeonSlayers.Repositories;
 using DungeonSlayers.Utils;
 using DungeonSlayers.Extensions;
+using System.Collections;
 
 namespace DungeonSlayers.Controllers
 {
@@ -57,7 +58,10 @@ namespace DungeonSlayers.Controllers
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
             ViewBag.WeaponChoices = db.Weapons.AsChoices();
+            ViewBag.ArmorChoices = db.Armors.AsChoices();
             ViewBag.Weapons = db.Weapons.ToList();
+            ViewBag.Armors = db.Armors.ToList();
+            ViewBag.SelfTypes = new []{ "Weapon","Armor" };
         }
 
         // POST: Characters/Create
@@ -108,23 +112,41 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors")] Character character)
         {
             if (ModelState.IsValid)
             {
-                foreach (var weap in character.Weapons)
-                {
-                    if (weap.Weapon == null)
-                    {
-                        weap.Weapon = db.Weapons.Find(weap.WeaponId);
-                        db.Entry(weap).State = EntityState.Added;
-                    }
-                }
-                db.Entry(character).State = EntityState.Modified;
+                Character old_character = await db.Characters.FindAsync(character.Id);
+                //var deletedWeapons = old_character.Weapons.Except(character.Weapons).ToList();
+                //var addedWeapons = character.Weapons.Except(old_character.Weapons).Distinct().ToList();
+                //deletedWeapons.ForEach(w => old_character.Weapons.Remove(w));
+                //foreach(var wc in addedWeapons)
+                //{
+                //    if(db.Entry(wc).State == EntityState.Detached)
+                //    {
+                //        db.Entry(wc).State = EntityState.Added;
+                //    }
+                //}
+                SyncList(character, old_character, c => c.Weapons, cw => cw.Weapon);
+                SyncList(character, old_character, c => c.Armors, ca => ca.Armor);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(character);
+        }
+        public void SyncList<T,U,V>(T newObj, T oldObj, Func<T,ICollection<U>> selector, Func<U, V> relatedNoCascade) where T : Identifiable where U: class where V: class
+        {
+            var deleted = selector(oldObj).Except(selector(newObj)).ToList();
+            var added = selector(newObj).Except(selector(oldObj)).Distinct().ToList();
+            deleted.ForEach(w => selector(oldObj).Remove(w));
+            foreach (var thing in added)
+            {
+                if (db.Entry(thing).State == EntityState.Detached)
+                {
+                    db.Entry(thing).State = EntityState.Added;
+                    db.Entry(relatedNoCascade(thing)).State = EntityState.Unchanged;
+                }
+            }
         }
 
         // GET: Characters/Delete/5

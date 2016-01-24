@@ -9,9 +9,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-md-6"><h2>Edit - Character</h2></div>
-</div>
 
 <form data-bind="submit: save">
     @*@using (Html.BeginForm())*@
@@ -20,481 +17,72 @@
 
 
     <div class="form-vertical">
-        <hr />
-        @*<div class="btn-group btn-lg">*@
-        @*</div>*@
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group row">
-            <div class="col-sm-offset-4 col-sm-4">
-                <img src="~/Content/DungeonSlayersTitle.png" class="img-responsive text-center" style="max-width: 300px;" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.Owner, "editabledropdown", label: "Player", editable: false)
-            </div>
-            <div class="input-group col-sm-4 pull-right">
-                @Html.AddOnEditorFor(model => model.Name, label: "Name")
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.Race, "editabledropdown")
-            </div>
-            <div class="col-sm-4">
-                <div class="row row-no-padding" style="margin-left:0px;margin-right:0px;">
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.Level, label: "Lvl", width: 25)
-                    </div>
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.PP, abbr: "Progress Points", width: 25)
-                    </div>
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.TP, abbr: "Talent Points", width: 25)
-                    </div>
-                </div>
-            </div>
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.ClassName, "editabledropdown", label: "Class", choices: (object)ViewBag.ClassChoices, editable: false)
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.RacialAbilities, "editabledropdown", label: "Racials", multiple: true, editable: false)
-            </div>
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.ExperiencePoints, label: "XP", abbr: "Experience Points", width: 25)
-            </div>
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.HeroClassName, "editabledropdown", label: "Hero Cls", editable: false, choices: (object)ViewBag.HeroClasses)
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.BOD, "Body", true)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.MOB, "Mobility", true)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.MND, "Mind", true)
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.ST, "Strength")
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.AG, "Agility")
-            </div>
-            <div class="col-sm-4" style="margin-bottom: 15px;">
-                @Html.AttributeEditorFor(model => model.IN, "Intellect")
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.CO, "Constitution")
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.DX, "Dexterity")
-            </div>
-            <div class="col-sm-4" style="margin-bottom: 15px;">
-                @Html.AttributeEditorFor(model => model.AU, "Aura")
-            </div>
-        </div>
-        <div class="form-group row">
-            @foreach (PropertyDef cv in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).CombatValues())
-            {
-                //background - image:url(/ Content / CombatIcons_xcf -@(cv).png); background - repeat: no - repeat;
-                <div class="col-xs-3 col-sm-1b8" style="min-height:145px;">
-                    <img style="position:absolute;width:90px;" src="/Content/CombatIcons_xcf-@(cv.Name).png" />
-                    <br style="line-height: 2em" />
-                    <div class="row">
-                        <div class="col-sm-1 combat-offset">
-                            @*@Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })*@
-                            <div data-bind="text: +@cv.Acronym ()" style="width:45px;text-align:center;font-size:x-large;"></div>
-                        </div>
-                    </div>
-                    <span class="cvLabel cvName">@cv.DisplayName</span>
-                    <span class="cvLabel cvEquation"><nobr>@cv.Equation.Replace("@", "")</nobr></span>
-                    @*<img src="" style="width:100px"/>*@
-                </div>
-            }
-        </div>
-
         <div class="row">
-            <div class="col-sm-12 col-md-7">
-                <table class="table table-bordered table-thin" id="weaponTable">
-                    <tr>
-                        <th width="6%">
-                            @*<button type="button" id="add-weapon" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>*@
-                            <button type="button" class="btn btn-success" data-bind="click: addWeapon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                        </th>
-                        <th>WEAPON</th>
-                        <th width="6%">WB</th>
-                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-MeleeAttack.png" width="20" /> </th>
-                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-RangedAttack.png" width="20" /> </th>
-                        <th width="10%">TOTAL</th>
-                        <th>SPECIAL</th>
-                    </tr>
-                    <tr>
-                        <td style="background-color:darkgray"></td>
-                        <td>UNARMED</td>
-                        <td>+0</td>
-                        <td data-bind="text: +MAT()"></td>
-                        <td style="background-color:darkgray"></td>
-                        <td data-bind="text: +MAT()"></td>
-                        <td>OPPONENT'S DEFENSE +5</td>
-                    </tr>
-                    @*<tbody data-bind="template: { name: 'weaponTemplate', foreach: Weapons }"></tbody>*@
-                    <tbody>
-                        <!-- ko foreach: Weapons -->
-                        <tr>
-                            <td><button type="button" class="btn btn-danger" data-bind="click: $parent.removeWeapon"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
-                            <td>@Html.EditorFor(model => model.Weapons, "EditableDropDown", new { SelectList = (object)ViewBag.WeaponChoices, editable = false, multiple = false, exprText = "WeaponId"})</td>@*, evnt = "event:{change:$parent.weaponChanged},"*@ 
-                            <td>+<span data-bind="text: Weapon.WeaponBonus"></span></td>
-                            <!-- ko if: Weapon.Ranged() == false -->
-                            <td data-bind="text: $parent.MAT()"></td>
-                            <td style="background-color:darkgray"></td>
-                            <td data-bind="text: Weapon.WeaponBonus() + +$parent.MAT()"></td>
-                            <!-- /ko -->
-                            <!-- ko if: Weapon.Ranged() == true -->
-                            <td style="background-color:darkgray"></td>
-                            <td data-bind="text: $parent.RAT()"></td>
-                            <td data-bind="text: Weapon.WeaponBonus() + +$parent.RAT()"></td>
-                            <!-- /ko -->
-                            <td data-bind="text: Weapon.Effect"></td>
-                        </tr>
-                        <!-- /ko -->
-                    </tbody>
-
-                    @*<tbody id="weapons-list">
-                            @Html.EditorForMany(m => m.Weapons)
-                        </tbody>*@
-                    @*<tr>
-                            <td>UNARMED</td>
-                            <td>+0</td>
-                            <td></td>
-                            <td style="background-color:darkgray"></td>
-                            <td></td>
-                            <td>OPPONENT'S DEFENSE +5</td>
-                        </tr>*@
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-5">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>ARMOR</th>
-                        <th width="10%">AV</th>
-                        <th>SPECIAL</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>SPELL</th>
-                        <th width="10%">CB</th>
-                        <th width="5%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
-                        <th width="5%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
-                        <th width="10%">TOTAL</th>
-                        <th width="10%">DISTANCE</th>
-                        <th width="10%">CP</th>
-                        <th>EFFECT</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="row" style="font-size:smaller;">
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered table-thin">
-                    <tr>
-                        <th>PP RECORD</th>
-                        <th>START/MAX. VALUE</th>
-                        <th>INCREASE</th>
-                        <th>SPECIAL</th>
-                        <th>TOTAL</th>
-                    </tr>
-                    @foreach (var trait in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Traits())
-                    {
-                        <tr>
-                            <td>@trait.DisplayName</td>
-                            <td style="text-align:center"> / </td>
-                            <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@trait.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
-                            <td></td>
-                            <td>@trait.Acronym :</td>
-                        </tr>
-                    }
-                    @{
-                        var hitpoints = ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Where(def => def.Acronym == "HP").First();
-                    }
-                    <tr>
-                        <td>@hitpoints.DisplayName</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@hitpoints.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td></td>
-                        <td>@hitpoints.Acronym :</td>
-                    </tr>
-                    <tr>
-                        <td>Additional TP</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;TP (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td></td>
-                        <td style="background-color:darkgray"></td>
-                    </tr>
-                    <tr>
-                        <td>Language/Alphabet</td>
-                        <td style="text-align:center">2 / -</td>
-                        <td style="text-align:right">&nbsp;&nbsp;&nbsp; (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="background-color:darkgray"></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="col-sm-12 col-md-6">
-                <div class="row" style="text-align:center;border:1px solid black;margin:0px;margin-bottom:15px;padding:15px;">
-                    <div class="col-xs-12"><h3>Loot & Treasure</h3></div>
-                    <div class="form-group row" style="text-align:left">
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="gold" />
-                            <br style="line-height: 1.5em" />
-                            <div class="row">
-                                <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Gold</span>
-                        </div>
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="silver" />
-                            <br style="line-height: 1.5em" />
-                            <div class="row">
-                                <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Silver</span>
-                        </div>
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" class="copper" />
-                            <br style="line-height: 1.5em" />
-                            <div class="row">
-                                <div class="col-sm-1 gold-offset">
-                                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Copper</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">1 Gold = 10 Silver = 100 Copper</div>
+            <div class="col-md-6"><h2>Edit - Character</h2></div>
+            <div class="col-sm-6 pull-down">
+                <div class="btn-toolbar pull-right">
+                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
+                    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Equipment</th>
-                        <th>Where Carried?</th>
-                        <th>Special</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Herbs, Potions, Artifacts</th>
-                        <th>Effect</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Talent</th>
-                        <th>Rank</th>
-                        <th>Effect</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Characteristics</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.Gender)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.Gender, "EditableDropDown", new { SelectList = (object)ViewBag.GenderChoices, editable = false, multiple = false, exprText = "Gender" })
-                                @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })*@
-                            </div>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.PlaceOfBirth, "Birthplace")</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.DateOfBirth,"Birthdate")</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.Age)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.Height)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.Weight)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.HairColor)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.HairColor, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                            <div class="col-xs-6 col-sm-2">
-                                <span>@Html.LabelFor(model => model.EyeColor)</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-4">
-                                @Html.EditorFor(model => model.EyeColor, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-2">
-                                <span>@Html.LabelFor(model => model.Special)</span>
-                            </div>
-                            <div class="col-xs-10">
-                                @Html.EditorFor(model => model.Special, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-2">
-                                <span>@Html.LabelFor(model => model.Languages)</span>
-                            </div>
-                            <div class="col-xs-10">
-                                @Html.EditorFor(model => model.Languages, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-xs-2">
-                                <span>@Html.LabelFor(model => model.Alphabets)</span>
-                            </div>
-                            <div class="col-xs-10">
-                                @Html.EditorFor(model => model.Alphabets, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
-        <div class="row">
-            <button type="submit" value="Create" class="btn btn-primary">Save</button>
-            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
-        </div>
-        <br />
+        <div class="row" ><hr /></div>
         <div id="feedback" class="row">
             <div id="success" style="color:green">
             </div>
             <div id="error" style="color:red">
                 @Html.ValidationSummary()
             </div>
+        </div>
+        @*<div class="btn-group btn-lg">*@
+        @*</div>*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.Partial("~/Views/Shared/_CharacterHeaderPartial.cshtml", Model)
+
+        @Html.Partial("~/Views/Shared/_AttributesTraitsPartial.cshtml", Model)
+
+        @Html.Partial("~/Views/Shared/_CombatValuesPartial.cshtml", Model)
+
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                @Html.Partial("~/Views/Shared/_WeaponsPartial.cshtml", Model)
             </div>
-        @*<div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>*@
+            <div class="col-sm-12 col-md-5">
+                @Html.Partial("~/Views/Shared/_ArmorPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12">
+                @Html.Partial("~/Views/Shared/_SpellPartial.cshtml", Model)
+            </div>
+        </div>
+        <div class="row" style="font-size:smaller;">
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_PPRecordPartial.cshtml", Model)
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_GoldPartial.cshtml",Model)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_EquipmentPartial.cshtml",Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_MagicEquipmentPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_TalentPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_CharacteristicsPartial.cshtml", Model)
+            </div>
+        </div>
     </div>
     @*}*@
 </form>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="0">
-    <defs>
-        <filter id="gold">
-            <feColorMatrix type="matrix"
-                           values="1.0 0 0 0 0
-             0.843 0 0 0 0
-             0 0 0 0 0
-             0   0   0   1 0" />
-        </filter>
-        <filter id="silver">
-            <feColorMatrix type="matrix"
-                           values="0.75 0 0 0 0
-             0.75 0 0 0 0
-             0.75 0 0 0 0
-             0   0   0   1 0" />
-        </filter>
-        <filter id="copper">
-            <feColorMatrix type="matrix"
-                           values="0.784 0 0 0 0
-             0.459 0 0 0 0
-             0.2 0 0 0 0
-             0   0   0   1 0" />
-        </filter>
-    </defs>
-</svg>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
@@ -513,7 +101,14 @@
             }
 
             Model.AV = ko.computed(function () {
-                return 0;
+                var av = 0;
+                for (var i in Model.Armors()) {
+                    var armor = Model.Armors()[i];
+                    if (armor.Equipped()) {
+                        av += armor.Armor.AV();
+                    }
+                }
+                return av;
             }, this);
 
             Model.SM = ko.computed(function () {
@@ -533,47 +128,75 @@
                "}, this);\n")
             }
 
-            //this.refresh = function () {
-            //    ko.applyBindings(Model);
-            //}
             var weapons = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Weapon>)this.ViewBag.Weapons))');
-            Model.updateWeapon = function (id) {
-                weapon = $.grep(weapons, function (e) { return e.Id == id; });
-                if (weapon) {
-                    ko.mapping.fromJS(weapon[0], {}, this.Weapon);
-                }
+            var armors = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Armor>)this.ViewBag.Armors))');
+
+
+            @foreach (string Self in (IEnumerable<string>)this.ViewBag.SelfTypes)
+            {
+                var self = Self.ToLower();
+                //
+                @Html.Raw($@"Model.update{Self} = function(id) {{
+                    {self} = $.grep({self}s, function(e) {{ return e.Id == id; }});
+                    if ({self})
+                    {{
+                        ko.mapping.fromJS({self}[0], {{ }}, this.{Self});
+                    }}
+                }}
+                Model.add{Self} = function() {{
+                    {self} = {self}s[0];
+                    {self}Id = ko.observable({self}.Id);
+                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false) }}
+                    {self}Id.subscribe(Model.update{Self}, wc);
+                    Model.{Self}s.push(wc);
+                    $('#{self}Table select').selectpicker('refresh');
+                }}
+                Model.remove{Self} = function({self}) {{
+                    Model.{Self}s.remove({self});
+                }}
+                Model.switchTo{Self} = function({self}) {{
+                    for (var i in Model.{Self}s()) {{
+                        Model.{Self}s()[i].Equipped(false);
+                    }}
+                    {self}.Equipped(true);
+                }}
+                for (i in Model.{Self}s()) {{
+                    wc = Model.{Self}s()[i];
+                    wc.{Self}Id.subscribe(Model.update{Self}, wc);
+                }}");
+                //
             }
-            Model.addWeapon = function () {
-                weapon = weapons[0];
-                weaponId = ko.observable(weapon.Id);
-                wc = { CharacterId: Model.Id, WeaponId: weaponId, Weapon: ko.mapping.fromJS(weapon) }
-                weaponId.subscribe(Model.updateWeapon, wc);
-                Model.Weapons.push(wc);
-                $('#weaponTable select').selectpicker('refresh');
-            }
-            Model.removeWeapon = function (weapon) {
-                Model.Weapons.remove(weapon);
-            }
-            //Model.weaponChanged = function (wc, event) {
-            //    if (wc.Weapon.Id() !== wc.WeaponId()) { //event.originalEvent) {
-            //        weapon = $.grep(weapons, function (e) { return e.Id == wc.WeaponId(); });
-            //        if (weapon) {
-            //            ko.mapping.fromJS(weapon[0], {}, wc.Weapon);
-            //        }
+            //
+
+            //Model.updateWeapon = function (id) {
+            //    weapon = $.grep(weapons, function (e) { return e.Id == id; });
+            //    if (weapon) {
+            //        ko.mapping.fromJS(weapon[0], {}, this.Weapon);
             //    }
             //}
-            for (i in Model.Weapons()) {
-                wc = Model.Weapons()[i];
-                wc.WeaponId.subscribe(Model.updateWeapon, wc);
-            }
-            Model.save = function() {
+            //Model.addWeapon = function () {
+            //    weapon = weapons[0];
+            //    weaponId = ko.observable(weapon.Id);
+            //    wc = { CharacterId: Model.Id, WeaponId: weaponId, Weapon: ko.mapping.fromJS(weapon) }
+            //    weaponId.subscribe(Model.updateWeapon, wc);
+            //    Model.Weapons.push(wc);
+            //    $('#weaponTable select').selectpicker('refresh');
+            //}
+            //Model.removeWeapon = function (weapon) {
+            //    Model.Weapons.remove(weapon);
+            //}
+            //for (i in Model.Weapons()) {
+            //    wc = Model.Weapons()[i];
+            //    wc.WeaponId.subscribe(Model.updateWeapon, wc);
+            //}
+            Model.save = function () {
                 //ko.utils.postJson(location.href, { character: ko.toJSON(Model) });
                 $.ajax({
                     url: '/Characters/Edit',
                     type: 'POST',
                     data: ko.toJSON(Model),
                     contentType: 'application/json; charset=utf-8',
-                    success: function(data) {
+                    success: function (data) {
                         $("#success").text("Character Save Successful").fadeIn(0).delay(3000).fadeOut(1000);
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -582,28 +205,8 @@
                     }
                 });
             }
-            //var myViewModel = new viewModel();
-            //var g = ko.mapping.fromJS(myViewModel, mvcModel);
 
             ko.applyBindings(Model);
         });
     </script>
-    @*<script type="text/html" id="weaponTemplate">
-        <tr>
-            <td><button type="button" class="btn btn-danger" data-bind="click: $parent.removeWeapon"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
-            <td>@Html.EditorFor(model => model.Weapons, "EditableDropDown", new { SelectList = (object)ViewBag.WeaponChoices, editable = false, multiple = false, exprText= "WeaponId", evnt="event:{change:$parent.weaponChanged}," })</td>
-            <td>+<span data-bind="text: Weapon.WeaponBonus"></span></td>
-            <!-- ko if: Weapon.Ranged == false -->    
-                <td data-bind="text: MAT()"></td>       
-                <td style="background-color:darkgray"></td> 
-                <td data-bind="text: Weapon.WeaponBonus + +MAT()"></td>     
-            <!-- /ko -->       
-            <!-- ko if: Weapon.Ranged == true -->
-                <td style="background-color:darkgray"></td> 
-                <td data-bind="text: RAT()"></td>
-                <td data-bind="text: Weapon.WeaponBonus + +RAT()"></td>
-            <!-- /ko -->
-            <td data-bind="text: Weapon.Effect"></td>
-        </tr>
-    </script>*@
 }

@@ -1,0 +1,50 @@
+﻿@model DungeonSlayers.Models.Character
+
+<table class="table table-bordered table-thin" id="weaponTable">
+    <tr>
+        <th width="35px">
+            <button type="button" class="btn btn-success" data-bind="click: addWeapon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        </th>
+        <th>WEAPON</th>
+        <th width="6%">WB</th>
+        <th width="6%"> <img src="~/Content/CombatIcons_xcf-MeleeAttack.png" width="20" /> </th>
+        <th width="6%"> <img src="~/Content/CombatIcons_xcf-RangedAttack.png" width="20" /> </th>
+        <th>SPECIAL</th>
+        <th width="100px">Action</th>
+    </tr>
+    <tr>
+        <td style="background-color:darkgray"></td>
+        <td>UNARMED</td>
+        <td>+0</td>
+        <td data-bind="text: +MAT()"></td>
+        <td style="background-color:darkgray"></td>
+        <td>Tgt DEF +5</td>
+        <td></td>
+    </tr>
+    <tbody>
+        <!-- ko foreach: Weapons -->
+        <tr data-bind="css: {equipped: Equipped()}">
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.removeWeapon"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </td>
+            <td>@Html.EditorFor(model => model.Weapons, "EditableDropDown", new { SelectList = (object)ViewBag.WeaponChoices, editable = false, multiple = false, exprText = "WeaponId" })</td>@*, evnt = "event:{change:$parent.weaponChanged},"*@
+            <td>+<span data-bind="text: Weapon.WeaponBonus"></span></td>
+            <td data-bind="css: { naColumn: !Weapon.Melee()},text: Weapon.Melee()?$parent.MAT()+ + Weapon.WeaponBonus():''"></td>
+            <td data-bind="css: { naColumn: !Weapon.Ranged()},text: Weapon.Ranged()?$parent.RAT()+ +Weapon.WeaponBonus():''"></td>
+            <td data-bind="text: Weapon.Effect"></td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-bind="click: function(data, event) { $parent.switchToWeapon($data)}">Switch</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-bind="text: Equipped()?'Unequip':'Equip', click: function(data, event) {data.Equipped(!data.Equipped())}"></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
+</table>

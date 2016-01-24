@@ -1,0 +1,24 @@
+﻿@using DungeonSlayers.Extensions
+@using DungeonSlayers.Models
+@using DungeonSlayers.Repositories
+@model DungeonSlayers.Models.Character
+
+<div class="form-group row">
+    @foreach (PropertyDef cv in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).CombatValues())
+    {
+        //background - image:url(/ Content / CombatIcons_xcf -@(cv).png); background - repeat: no - repeat;
+        <div class="col-xs-3 col-sm-1b8" style="min-height:145px;">
+            <img style="position:absolute;width:90px;" src="/Content/CombatIcons_xcf-@(cv.Name).png" />
+            <br style="line-height: 2em" />
+            <div class="row">
+                <div class="col-sm-1 combat-offset">
+                    @*@Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })*@
+                    <div data-bind="text: +@cv.Acronym ()" style="width:45px;text-align:center;font-size:x-large;"></div>
+                </div>
+            </div>
+            <span class="cvLabel cvName">@cv.DisplayName</span>
+            <span class="cvLabel cvEquation"><nobr>@cv.Equation.Replace("@", "")</nobr></span>
+            @*<img src="" style="width:100px"/>*@
+        </div>
+    }
+</div>

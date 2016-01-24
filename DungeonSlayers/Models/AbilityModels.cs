@@ -6,9 +6,8 @@ using System.Web;
 
 namespace DungeonSlayers.Models
 {
-    public class Talent : Identifiable
+    public class Talent : NamedIdentifiable
     {
-        public string Name { get; set; }
         public string Description { get; set; }
         public ICollection<Restriction> Restrictions { get; set; }
         public ICollection<Modifier> Modifiers { get; set; }
@@ -19,9 +18,8 @@ namespace DungeonSlayers.Models
         public int MaxLevel { get; set; }
         public int RequiredLevel { get; set; }
     }
-    public class Spell : Identifiable
+    public class Spell : NamedIdentifiable
     {
-        public string Name { get; set; }
         public string CB { get; set; }
         public bool Targeted { get; set; }
         //-1 Self, 0 touch, >0 ranged
@@ -31,9 +29,8 @@ namespace DungeonSlayers.Models
         public int Level { get; set; }
         public int GoldCost { get; set; }
     }
-    public class RacialAbility : Identifiable
+    public class RacialAbility : NamedIdentifiable
     {
-        public string Name { get; set; }
         public int Value { get; set; }
         public string Description { get; set; }
         public Modifier Modifier { get; set; }

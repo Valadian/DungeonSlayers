@@ -16,10 +16,22 @@ namespace DungeonSlayers.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || obj.GetType() != GetType())
+        //    {
+        //        return false;
+        //    }
+
+        //    return Id == (obj as Identifiable)?.Id;
+        //}
     }
-    public abstract class Entity : Identifiable
+    public abstract class NamedIdentifiable : Identifiable
     {
         public string Name { get; set; }
+    }
+    public abstract class Entity : NamedIdentifiable
+    {
         //public List<Property> Properties { get; set; }
         public string Note { get; set; }
         
@@ -91,7 +103,7 @@ namespace DungeonSlayers.Models
 
         public virtual ICollection<RacialAbility> RacialAbilities { get; set; } = new List<RacialAbility>();
 
-        public virtual ICollection<Spell> Spells { get; set; } = new List<Spell>();
+        public virtual ICollection<CharacterSpell> Spells { get; set; } = new List<CharacterSpell>();
 
         public virtual ICollection<CharacterTalent> Talents { get; set; } = new List<CharacterTalent>();
         
@@ -122,6 +134,11 @@ namespace DungeonSlayers.Models
         public int CharacterId { get; set; }
         [Key, Column(Order = 1)]
         public int EquipmentId { get; set; }
+        public override bool Equals(object obj)
+        {
+            return (CharacterId == (obj as CharacterEquipment)?.CharacterId) &&
+                   (EquipmentId == (obj as CharacterEquipment)?.EquipmentId);
+        }
 
         public virtual Character Character { get; set; }
         public virtual Equipment Equipment { get; set; }
@@ -129,15 +146,37 @@ namespace DungeonSlayers.Models
         public string Location { get; set; }
         public virtual ICollection<Modifier> Modifiers { get; set; }
     }
+    public class CharacterSpell
+    {
+        [Key, Column(Order = 0)]
+        public int CharacterId { get; set; }
+        [Key, Column(Order = 1)]
+        public int SpellId { get; set; }
+        public override bool Equals(object obj)
+        {
+            return (CharacterId == (obj as CharacterSpell)?.CharacterId) &&
+                   (SpellId == (obj as CharacterSpell)?.SpellId);
+        }
+
+        public virtual Character Character { get; set; }
+        public virtual Spell Spell { get; set; }
+        public bool Equipped { get; set; }
+    }
     public class CharacterArmor
     {
         [Key, Column(Order = 0)]
         public int CharacterId { get; set; }
         [Key, Column(Order = 1)]
         public int ArmorId { get; set; }
+        public override bool Equals(object obj)
+        {
+            return (CharacterId == (obj as CharacterArmor)?.CharacterId) &&
+                   (ArmorId == (obj as CharacterArmor)?.ArmorId);
+        }
 
         public virtual Character Character { get; set; }
         public virtual Armor Armor { get; set; }
+        public bool Equipped { get; set; }
         public virtual ICollection<Modifier> Modifiers { get; set; }
     }
     public class CharacterWeapon
@@ -146,6 +185,11 @@ namespace DungeonSlayers.Models
         public int CharacterId { get; set; }
         [Key, ForeignKey("Weapon"), Column(Order = 1)]
         public int WeaponId { get; set; }
+        public override bool Equals(object obj)
+        {
+            return (CharacterId == (obj as CharacterWeapon)?.CharacterId) &&
+                   (WeaponId == (obj as CharacterWeapon)?.WeaponId);
+        }
         [JsonIgnore]
         public virtual Character Character { get; set; }
         public virtual Weapon Weapon { get; set; }
