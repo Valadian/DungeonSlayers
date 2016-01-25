@@ -1,24 +1,47 @@
 ﻿@model DungeonSlayers.Models.Character
 
-<table class="table table-bordered">
+<table class="table table-bordered table-thin" id="spellTable">
     <tr>
+        <th width="35px">
+            <button type="button" class="btn btn-success" data-bind="click: addSpell"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        </th>
         <th>SPELL</th>
-        <th width="10%">CB</th>
-        <th width="5%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
-        <th width="5%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
-        <th width="10%">TOTAL</th>
-        <th width="10%">DISTANCE</th>
-        <th width="10%">CP</th>
+        <th width="5%">SM</th>
+        <th width="10%">TM</th>
+        <th width="3%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
+        <th width="3%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
+        <th width="10%">DIST</th>
+        <th width="10%">CD</th>
         <th>EFFECT</th>
+        <th width="100px">Action</th>
     </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody>
+        <!-- ko foreach: Spells -->
+        <tr data-bind="css: {equipped: Equipped()}">
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.removeSpell"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </td>
+            <td>@Html.EditorFor(model => model.Spells, "EditableDropDown", new { SelectList = (object)ViewBag.SpellChoices, editable = false, multiple = false, exprText = "SpellId" })</td>
+            <td><span data-bind="text: Spell.SM"></span></td>
+            <td><nobr data-bind="text: Spell.TM"></nobr></td>
+            <td><span data-bind="css: { naColumn: Spell.Targeted()},text: !Spell.Targeted()?+Spell.SM() + +$parent.SPC():''"></span></td>
+            <td><span data-bind="css: { naColumn: !Spell.Targeted()},text: Spell.Targeted()?+Spell.SM() + +$parent.TSC():''"></span></td>
+            <td data-bind="text: Spell.Distance"></td>
+            <td data-bind="text: Spell.CooldownPeriod"></td>
+            <td data-bind="text: Spell.Effect"></td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-bind="click: function(data, event) { $parent.switchToSpell($data)}">Switch</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-bind="text: Equipped()?'Unequip':'Equip', click: function(data, event) {data.Equipped(!data.Equipped())}"></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
 </table>

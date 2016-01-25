@@ -16,28 +16,32 @@ namespace DungeonSlayers.Repositories
             //ViewBag.OwnerChoices = new[] { "berge403", "unitive", "jacky" }.Select(s => new SelectListItem() { Value = s, Text = s }); //["OwnerChoices"] = 
 
         }
-        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<RacialAbility> users)
-        {
-            return users.Select(ra => new SelectListItem() { Value = ra.Id.ToString(), Text = ra.Name });
+        //public static IEnumerable<SelectListItem> AsChoices(this IDbSet<RacialAbility> users)
+        //{
+        //    return users.Select(ra => new SelectListItem() { Value = ra.Id.ToString(), Text = ra.Name });
 
-        }
-        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Race> races, bool valueStrings = false)
-        {
-            return races.Select(s => new SelectListItem() { Value = valueStrings?s.Name:s.Id.ToString(), Text = s.Name });
+        //}
+        //public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Race> races, bool valueStrings = false)
+        //{
+        //    return races.Select(s => new SelectListItem() { Value = valueStrings?s.Name:s.Id.ToString(), Text = s.Name });
 
-            //ViewBag.RaceChoices = new[] { "Human", "Elf", "Dwarf", "Orc" }.Select(s => new SelectListItem() { Value = s, Text = s }); //["RaceChoices"] = 
-        }
-        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<BaseClass> classes, bool valueStrings = false)
-        {
-            return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
+        //    //ViewBag.RaceChoices = new[] { "Human", "Elf", "Dwarf", "Orc" }.Select(s => new SelectListItem() { Value = s, Text = s }); //["RaceChoices"] = 
+        //}
+        //public static IEnumerable<SelectListItem> AsChoices(this IDbSet<BaseClass> classes, bool valueStrings = false)
+        //{
+        //    return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
 
-            //ViewBag.ClassChoices = new[] { "Fighter", "Scout", "Healer", "Wizard", "Sorcerer" }.Select(s => new SelectListItem() { Value = s, Text = s});
-        }
-        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Weapon> classes, bool valueStrings = false)
-        {
-            return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
-        }
-        public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Armor> classes, bool valueStrings = false)
+        //    //ViewBag.ClassChoices = new[] { "Fighter", "Scout", "Healer", "Wizard", "Sorcerer" }.Select(s => new SelectListItem() { Value = s, Text = s});
+        //}
+        //public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Weapon> classes, bool valueStrings = false)
+        //{
+        //    return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
+        //}
+        //public static IEnumerable<SelectListItem> AsChoices(this IDbSet<Armor> classes, bool valueStrings = false)
+        //{
+        //    return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
+        //}
+        public static IEnumerable<SelectListItem> AsChoices<T>(this IEnumerable<T> classes, bool valueStrings = false) where T : NamedIdentifiable
         {
             return classes.Select(s => new SelectListItem() { Value = valueStrings ? s.Name : s.Id.ToString(), Text = s.Name });
         }

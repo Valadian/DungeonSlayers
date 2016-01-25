@@ -43,13 +43,13 @@ namespace DungeonSlayers.Controllers
         // GET: Characters/Create
         public ActionResult Create()
         {
-            AddChoicesToViewBag(ViewBag);
             var character = new Character().Initialize(db);
+            AddChoicesToViewBag(ViewBag, character);
             character.Owner = db.Users.Where(u => u.UserName == User.Identity.Name).First();
             ViewBag.PropertyDefs = db.PropertyDefs;
             return View();
         }
-        private void AddChoicesToViewBag(dynamic ViewBag)
+        private void AddChoicesToViewBag(dynamic ViewBag, Character character = null)
         {
             ViewBag.OwnerChoices = db.Users.AsChoices();
             ViewBag.RaceChoices = db.DefaultRaces.AsChoices(valueStrings: true);
@@ -59,9 +59,31 @@ namespace DungeonSlayers.Controllers
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
             ViewBag.WeaponChoices = db.Weapons.AsChoices();
             ViewBag.ArmorChoices = db.Armors.AsChoices();
+            if (character != null)
+            {
+                IEnumerable<Spell> spells = null;
+                switch (character.ClassName)
+                {
+                    case "Healer":
+                        spells = db.Spells.Where(s => s.HealerLevel <= character.Level).ToList();
+                        break;
+                    case "Wizard":
+                        spells = db.Spells.Where(s => s.WizardLevel <= character.Level).ToList();
+                        break;
+                    case "Sorcerer":
+                        spells = db.Spells.Where(s => s.SorcererLevel <= character.Level).ToList();
+                        break;
+                }
+                ViewBag.SpellChoices = spells.AsChoices();
+            } else
+            {
+                ViewBag.SpellChoices = db.Spells.AsChoices();
+            }
             ViewBag.Weapons = db.Weapons.ToList();
             ViewBag.Armors = db.Armors.ToList();
-            ViewBag.SelfTypes = new []{ "Weapon","Armor" };
+            ViewBag.Spells = db.Spells.ToList();
+            ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell" };
+            ViewBag.Checks = db.Checks.ToList();
         }
 
         // POST: Characters/Create
@@ -95,7 +117,7 @@ namespace DungeonSlayers.Controllers
             {
                 return HttpNotFound();
             }
-            AddChoicesToViewBag(ViewBag);
+            AddChoicesToViewBag(ViewBag,character);
             ViewBag.PropertyDefs = db.PropertyDefs;
             return View(character);
         }
@@ -112,7 +134,7 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors,Spells")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +151,7 @@ namespace DungeonSlayers.Controllers
                 //}
                 SyncList(character, old_character, c => c.Weapons, cw => cw.Weapon);
                 SyncList(character, old_character, c => c.Armors, ca => ca.Armor);
+                SyncList(character, old_character, c => c.Spells, ca => ca.Spell);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

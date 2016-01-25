@@ -76,6 +76,9 @@
                 @Html.Partial("~/Views/Shared/_TalentPartial.cshtml", Model)
             </div>
             <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_CheckPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_CharacteristicsPartial.cshtml", Model)
             </div>
         </div>
@@ -130,6 +133,7 @@
 
             var weapons = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Weapon>)this.ViewBag.Weapons))');
             var armors = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Armor>)this.ViewBag.Armors))');
+            var spells = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Spell>)this.ViewBag.Spells))');
 
 
             @foreach (string Self in (IEnumerable<string>)this.ViewBag.SelfTypes)

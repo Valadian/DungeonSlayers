@@ -1,0 +1,18 @@
+﻿@model DungeonSlayers.Models.Character
+@using DungeonSlayers.Models
+
+<table class="table table-bordered table-thin">
+    <tr>
+        <th>Name</th>
+        <th>Attributes</th>
+        <th>Value></th>
+    </tr>
+    @foreach (Check check in ViewBag.Checks)
+    {
+        <tr>
+            <td>@check.Name</td>
+            <td>@check.PrettyBinding</td>
+            <td data-bind="text: @check.DataBinding"></td>
+        </tr>
+    }
+</table>

@@ -259,6 +259,7 @@
     <Content Include="Views\Shared\_AttributesTraitsPartial.cshtml" />
     <Content Include="Views\Shared\_CharacterHeaderPartial.cshtml" />
     <Content Include="Views\Shared\_WeaponsPartial.cshtml" />
+    <Content Include="Views\Shared\_CheckPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-select.min.css" />

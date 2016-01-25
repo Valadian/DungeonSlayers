@@ -8,5 +8,7 @@ namespace DungeonSlayers.Models
     public class Check : NamedIdentifiable
     {
         public string DataBinding { get; set; } = "";
+        public string PrettyBinding { get; set; } = "";
+        public string Tooltip { get; set; }
     }
 }
