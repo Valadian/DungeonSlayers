@@ -58,7 +58,9 @@ namespace DungeonSlayers.Controllers
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
             ViewBag.WeaponChoices = db.Weapons.AsChoices();
+            ViewBag.Weapons = db.Weapons.ToList();
             ViewBag.ArmorChoices = db.Armors.AsChoices();
+            ViewBag.Armors = db.Armors.ToList();
             if (character != null)
             {
                 IEnumerable<Spell> spells = null;
@@ -79,10 +81,10 @@ namespace DungeonSlayers.Controllers
             {
                 ViewBag.SpellChoices = db.Spells.AsChoices();
             }
-            ViewBag.Weapons = db.Weapons.ToList();
-            ViewBag.Armors = db.Armors.ToList();
             ViewBag.Spells = db.Spells.ToList();
-            ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell" };
+            ViewBag.EquipmentChoices = db.Equipment.OrderBy(e => e.Name).AsChoices();
+            ViewBag.Equipments = db.Equipment.ToList();
+            ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell","Equipment"};
             ViewBag.Checks = db.Checks.ToList();
         }
 
@@ -134,7 +136,7 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors,Spells")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors,Spells,Equipments")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -152,6 +154,7 @@ namespace DungeonSlayers.Controllers
                 SyncList(character, old_character, c => c.Weapons, cw => cw.Weapon);
                 SyncList(character, old_character, c => c.Armors, ca => ca.Armor);
                 SyncList(character, old_character, c => c.Spells, ca => ca.Spell);
+                SyncList(character, old_character, c => c.Equipments, ca => ca.Equipment);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

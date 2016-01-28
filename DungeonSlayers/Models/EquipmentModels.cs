@@ -6,8 +6,12 @@ using System.Web;
 
 namespace DungeonSlayers.Models
 {
-    public enum Availability { Hamlets, Villages, Cities, Elven, Dwarven }
-    public abstract class Gear : NamedIdentifiable
+    public enum Availability { Hamlets, Villages, Cities, Elven, Dwarven, Temple }
+    public abstract class Modified : NamedIdentifiable
+    {
+        public ICollection<Modifier> Modifiers { get; set; }
+    }
+    public abstract class Gear : Modified
     {
         public string Effect { get; set; }
         public Availability Availability { get; set; }

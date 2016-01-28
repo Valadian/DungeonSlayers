@@ -111,13 +111,19 @@ namespace DungeonSlayers.Models
 
         public virtual ICollection<CharacterArmor> Armors { get; set; } = new List<CharacterArmor>();
 
-        public virtual ICollection<CharacterEquipment> Equipment { get; set; } = new List<CharacterEquipment>();
+        public virtual ICollection<CharacterEquipment> Equipments { get; set; } = new List<CharacterEquipment>();
 
         public virtual ICollection<Companion> Companions { get; set; } = new List<Companion>();
     }
     public enum Size { Tiny, Small, Normal, Large, Huge, Colossal}
     public enum Gender { Male, Female, Other }
-    public class CharacterTalent
+    public abstract class Equippable
+    {
+
+        public virtual bool Equipped { get; set; }
+        public virtual ICollection<Modifier> Modifiers { get; set; }
+    }
+    public class CharacterTalent : Equippable
     {
         [Key, ForeignKey("Character"), Column(Order = 0)]
         public int CharacterId { get; set; }
@@ -127,8 +133,10 @@ namespace DungeonSlayers.Models
         public virtual Character Character { get; set; }
         public virtual Talent Talent { get; set; }
         public int Rank { get; set; }
+        [NotMapped]
+        public override bool Equipped { get; set; } = true;
     }
-    public class CharacterEquipment
+    public class CharacterEquipment : Equippable
     {
         [Key, Column(Order = 0)]
         public int CharacterId { get; set; }
@@ -144,9 +152,8 @@ namespace DungeonSlayers.Models
         public virtual Equipment Equipment { get; set; }
         public int Quantity { get; set; }
         public string Location { get; set; }
-        public virtual ICollection<Modifier> Modifiers { get; set; }
     }
-    public class CharacterSpell
+    public class CharacterSpell : Equippable
     {
         [Key, Column(Order = 0)]
         public int CharacterId { get; set; }
@@ -160,9 +167,8 @@ namespace DungeonSlayers.Models
 
         public virtual Character Character { get; set; }
         public virtual Spell Spell { get; set; }
-        public bool Equipped { get; set; }
     }
-    public class CharacterArmor
+    public class CharacterArmor : Equippable
     {
         [Key, Column(Order = 0)]
         public int CharacterId { get; set; }
@@ -176,10 +182,8 @@ namespace DungeonSlayers.Models
 
         public virtual Character Character { get; set; }
         public virtual Armor Armor { get; set; }
-        public bool Equipped { get; set; }
-        public virtual ICollection<Modifier> Modifiers { get; set; }
     }
-    public class CharacterWeapon
+    public class CharacterWeapon : Equippable
     {
         [Key, ForeignKey("Character"), Column(Order = 0)]
         public int CharacterId { get; set; }
@@ -193,23 +197,22 @@ namespace DungeonSlayers.Models
         [JsonIgnore]
         public virtual Character Character { get; set; }
         public virtual Weapon Weapon { get; set; }
-        public bool Equipped { get; set; }
         public int Quantity { get; set; }
-        public virtual ICollection<Modifier> Modifiers { get; set; }
     }
-    public abstract class Modifier : Identifiable
+    public class Modifier : Identifiable
     {
+        public string Name { get; set; }
         public string Description { get; set;}
-        public int BonusValue { get; set; }
+        public double Value { get; set; }
     }
-    public class PropertyModifier : Modifier
-    {
-        public PropertyName AttributeBonus { get; set; }
-    }
-    public class CheckModifier : Modifier
-    {
-        public string Check{ get; set; }
-    }
+    //public class PropertyModifier : Modifier
+    //{
+    //    public PropertyName AttributeBonus { get; set; }
+    //}
+    //public class CheckModifier : Modifier
+    //{
+    //    public string Check{ get; set; }
+    //}
     public enum PropertyName { Body, Mobility, Mind, Strength, Constitution, Agility, Dexterity, Intellect, Aura, HitPoints, Defense, Initiative, MovementRate, MeleeAttack, RangedAttack, Spellcasting, TargetedSpellcasting, ArmorValue, WeaponBonus, SpellModifier }
     public enum PropertyType { Attribute, Trait, CombatValue, Misc}
     public class Property : Identifiable

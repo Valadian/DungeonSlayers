@@ -265,3 +265,11 @@ input::-webkit-inner-spin-button {
 .btn-group > .btn + .btn {
     margin-left: -4px;
 }
+
+.label-INI{
+    background-color: #0c0;
+}
+
+.label-AU{
+    background-color: #c0c;
+}

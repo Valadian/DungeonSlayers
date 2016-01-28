@@ -22,6 +22,8 @@ namespace DungeonSlayers.Models
         public DbSet<Armor> Armors { get; set; }
         public DbSet<Check> Checks { get; set; }
         public DbSet<Spell> Spells { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Talent> Talents { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -6,17 +6,16 @@ using System.Web;
 
 namespace DungeonSlayers.Models
 {
-    public class Talent : NamedIdentifiable
+    public class Talent : Modified
     {
         public string Description { get; set; }
         public ICollection<Restriction> Restrictions { get; set; }
-        public ICollection<Modifier> Modifiers { get; set; }
     }
     public class Restriction : Identifiable
     {
         public string className { get; set; }
-        public int MaxLevel { get; set; }
-        public int RequiredLevel { get; set; }
+        public int Ranks { get; set; }
+        public int Level { get; set; }
     }
     public class Spell : NamedIdentifiable
     {
@@ -34,10 +33,9 @@ namespace DungeonSlayers.Models
         public int? SorcererLevel { get; set; }
         public int GoldCost { get; set; }
     }
-    public class RacialAbility : NamedIdentifiable
+    public class RacialAbility : Modified
     {
         public int Value { get; set; }
         public string Description { get; set; }
-        public Modifier Modifier { get; set; }
     }
 }

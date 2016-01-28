@@ -1,14 +1,39 @@
 ﻿@model DungeonSlayers.Models.Character
 
-<table class="table table-bordered">
+<table class="table table-bordered table-thin" id="equipmentTable">
     <tr>
+        <th width="35px">
+            <button type="button" class="btn btn-success" data-bind="click: addEquipment"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        </th>
+        <th width="55px">#</th>
         <th>Equipment</th>
         <th>Where Carried?</th>
         <th>Special</th>
+        <th width="100px">Action</th>
     </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody>
+        <!-- ko foreach: Equipments -->
+        <tr data-bind="css: {equipped: Equipped()}">
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.removeEquipment"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </td>
+            <td><input class="form-control text-box single-line valid" data-bind="value: Quantity" /></td>
+            <td>@Html.EditorFor(model => model.Equipments, "EditableDropDown", new { SelectList = (object)ViewBag.EquipmentChoices, editable = false, multiple = false, exprText = "EquipmentId" })</td>
+            <td><input class="form-control text-box single-line valid" data-bind="value: Location"/></td>
+            <td data-bind="text: Equipment.Effect"></td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-bind="click: function(data, event) { if(Quantity()<=1){$parent.removeEquipment($data);} else {Quantity(Quantity()-1};}">Use</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}"></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
 </table>

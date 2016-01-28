@@ -7,7 +7,6 @@
         </th>
         <th>SPELL</th>
         <th width="5%">SM</th>
-        <th width="10%">TM</th>
         <th width="3%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
         <th width="3%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
         <th width="10%">DIST</th>
@@ -22,10 +21,9 @@
                 <button type="button" class="btn btn-danger" data-bind="click: $parent.removeSpell"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
             </td>
             <td>@Html.EditorFor(model => model.Spells, "EditableDropDown", new { SelectList = (object)ViewBag.SpellChoices, editable = false, multiple = false, exprText = "SpellId" })</td>
-            <td><span data-bind="text: Spell.SM"></span></td>
-            <td><nobr data-bind="text: Spell.TM"></nobr></td>
-            <td><span data-bind="css: { naColumn: Spell.Targeted()},text: !Spell.Targeted()?+Spell.SM() + +$parent.SPC():''"></span></td>
-            <td><span data-bind="css: { naColumn: !Spell.Targeted()},text: Spell.Targeted()?+Spell.SM() + +$parent.TSC():''"></span></td>
+            <td><span data-bind="if: !Spell.TM()"><nobr data-bind="text: Spell.SM"></nobr></span><nobr data-bind="text: Spell.TM"></nobr></td>
+            <td data-bind="css: { naColumn: Spell.Targeted()},text: !Spell.Targeted()?+Spell.SM() + +$parent.SPC():''"></td>
+            <td data-bind="css: { naColumn: !Spell.Targeted()},text: Spell.Targeted()?+Spell.SM() + +$parent.TSC():''"></td>
             <td data-bind="text: Spell.Distance"></td>
             <td data-bind="text: Spell.CooldownPeriod"></td>
             <td data-bind="text: Spell.Effect"></td>

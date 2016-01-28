@@ -16,62 +16,66 @@ namespace DungeonSlayers.Migrations
 
         protected override void Seed(DungeonSlayers.Models.ApplicationDbContext context)
         {
-            RacialAbility Gift, Fleet, Night, Immort, Dark, Long, Tough;
+            RacialAbility Gift, Fleet, Night, Immort, Dark, Long, Tough, MagicRes, MeetsTheEye, Quick, Small, Fast, LightSens, GoldLust;
             #region Seed RacialAbilities
             context.RacialAbilities.AddOrUpdate(p => p.Name,
                 new RacialAbility { Name = "Allergic to Metal -2RP", Value = -2 },
                 new RacialAbility { Name = "Arrogant -1RP", Value = -1 },
                 Dark = new RacialAbility { Name = "Darkvision +1RP", Value = 1 },
-                new RacialAbility { Name = "Monocular -1RP", Value = -1 },
-                new RacialAbility { Name = "Fragile -1RP", Value = -1 },
-                new RacialAbility { Name = "Quick +1RP", Value = 1 },
-                new RacialAbility { Name = "Gold Lust -1RP", Value = -1 },
+                new RacialAbility { Name = "Monocular -1RP", Value = -1, Modifiers = new[] {
+                    new Modifier {Name = "RAT", Value=-1 },
+                    new Modifier {Name = "TSC", Value=-1 } } },
+                new RacialAbility { Name = "Fragile -1RP", Value = -1, Modifiers = new[] {
+                    new Modifier {Name = "DEF", Value=-1 } }
+                },
+                Quick = new RacialAbility { Name = "Quick +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "INI", Value=1 } }
+                },
+                GoldLust = new RacialAbility { Name = "Gold Lust -1RP", Value = -1 },
                 new RacialAbility { Name = "Large +4RP", Value = 4 },
-                new RacialAbility { Name = "Small -4RP", Value = -4 },
+                Small = new RacialAbility { Name = "Small -4RP", Value = -4 },
                 Long = new RacialAbility { Name = "Longevity +0RP", Value = 0 },
-                Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1 },
-                new RacialAbility { Name = "Light Sensitivity -1RP", Value = -1 },
-                new RacialAbility { Name = "Magic Resistance -1RP", Value = -1 },
-                new RacialAbility { Name = "Magically Gifted +1RP", Value = 1 },
+                Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "Sneaking", Value=1 } }
+                },
+                LightSens = new RacialAbility { Name = "Light Sensitivity -1RP", Value = -1 },
+                MagicRes = new RacialAbility { Name = "Magic Resistance -1RP", Value = -1 },
+                new RacialAbility { Name = "Magically Gifted +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "SPC", Value=1 } }
+                },
                 new RacialAbility { Name = "Magically Impotent -1RP", Value = -1 },
                 Night = new RacialAbility { Name = "Night Vision +1RP", Value = 1 },
-                new RacialAbility { Name = "Fast +1RP", Value = 1 },
-                Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2 },
+                Fast = new RacialAbility { Name = "Fast +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "MR", Value=1 } }
+                },
+                Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2, Modifiers = new[] {
+                    new Modifier {Name = "Talent", Value=1 } }
+                },
                 new RacialAbility { Name = "Clumsy -2RP", Value = -2 },
                 new RacialAbility { Name = "Unkempt -1RP", Value = -1 },
                 Immort = new RacialAbility { Name = "Immortal +0RP", Value = 0 },
                 new RacialAbility { Name = "Incompetent -4RP", Value = -4 },
                 new RacialAbility { Name = "Despised -1RP", Value = -1 },
-                Tough = new RacialAbility { Name = "Tough +1RP", Value = 1 },
-                new RacialAbility { Name = "More than meets the eye +3RP", Value = 3 },
-                new RacialAbility { Name = "Sure Shot +1RP", Value = 1 },
-                new RacialAbility { Name = "Slow -1RP", Value = -1 }
+                Tough = new RacialAbility { Name = "Tough +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "DEF", Value=1 } }
+                },
+                MeetsTheEye = new RacialAbility { Name = "More than meets the eye +3RP", Value = 3 },
+                new RacialAbility { Name = "Sure Shot +1RP", Value = 1, Modifiers = new[] {
+                    new Modifier {Name = "RAT", Value=1 },
+                    new Modifier {Name = "TSC", Value=1 }}
+                },
+                new RacialAbility { Name = "Slow -1RP", Value = -1, Modifiers = new[] {
+                    new Modifier {Name = "MR", Value=-1 } }
+                }
             );
             #endregion
             #region Seed Races
             context.DefaultRaces.AddOrUpdate(p => p.Name,
-                new Race { Name = "Human",
-                    RacialAbilities = new List<RacialAbility>() {
-                        Gift
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Gifted")).First(),
-                    }
-                },
-                new Race { Name = "Elf",
-                    RacialAbilities = new List<RacialAbility>() {
-                        Fleet, Night, Immort
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Fleet")).First(),
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Night")).First(),
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Immortal")).First(),
-                    }
-                },
-                new Race { Name = "Dwarf",
-                    RacialAbilities = new List<RacialAbility>() {
-                        Dark, Long, Tough
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Dark")).First(),
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Longevity")).First(),
-                        //context.RacialAbilities.Where(ra => ra.Name.StartsWith("Tough")).First(),
-                    }
-                }
+                new Race { Name = "Human", RacialAbilities = new [] { Gift } },
+                new Race { Name = "Elf", RacialAbilities = new [] { Fleet, Night, Immort } },
+                new Race { Name = "Dwarf",  RacialAbilities = new [] { Dark, Long, Tough } },
+                new Race  { Name = "Halfling", RacialAbilities = new [] { Fleet, Gift, MagicRes, MeetsTheEye, Quick, Small } },
+                new Race  { Name = "Murinaecian", RacialAbilities = new [] { Gift, LightSens, GoldLust, MeetsTheEye, Fast, Small, Tough, Dark } }
             );
             #endregion
             #region Seed Classes
@@ -166,50 +170,96 @@ namespace DungeonSlayers.Migrations
             #endregion
             #region Seed Weapons
             context.Weapons.AddOrUpdate(p => p.Name,
-                new Weapon { Name = "Axes", TwoHanded = true, WeaponBonus = 3, Effect = "INI -2", Availability = Availability.Hamlets, Price = 7 },
-                new Weapon { Name = "Battle Flail", WeaponBonus = 3, Effect = "INI -4, OpDef -4", Availability = Availability.Villages, Price = 16, HitsSelfFumble = true },
-                new Weapon { Name = "Bow, elven", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, Effect = "INI +1", Availability = Availability.Elven, Price = 75, Unwieldy = true },
-                new Weapon { Name = "Bow, long", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, Effect = "INI +1", Availability = Availability.Villages, Price = 10, Unwieldy = true },
-                new Weapon { Name = "Bow, short", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 1, Effect = "INI +1", Availability = Availability.Hamlets, Price = 6 },
+                new Weapon { Name = "Axes", TwoHanded = true, WeaponBonus = 3, /*Effect = "INI -2",*/ Availability = Availability.Hamlets, Price = 7, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -2}
+                } },
+                new Weapon { Name = "Battle Flail", WeaponBonus = 3, Effect = /*INI -4, */"OpDef -4", Availability = Availability.Villages, Price = 16, HitsSelfFumble = true, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -4}
+                } },
+                new Weapon { Name = "Bow, elven", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, /*Effect = "INI +1",*/ Availability = Availability.Elven, Price = 75, Unwieldy = true, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = 1}
+                } },
+                new Weapon { Name = "Bow, long", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, /*Effect = "INI +1",*/ Availability = Availability.Villages, Price = 10, Unwieldy = true, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = 1}
+                }  },
+                new Weapon { Name = "Bow, short", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 1, /*Effect = "INI +1",*/ Availability = Availability.Hamlets, Price = 6, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = 1}
+                }  },
                 new Weapon { Name = "Brass Knuckles", WeaponBonus = 0, Availability = Availability.Villages, Price = 1 },
                 new Weapon { Name = "Club", WeaponBonus = 1, Availability = Availability.Hamlets, Price = 0.2, BreakMATFumble = true },
-                new Weapon { Name = "Crossbow, heavy", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, Effect = "INI -4, OpDef -2", Availability = Availability.Villages, Price = 15 },
-                new Weapon { Name = "Crossbow, light", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, Effect = "INI -2", Availability = Availability.Hamlets, Price = 8 },
-                new Weapon { Name = "Dagger", WeaponBonus = 0, Effect = "INI +1", Availability = Availability.Hamlets, Price = 2 },
-                new Weapon { Name = "Dwarven Axe", TwoHanded = true, WeaponBonus = 3, Effect = "INI -1, OpDef -2", Availability = Availability.Dwarven, Price = 60 },
-                new Weapon { Name = "Flail", WeaponBonus = 2, Effect = "INI -2", Availability = Availability.Hamlets, Price = 8 },
-                new Weapon { Name = "Great Axe", TwoHanded = true, WeaponBonus = 4, Effect = "INI -6, OpDef -4", Availability = Availability.Cities, Price = 20, Unwieldy = true },
-                new Weapon { Name = "Halberd", TwoHanded = true, WeaponBonus = 2, Effect = "@INI -2", Availability = Availability.Villages, Price = 4, BreakMATFumble = true },
+                new Weapon { Name = "Crossbow, heavy", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 3, Effect = /*"INI -4,*/ "OpDef -2", Availability = Availability.Villages, Price = 15, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -4}
+                }  },
+                new Weapon { Name = "Crossbow, light", Ranged = true, Melee = false, TwoHanded = true, WeaponBonus = 2, /*Effect = "INI -2",*/ Availability = Availability.Hamlets, Price = 8, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -2}
+                }  },
+                new Weapon { Name = "Dagger", WeaponBonus = 0, /*Effect = "INI +1",*/ Availability = Availability.Hamlets, Price = 2, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = 1}
+                }  },
+                new Weapon { Name = "Dwarven Axe", TwoHanded = true, WeaponBonus = 3, Effect = /*"INI -1,*/ "OpDef -2", Availability = Availability.Dwarven, Price = 60, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -1}
+                }  },
+                new Weapon { Name = "Flail", WeaponBonus = 2, /*Effect = "INI -2",*/ Availability = Availability.Hamlets, Price = 8, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -2}
+                }  },
+                new Weapon { Name = "Great Axe", TwoHanded = true, WeaponBonus = 4, Effect = /*"INI -6,*/ "OpDef -4", Availability = Availability.Cities, Price = 20, Unwieldy = true, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -6}
+                }  },
+                new Weapon { Name = "Halberd", TwoHanded = true, WeaponBonus = 2, /*Effect = "@INI -2",*/ Availability = Availability.Villages, Price = 4, BreakMATFumble = true, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -2}
+                }  },
                 new Weapon { Name = "Hammer", WeaponBonus = 1, Effect = "OpDef -1", Availability = Availability.Hamlets, Price = 7 },
                 new Weapon { Name = "Hatchet", WeaponBonus = 1, Availability = Availability.Hamlets, Price = 6 },
                 new Weapon { Name = "Lance", WeaponBonus = 1, Effect = "IF gallop WB=+4", Availability = Availability.Villages, Price = 2 },
                 new Weapon { Name = "Mace/Morningstar", WeaponBonus = 1, Effect = "OpDef -1", Availability = Availability.Hamlets, Price = 7 },
-                new Weapon { Name = "Quarterstaff", TwoHanded = true, WeaponBonus = 1, Effect = "TSC +1", Availability = Availability.Hamlets, Price = 0.5 },
+                new Weapon { Name = "Quarterstaff", TwoHanded = true, WeaponBonus = 1, /*Effect = "TSC +1",*/ Availability = Availability.Hamlets, Price = 0.5, Modifiers = new[] {
+                    new Modifier { Name = "TSC", Value = 1}
+                }  },
                 new Weapon { Name = "Sling", Ranged = true, Melee = false, WeaponBonus = 0, Effect = "DistMod -1 per 2m", Availability = Availability.Hamlets, Price = 0.1 },
-                new Weapon { Name = "Spear", Ranged = true, Melee = true, WeaponBonus = 1, Effect = "Melee or Ranged", Availability = Availability.Hamlets, Price = 1, BreakRATFumble = true },
+                new Weapon { Name = "Spear", Ranged = true, Melee = true, WeaponBonus = 1, /*Effect = "Melee or Ranged",*/ Availability = Availability.Hamlets, Price = 1, BreakRATFumble = true },
                 new Weapon { Name = "Sword, broad", WeaponBonus = 1, Effect = "OpDef -2", Availability = Availability.Hamlets, Price = 8 },
                 new Weapon { Name = "Sword, long", WeaponBonus = 2, Availability = Availability.Hamlets, Price = 7 },
                 new Weapon { Name = "Sword, short", WeaponBonus = 1, Availability = Availability.Hamlets, Price = 6 },
-                new Weapon { Name = "Throwing Knife", Ranged = true, Melee = true, WeaponBonus = 0, Effect = "Melee or Ranged, DistMode -1 per 2m", Availability = Availability.Hamlets, Price = 2 },
-                new Weapon { Name = "Two-handed Sword", TwoHanded = true, WeaponBonus = 3, Effect = "INI -2, OpDef -4", Availability = Availability.Hamlets, Price = 10 },
+                new Weapon { Name = "Throwing Knife", Ranged = true, Melee = true, WeaponBonus = 0, Effect = /*"Melee or Ranged,*/ "DistMode -1 per 2m", Availability = Availability.Hamlets, Price = 2 },
+                new Weapon { Name = "Two-handed Sword", TwoHanded = true, WeaponBonus = 3, Effect = /*"INI -2, */"OpDef -4", Availability = Availability.Hamlets, Price = 10, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -2}
+                }  },
                 new Weapon { Name = "Uarmed", WeaponBonus = 0, Effect = "OpDef -4" },
                 new Weapon { Name = "War Hammer", TwoHanded = true, WeaponBonus = 3, Availability = Availability.Hamlets, Price = 6 }
             );
             #endregion
-            #region
+            #region Seed Armor
             context.Armors.AddOrUpdate(c => c.Name,
-                new Armor { Name = "Chainmail", AV = 2, Effect = "MR -0.5", Availability = Availability.Villages, Price = 10 },
+                new Armor { Name = "Chainmail", AV = 2, /*Effect = "MR -0.5",*/ Availability = Availability.Villages, Price = 10, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -0.5}
+                }  },
                 new Armor { Name = "Leather Armor", AV = 1, Availability = Availability.Hamlets, Price = 4 },
                 new Armor { Name = "Leather Vambraces & Greaves", AV = 1, Availability = Availability.Hamlets, Price = 4 },
-                new Armor { Name = "Metal Helmet", AV = 1, Effect = "INI -1", Availability = Availability.Hamlets, Price = 6 },
-                new Armor { Name = "Plate Greaves", AV = 1, Effect = "MR -0.5", Availability = Availability.Villages, Price = 8 },
-                new Armor { Name = "Plate Vambrace", AV = 1, Effect = "MR -0.5", Availability = Availability.Villages, Price = 7 },
-                new Armor { Name = "Plate Armor", AV = 3, Effect = "MR -1", Availability = Availability.Villages, Price = 50 },
-                new Armor { Name = "Mount Plate Armor", AV = 3, Effect = "MR -1", Availability = Availability.Villages, Price = 150 },
+                new Armor { Name = "Metal Helmet", AV = 1, /*Effect = "INI -1",*/ Availability = Availability.Hamlets, Price = 6, Modifiers = new[] {
+                    new Modifier { Name = "INI", Value = -1}
+                }  },
+                new Armor { Name = "Plate Greaves", AV = 1, /*Effect = "MR -0.5",*/ Availability = Availability.Villages, Price = 8, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -0.5}
+                }  },
+                new Armor { Name = "Plate Vambrace", AV = 1, /*Effect = "MR -0.5",*/ Availability = Availability.Villages, Price = 7, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -0.5}
+                }  },
+                new Armor { Name = "Plate Armor", AV = 3, /*Effect = "MR -1",*/ Availability = Availability.Villages, Price = 50, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -1}
+                }  },
+                new Armor { Name = "Mount Plate Armor", AV = 3, /*Effect = "MR -1",*/ Availability = Availability.Villages, Price = 150, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -1}
+                }  },
                 new Armor { Name = "Robe", AV = 0, Availability = Availability.Hamlets, Price = 1 },
-                new Armor { Name = "Runic Robe", AV = 0, Effect = "AU +1", Availability = Availability.Villages, Price = 8 },
-                new Armor { Name = "Shield, Metal", AV = 1, Effect = "MR -0.5", Availability = Availability.Hamlets, Price = 8 },
-                new Armor { Name = "Shield, Tower", AV = 2, Effect = "MR -1", Availability = Availability.Villages, Price = 15 },
+                new Armor { Name = "Runic Robe", AV = 0, /*Effect = "AU +1",*/ Availability = Availability.Villages, Price = 8, Modifiers = new[] {
+                    new Modifier { Name = "AU", Value = 1}
+                }  },
+                new Armor { Name = "Shield, Metal", AV = 1, /*Effect = "MR -0.5",*/ Availability = Availability.Hamlets, Price = 8, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -0.5}
+                }  },
+                new Armor { Name = "Shield, Tower", AV = 2, /*Effect = "MR -1",*/ Availability = Availability.Villages, Price = 15, Modifiers = new[] {
+                    new Modifier { Name = "MR", Value = -1}
+                }  },
                 new Armor { Name = "Shield, Wooden", AV = 1, Availability = Availability.Hamlets, Price = 1, BreakDEFFumble = true }
             );
             #endregion
@@ -374,7 +424,270 @@ namespace DungeonSlayers.Migrations
                 new Spell { Name = "Weapon of Light", Targeted = true,          HealerLevel = 7, WizardLevel = 8, SorcererLevel = null,     GoldCost = 220, SM = "+0", Duration = "Check", Distance = "INx2", CooldownPeriod = "100", Effect = "ServantOfLight: WB+1, User Def+1 on attack. No Stack: Artic, Scorching, Shadow, Not usable by ServantsOfDark" }
                 );
             #endregion
-
+            #region Seed Equipment
+            context.Equipment.AddOrUpdate(c => c.Name,
+                new Equipment { Name = "Clothing", Availability=Availability.Hamlets, Price=0.001},
+                new Equipment { Name = "Backpack", Availability=Availability.Hamlets, Price=2},
+                new Equipment { Name = "Bear Trap (MAT 30)", Availability = Availability.Villages, Price = 10 },
+                new Equipment { Name = "Blanket, warm, travel", Availability = Availability.Hamlets, Price = 0.5 },
+                new Equipment { Name = "Carriage (4 wheels)", Availability = Availability.Hamlets, Price = 35 },
+                new Equipment { Name = "Cart (2 wheels)", Availability = Availability.Hamlets, Price = 15 },
+                new Equipment { Name = "Climbing gear", Availability = Availability.Hamlets, Price = 1 },
+                new Equipment { Name = "Coach Trip (per day)", Availability = Availability.Villages, Price = 1.5 },
+                new Equipment { Name = "Compass", Availability = Availability.Villages, Price = 35 },
+                new Equipment { Name = "Daily Ration (3 Meals)", Availability = Availability.Hamlets, Price = 0.5},
+                new Equipment { Name = "Fishing Line and Hook", Availability = Availability.Hamlets, Price = 0.2 },
+                new Equipment { Name = "Rope (10m)", Availability = Availability.Hamlets, Price = 1 },
+                new Equipment { Name = "Rowing boat (2 persons)", Availability = Availability.Hamlets, Price = 25 },
+                new Equipment { Name = "Ship passage (per day)", Availability = Availability.Villages, Price = 0.1 },
+                new Equipment { Name = "Shoulder Bag", Availability = Availability.Hamlets, Price = 0.5 },
+                new Equipment { Name = "Tent (2 Persons)", Availability = Availability.Villages, Price = 4 },
+                new Equipment { Name = "Water Skin (5 liter)", Availability = Availability.Hamlets, Price = 5 },
+                new Equipment { Name = "Blanket", Availability = Availability.Hamlets, Price = 0.1 },
+                new Equipment { Name = "Cutlery, metal", Availability = Availability.Hamlets, Price = 4 },
+                new Equipment { Name = "Cutlery, wooden", Availability = Availability.Hamlets, Price = 0.2 },
+                new Equipment { Name = "Healing Herbs", Availability = Availability.Hamlets, Price = 2.5, Effect= "CTN 10: heals check" },
+                new Equipment { Name = "Hourglass", Availability = Availability.Villages, Price = 10 },
+                new Equipment { Name = "Ink (for 50 pages)", Availability = Availability.Hamlets, Price = 2 },
+                new Equipment { Name = "Leather Cup", Availability = Availability.Hamlets, Price = 0.1 },
+                new Equipment { Name = "Parchment, sheet", Availability = Availability.Hamlets, Price = 0.5 },
+                new Equipment { Name = "Perfume (50 applications)", Availability = Availability.Hamlets, Price = 5, Effect="4 hours, +1 social with interested" },
+                new Equipment { Name = "Pipe", Availability = Availability.Hamlets, Price = 0.5 },
+                new Equipment { Name = "Pot/Pan", Availability = Availability.Hamlets, Price = 1},
+                new Equipment { Name = "Quill", Availability = Availability.Hamlets, Price = 0.1 },
+                new Equipment { Name = "Sack", Availability = Availability.Hamlets, Price = 0.8 },
+                new Equipment { Name = "Smoke Herbs (5 pipes)", Availability = Availability.Hamlets, Price = 0.1 },
+                new Equipment { Name = "Soap", Availability = Availability.Hamlets, Price = 0.5 },
+                new Equipment { Name = "Tankard", Availability = Availability.Hamlets, Price = 1 },
+                new Equipment { Name = "Tea (10 cups)", Availability = Availability.Hamlets, Price = 0.005 },
+                new Equipment { Name = "Weapon Paste", Availability = Availability.Villages, Price = 0.5, Effect = "WB+1 for D20 attacks" },
+                new Equipment { Name = "Wooden Cup", Availability = Availability.Hamlets, Price = 0.2 },
+                new Equipment { Name = "Vial", Availability = Availability.Hamlets, Price = 0.05 },
+                new Equipment { Name = "Candle, tallow (burns 6h)", Availability = Availability.Hamlets, Price = 0.001 },
+                new Equipment { Name = "Candle, wax (burns 10h)", Availability = Availability.Hamlets, Price = 0.002 },
+                new Equipment { Name = "Firewood (bundle)", Availability = Availability.Hamlets, Price = 0.001 },
+                new Equipment { Name = "Lantern Oil (burns 4h)", Availability = Availability.Hamlets, Price = 0.005 },
+                new Equipment { Name = "Lantern", Availability = Availability.Hamlets, Price = 5 },
+                new Equipment { Name = "Lantern, Bullseye", Availability = Availability.Hamlets, Price = 8 },
+                new Equipment { Name = "Steel, Flint & Tinder", Availability = Availability.Hamlets, Price = 0.005 },
+                new Equipment { Name = "Torch (burns 2h)", Availability = Availability.Hamlets, Price = 0.001, Effect="WB+1" },
+                new Equipment { Name = "Bandages", Availability = Availability.Temple, Price = 0.1, Effect="Catching Breath +1 or natural healing +1" },
+                new Equipment { Name = "Healing Potion", Availability = Availability.Temple, Price = 10, Effect="D20 healing" },
+                new Equipment { Name = "Holy Water (1/2 liter)", Availability = Availability.Temple, Price = 0.1 },
+                new Equipment { Name = "Pendant with Holy Symbol", Availability = Availability.Temple, Price = 1 },
+                new Equipment { Name = "Crowbar", Availability = Availability.Hamlets, Price = 1.5, Effect="WB+1" },
+                new Equipment { Name = "Deck of Cards", Availability = Availability.Villages, Price = 1 },
+                new Equipment { Name = "Lock pick", Availability = Availability.Villages, Price = 1 },
+                new Equipment { Name = "Handcuffs", Availability = Availability.Villages, Price = 8 },
+                new Equipment { Name = "Toolset", Availability = Availability.Villages, Price = 5 },
+                new Equipment { Name = "Wooden Die (d6)", Availability = Availability.Hamlets, Price = 0.002 },
+                new Equipment { Name = "Cat", Availability = Availability.Hamlets, Price = 0.1 },
+                new Equipment { Name = "Chicket", Availability = Availability.Hamlets, Price = 0.002 },
+                new Equipment { Name = "Cow", Availability = Availability.Hamlets, Price = 10 },
+                new Equipment { Name = "Dog", Availability = Availability.Hamlets, Price = 1 },
+                new Equipment { Name = "Donkey", Availability = Availability.Hamlets, Price = 8 },
+                new Equipment { Name = "Hawk", Availability = Availability.Villages, Price = 500 },
+                new Equipment { Name = "Ox", Availability = Availability.Hamlets, Price = 15 },
+                new Equipment { Name = "Pig", Availability = Availability.Hamlets, Price = 3 },
+                new Equipment { Name = "Sheep", Availability = Availability.Hamlets, Price = 2 },
+                new Equipment { Name = "Songbird (with cage)", Availability = Availability.Villages, Price = 5 },
+                new Equipment { Name = "Camel", Availability = Availability.Villages, Price = 175 },
+                new Equipment { Name = "Pony", Availability = Availability.Hamlets, Price = 30 },
+                new Equipment { Name = "Riding Horse", Availability = Availability.Hamlets, Price = 75 },
+                new Equipment { Name = "Saddle / Saddlebag", Availability = Availability.Hamlets, Price = 5 },
+                new Equipment { Name = "Shimmersteed", Availability = Availability.Elven, Price = 1000 },
+                new Equipment { Name = "War Hog", Availability = Availability.Dwarven, Price = 500 },
+                new Equipment { Name = "Warhorse", Availability = Availability.Villages, Price = 400 },
+                new Equipment { Name = "Simple Lock (LV:0)", Availability = Availability.Hamlets, Price = 1 },
+                new Equipment { Name = "Good Lock (LV:2)", Availability = Availability.Hamlets, Price = 5 },
+                new Equipment { Name = "Solid Lock (LV:4)", Availability = Availability.Villages, Price = 10 },
+                new Equipment { Name = "Masterwork Lock (LV:8)", Availability = Availability.Villages, Price = 50 },
+                new Equipment { Name = "Dwarven Lock (LV:12)", Availability = Availability.Cities, Price = 250 }
+                );
+            #endregion
+            #region Seed Talents
+            context.Talents.AddOrUpdate(c => c.Name,
+                new Talent { Name = "Absorb Life", Description = "2HP on >=small death within 2+talent m", Restrictions = new[] {
+                    new Restriction { className = "NEC", Level = 10, Ranks = 5 } } },
+                new Talent {
+                    Name = "Acrobat",
+                    Description = " For all checks involving athletic skill, balancing or climbing: +2 per talent",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 4, Ranks = 3 },
+                    new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                    new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                    new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                    new Restriction { className = "MNK", Level = 10, Ranks = 5 },
+                    new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                    new Modifier { Name = "Climb", Value= 2},
+                    new Modifier { Name = "Jump", Value= 2} }
+                },
+                new Talent
+                {
+                    Name = "Alchemy",
+                    Description = "+1 to prepare/identify potion (see page 99)",
+                    Restrictions = new[] {
+                    new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                    new Restriction { className = "ARC", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Alertness",
+                    Description = "+2 to all checks regarding alertness or attention.",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 1, Ranks = 5 },
+                    new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                    new Restriction { className = "SCO", Level = 1, Ranks = 5 },
+                    new Restriction { className = "ASN", Level = 10, Ranks = 10 },
+                    new Restriction { className = "RAN", Level = 10, Ranks = 10 },
+                    new Restriction { className = "ROG", Level = 10, Ranks = 10 } },
+                    Modifiers = new[]
+                    {
+                        new Modifier { Name = "Perception", Value = 2}
+                    }
+                },
+                new Talent
+                {
+                    Name = "Animal Form",
+                    Description = "1/day/talent. Normal size or less. MND/IN/AU same, everything else match animal",
+                    Restrictions = new[] {
+                    new Restriction { className = "DRU", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Appraise",
+                    Description = "MND+AU detect magical object (NOT MND+IN)",
+                    Restrictions = new[] {
+                    new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
+                    Modifiers = new[]
+                    {
+                        new Modifier { Name = "Appraise", Value = 3}
+                    }
+                },
+                new Talent
+                {
+                    Name = "Arcane Explosion",
+                    Description = "1/day/talent, LVL/2 diameter, CTN of 10 undefendable damage, MND+IN to save ally",
+                    Restrictions = new[] {
+                    new Restriction { className = "SRC", Level = 8, Ranks = 3 },
+                    new Restriction { className = "WIZ", Level = 8, Ranks = 3 },
+                    new Restriction { className = "ARC", Level = 12, Ranks = 5 }}
+                },
+                new Talent
+                {
+                    Name = "Armor Proficiency",
+                    Description = "armor MR penalty reduced 0.5m/talent",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 4, Ranks = 5 },
+                    new Restriction { className = "SCO", Level = 8, Ranks = 5 },
+                    new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                    new Restriction { className = "CLR", Level = 10, Ranks = 5 }}
+                    //, Modifiers = new[]
+                    //{
+                    //    new Modifier { Name = "MR", Value = 0.5}
+                    //}
+                },
+                new Talent
+                {
+                    Name = "Armorclad",
+                    Description = "wear next class of armor",
+                    Restrictions = new[] {
+                    new Restriction { className = "BMA", Level = 10, Ranks = 3 },
+                    new Restriction { className = "CLR", Level = 10, Ranks = 3 }}
+                },
+                new Talent
+                {
+                    Name = "Armored Mage",
+                    Description = "ignore 2 AV/talent for SPC/TSC penalty",
+                    Restrictions = new[] {
+                    new Restriction { className = "HEA", Level = 1, Ranks = 1 },
+                    new Restriction { className = "BMA", Level = 10, Ranks = 3 },
+                    new Restriction { className = "CLR", Level = 10, Ranks = 3 },
+                    new Restriction { className = "PAL", Level = 10, Ranks = 3 }}
+                },
+                new Talent
+                {
+                    Name = "Artisan",
+                    Description = "Earned per trade, +3 all checks",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                    new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                    new Restriction { className = "SCO", Level = 1, Ranks = 3 }}
+                },
+                new Talent
+                {
+                    Name = "Assassinate",
+                    Description = "-5 Def against backstab for targets < +2 sizes",
+                    Restrictions = new[] {
+                    new Restriction { className = "ASN", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Backstab",
+                    Description = "1/combat, if unaware, MAT+= DX * talent. On successful attack victim loses actions",
+                    Restrictions = new[] {
+                    new Restriction { className = "ASN", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Basher",
+                    Description = "-5*talent def on coup",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 8, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Battle Cry",
+                    Description = "1/combat/talent, (free action) you + 3 allies, +1/talent to all attacks for D20/2 rounds",
+                    Restrictions = new[] {
+                    new Restriction { className = "BER", Level = 10, Ranks = 3 },
+                    new Restriction { className = "PAL", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Battle Healer",
+                    Description = "1/day/talent ignore healing spell cooldown",
+                    Restrictions = new[] {
+                    new Restriction { className = "HEA", Level = 12, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Bear Form",
+                    Description = "1/day/talent shapeshift bear after 1 round. MND, IN, AU same",
+                    Restrictions = new[] {
+                    new Restriction { className = "DRU", Level = 14, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Beast Master",
+                    Description = "+3 checks animal interaction. 1/day/talent calm animals against you + 2*talent allies. MND+AU+Talent check for rabid",
+                    Restrictions = new[] {
+                    new Restriction { className = "DRU", Level = 10, Ranks = 3 },
+                    new Restriction { className = "RAN", Level = 12, Ranks = 3 },
+                    new Restriction { className = "MNK", Level = 14, Ranks = 3} }
+                },
+                new Talent
+                {
+                    Name = "Beasts Strength",
+                    Description = "In Bear, Eagle, Animal. CV+2",
+                    Restrictions = new[] {
+                    new Restriction { className = "DRU", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Blocker",
+                    Description = "no offense/move + shield = +2/talent def, BOD+CO to prevent push. 1/fight/talent ignore def fumble ",
+                    Restrictions = new[] {
+                    new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                    new Restriction { className = "HEA", Level = 8, Ranks = 3 },
+                    new Restriction { className = "SCO", Level = 4, Ranks = 3 },
+                    new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                    new Restriction { className = "CLR", Level = 10, Ranks = 5 },
+                    new Restriction { className = "PAL", Level = 10, Ranks = 5 } }
+                }
+            );
+            #endregion
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
