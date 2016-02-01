@@ -43,7 +43,8 @@ textarea {
 }
 
 .equipped, .equipped .btn-group {
-    background-color: aquamarine;
+    background-color: #428bca;
+    color: white;
 }
 
 .dropdown-menu a {

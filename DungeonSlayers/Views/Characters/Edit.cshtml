@@ -10,14 +10,14 @@
 }
 
 @section Navbar {
-    <li><button class="btn btn-primary navbar-btn" type="submit" value="Create">Save</button></li>
+    <li><button class="btn btn-primary navbar-btn" type="submit" value="Create"  data-bind="click: save">Save</button></li>
    
     <li><button class="btn btn-danger navbar-btn" onclick="location.href='@Url.Action("Index")';return false;" >Back</button></li>
     @*<li>@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger navbar-btn" })</li>*@
     
 }
 
-<form data-bind="submit: save">
+<form> @*data-bind="submit: save"*@
     @*@using (Html.BeginForm())*@
     @*{*@
     @Html.AntiForgeryToken()
@@ -37,7 +37,7 @@
         </div>
         </div>
         <div class="row" ><hr /></div>
-        <div id="feedback" class="row">
+        @*<div id="feedback" class="row">
             <div class="float-me" data-spaceholder="feedback">
                 <div id="success" style="color:green">
                 </div>
@@ -45,7 +45,7 @@
                     @Html.ValidationSummary()
                 </div>
             </div>
-        </div>
+        </div>*@
         @*<div class="btn-group btn-lg">*@
         @*</div>*@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
