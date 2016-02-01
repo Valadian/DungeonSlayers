@@ -273,3 +273,17 @@ input::-webkit-inner-spin-button {
 .label-AU{
     background-color: #c0c;
 }
+
+/*.floating {
+        position: fixed;
+        top: 54px;
+    }
+.action-spaceholder{
+        height: 35px;
+    }
+#action-placeholder, .action-container, float-me{
+    z-index:9999;
+}*/
+.navbar-btn{
+    margin-left: 15px;
+}

@@ -9,6 +9,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Navbar {
+    <li><button class="btn btn-primary navbar-btn" type="submit" value="Create">Save</button></li>
+   
+    <li><button class="btn btn-danger navbar-btn" onclick="location.href='@Url.Action("Index")';return false;" >Back</button></li>
+    @*<li>@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger navbar-btn" })</li>*@
+    
+}
 
 <form data-bind="submit: save">
     @*@using (Html.BeginForm())*@
@@ -18,21 +25,25 @@
 
     <div class="form-vertical">
         <div class="row">
-            <div class="col-md-6"><h2>Edit - Character</h2></div>
-            <div class="col-sm-6 pull-down">
-                <div class="btn-toolbar pull-right">
-                    <button type="submit" value="Create" class="btn btn-primary">Save</button>
-                    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
+            <div class="col-sm-6"><h3>Edit - Character</h3></div>
+            @*<div id ="action-spaceholder" class="col-sm-6 pull-down ">
+                <div class="float-me" data-spaceholder="action-spaceholder">
+                    <div class="btn-toolbar pull-right">
+                        <button type="submit" value="Create" class="btn btn-primary">Save</button>
+                        @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
+                    </div>
                 </div>
-            </div>
+            </div>*@
         </div>
         </div>
         <div class="row" ><hr /></div>
         <div id="feedback" class="row">
-            <div id="success" style="color:green">
-            </div>
-            <div id="error" style="color:red">
-                @Html.ValidationSummary()
+            <div class="float-me" data-spaceholder="feedback">
+                <div id="success" style="color:green">
+                </div>
+                <div id="error" style="color:red">
+                    @Html.ValidationSummary()
+                </div>
             </div>
         </div>
         @*<div class="btn-group btn-lg">*@
@@ -96,7 +107,7 @@
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             }))';
-            var Model = ko.mapping.fromJSON(jsonModel);
+            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy"] });
 
             var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
             if (antiForgeryToken) {
@@ -151,13 +162,14 @@
                 Model.add{Self} = function() {{
                     {self} = {self}s[0];
                     {self}Id = ko.observable({self}.Id);
-                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false), Quantity: ko.observable(1), Location: ko.observable('') }}
+                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false), Quantity: ko.observable(1), Location: ko.observable(''), _new:  true }}
                     {self}Id.subscribe(Model.update{Self}, wc);
                     Model.{Self}s.push(wc);
                     $('#{self}Table select').selectpicker('refresh');
                 }}
                 Model.remove{Self} = function({self}) {{
-                    Model.{Self}s.remove({self});
+                    //Model.{Self}s.remove({self});
+                    Model.{Self}s.destroy({self});
                 }}
                 Model.switchTo{Self} = function({self}) {{
                     for (var i in Model.{Self}s()) {{

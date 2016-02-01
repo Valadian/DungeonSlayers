@@ -11,7 +11,14 @@ using Newtonsoft.Json;
 
 namespace DungeonSlayers.Models
 {
-    public abstract class Identifiable
+    public abstract class KoEntity
+    {
+        [NotMapped]
+        public bool _destroy { get; set; }
+        [NotMapped]
+        public bool _new { get; set; }
+    }
+    public abstract class Identifiable : KoEntity
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -30,7 +37,7 @@ namespace DungeonSlayers.Models
     {
         public string Name { get; set; }
     }
-    public abstract class Entity : NamedIdentifiable
+    public abstract class Being : NamedIdentifiable
     {
         //public List<Property> Properties { get; set; }
         public string Note { get; set; }
@@ -45,11 +52,11 @@ namespace DungeonSlayers.Models
         public int IN { get; set; }
         public int AU { get; set; }
     }
-    public class Companion : Entity
+    public class Companion : Being
     {
         public Character Master { get; set; }
     }
-    public class Character : Entity
+    public class Character : Being
     {
         public ApplicationUser Owner { get; set; }
         public string Race { get; set; }
@@ -117,7 +124,7 @@ namespace DungeonSlayers.Models
     }
     public enum Size { Tiny, Small, Normal, Large, Huge, Colossal}
     public enum Gender { Male, Female, Other }
-    public abstract class Equippable
+    public abstract class Equippable : KoEntity
     {
 
         public virtual bool Equipped { get; set; }

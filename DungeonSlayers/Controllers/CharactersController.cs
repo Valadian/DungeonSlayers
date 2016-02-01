@@ -12,6 +12,7 @@ using DungeonSlayers.Repositories;
 using DungeonSlayers.Utils;
 using DungeonSlayers.Extensions;
 using System.Collections;
+using System.Reflection;
 
 namespace DungeonSlayers.Controllers
 {
@@ -140,25 +141,58 @@ namespace DungeonSlayers.Controllers
         {
             if (ModelState.IsValid)
             {
-                Character old_character = await db.Characters.FindAsync(character.Id);
-                //var deletedWeapons = old_character.Weapons.Except(character.Weapons).ToList();
-                //var addedWeapons = character.Weapons.Except(old_character.Weapons).Distinct().ToList();
-                //deletedWeapons.ForEach(w => old_character.Weapons.Remove(w));
-                //foreach(var wc in addedWeapons)
-                //{
-                //    if(db.Entry(wc).State == EntityState.Detached)
-                //    {
-                //        db.Entry(wc).State = EntityState.Added;
-                //    }
-                //}
-                SyncList(character, old_character, c => c.Weapons, cw => cw.Weapon);
-                SyncList(character, old_character, c => c.Armors, ca => ca.Armor);
-                SyncList(character, old_character, c => c.Spells, ca => ca.Spell);
-                SyncList(character, old_character, c => c.Equipments, ca => ca.Equipment);
+                //Character old_character = await db.Characters.AsNoTracking().Where(c => c.Id == character.Id).SingleAsync();
+                //SyncList(character, old_character, c => c.Weapons, cw => cw.Weapon);
+                //SyncList(character, old_character, c => c.Armors, ca => ca.Armor);
+                //SyncList(character, old_character, c => c.Spells, ca => ca.Spell);
+                //SyncList(character, old_character, c => c.Equipments, ca => ca.Equipment);
+                //db.Entry(old_character).State = EntityState.Detached;
+                //db.Characters.Attach(character);
+                PurgeListsOfDestroyed(character);
+                db.Entry(character).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(character);
+        }
+        public void PurgeListsOfDestroyed(Identifiable entity)
+        {
+            foreach(var listPropInfo in entity.GetType().GetProperties())
+            {
+                //var generic = listPropInfo.PropertyType.GenericTypeArguments.Length == 1;
+                //var listOfKoEntity = typeof(KoEntity).IsAssignableFrom(listPropInfo.PropertyType.GenericTypeArguments[0]);
+                //if (listPropInfo.PropertyType.IsAssignableFrom(typeof(ICollection<KoEntity>)))
+                if(IsKoEntityEnumerable(listPropInfo.PropertyType))
+                {
+                    //var list = (listPropInfo.GetValue(entity) as IList).Cast<KoEntity>().ToList();
+                    //list.Where(e => e._destroy).ToList().ForEach(e => { db.Entry(e).State = EntityState.Deleted; list.Remove(e); });
+                    //list.Where(e => e._new).ToList().ForEach(e => db.Entry(e).State = EntityState.Added);
+                    //listPropInfo.SetValue(entity, list);
+                    var list = (listPropInfo.GetValue(entity) as IList);
+                    var size = list.Count;
+                    foreach (var i in Enumerable.Range(0, list.Count))
+                    {
+                        var item = list[size - 1 - i] as KoEntity;
+                        if (item._destroy) {
+                            list.Remove(item);
+                            if (!item._new) {
+                                db.Entry(item).State = EntityState.Deleted;
+                            }
+                        } else if (item._new) {
+                            db.Entry(item).State = EntityState.Added;
+                        } else {
+                            db.Entry(item).State = EntityState.Modified;
+                        }
+                    }
+                }
+            }
+        }
+        public bool IsKoEntityEnumerable(Type type)
+        {
+            return type.GetInterfaces().Any(x => x.IsGenericType && 
+                        x.GetGenericTypeDefinition() == typeof(IEnumerable<>) &&
+                        x.GetGenericArguments().Length == 1 &&
+                        typeof(KoEntity).IsAssignableFrom(x.GetGenericArguments()[0]));
         }
         public void SyncList<T,U,V>(T newObj, T oldObj, Func<T,ICollection<U>> selector, Func<U, V> relatedNoCascade) where T : Identifiable where U: class where V: class
         {

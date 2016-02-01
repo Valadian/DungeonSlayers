@@ -1,6 +1,12 @@
 ﻿
 (function () { Math.clamp = function (a, b, c) { return Math.max(b, Math.min(c, a)); } })();
 
+function switchTo(character,weapon){
+    for (var w in character.Weapons) {
+        w.Equipped(false);
+    }
+    weapon.Equipped(true);
+}
 
 $(document).ready(function () {
     var $width = $(window).width() / 10;
@@ -14,8 +20,28 @@ $(document).ready(function () {
         })
     });
     $('.pull-down').each(function () {
-        $(this).css('margin-top', $(this).parent().height() - $(this).height())
+        $(this).css('margin-top', $(this).parent().height() - $(this).height() - 10)
     });
+    //$(window).scroll(function () {
+    //    var floats = $('.float-me');
+    //    //for (var i in $('.float-me')) {
+    //    for (var i = 0; i < floats.length; i++) {
+    //        var float = $(floats.get(i))
+    //        if ($(window).scrollTop() > float.offset().top - $('.navbar').height() - 5) {
+    //            float.addClass("floating");
+    //            if (float.data('spaceholder').length > 0) {
+    //                float.css(
+    //                    { 'width': $('#' + float.data('spaceholder')).width() + 1 })
+    //            }
+    //        } else {
+    //            float.removeClass("floating");
+    //            if (float.data('spaceholder').length > 0) {
+    //                float.css(
+    //                    { 'width': '' })
+    //            }
+    //        }
+    //    }
+    //})
 })
 
 function addSelectItem(t, ev) {
