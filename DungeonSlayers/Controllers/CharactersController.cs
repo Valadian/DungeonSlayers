@@ -57,7 +57,7 @@ namespace DungeonSlayers.Controllers
             ViewBag.RaceChoices = db.DefaultRaces.AsChoices(valueStrings: true);
             ViewBag.ClassChoices = db.Classes.AsChoices(valueStrings: true);
             ViewBag.RacialAbilitiesChoices = db.RacialAbilities.AsChoices();
-            ViewBag.RacialAbilities = db.RacialAbilities.ToList();
+            ViewBag.RacialAbilities = db.RacialAbilities.OrderBy(ra => ra.Name).ToList();
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
             ViewBag.WeaponChoices = db.Weapons.AsChoices();
@@ -152,7 +152,7 @@ namespace DungeonSlayers.Controllers
                 //db.Characters.Attach(character);
                 //PurgeListsOfDestroyed(character);
                 db.UpdateGraph(character, map => map
-                    .OwnedCollection(c => c.RacialAbilities)
+                    .AssociatedCollection(c => c.RacialAbilities)
                     .OwnedCollection(c => c.Weapons)
                     .OwnedCollection(c => c.Armors)
                     .OwnedCollection(c => c.Spells)

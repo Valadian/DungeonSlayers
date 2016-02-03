@@ -143,9 +143,15 @@ ko.bindingHandlers.chosen = {
         var options = ko.unwrap(valueAccessor());
 
         if (typeof options === 'object')
-            $element.chosen(options);
+            $element.chosen(options).change(function () {
+                $('.search-choice:contains(-)').addClass('search-choice-neg');
+                $('.search-choice:contains(+)').addClass('search-choice-pos');
+            });
         else
-            $element.chosen();
+            $element.chosen().change(function () {
+                $('.search-choice:contains(-)').addClass('search-choice-neg');
+                $('.search-choice:contains(+)').addClass('search-choice-pos');
+            });
 
         ['options', 'selectedOptions', 'value'].forEach(function (propName) {
             if (allBindings.has(propName)) {

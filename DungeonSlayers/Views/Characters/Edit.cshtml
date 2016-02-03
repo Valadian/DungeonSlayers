@@ -163,11 +163,21 @@
                 }
 
 
+                $('.search-choice:contains(-)').addClass('search-choice-neg');
+                $('.search-choice:contains(+)').addClass('search-choice-pos');
+
+                //$('.chosen-container').click(function (e) {
+                //    $('.search-choice:contains(-)').addClass('search-choice-neg');
+                //    $('.search-choice:contains(+)').addClass('search-choice-pos');
+                //});
+
+
                 //Model.RacialAbilities(Model.RacialAbilities());
             }
             Model.updateRacialSelectPicker = function(option, item){
                 //$(".chosen-select").chosen();
                 //$("#RacialAbilities").selectpicker('refresh');
+
             }
             //Model.RacialAbilityIds = $.Enumerable.From(model.RacialAbilities()).Select(function (ra) { return ra.Id() }).TojQuery();
             var weapons = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Weapon>)this.ViewBag.Weapons))');
@@ -255,6 +265,7 @@
             
 
             Model.initializeRacialSelectPicker();
+
         });
     </script>
 }
