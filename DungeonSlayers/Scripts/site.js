@@ -124,3 +124,38 @@ ko.bindingHandlers.selectPicker = {
         }
     }
 };
+
+//ko.bindingHandlers.chosen =
+//{
+//    init: function (element) {
+//        $(element).addClass('chosen-select');
+//        $(element).chosen();
+//    },
+//    update: function (element) {
+//        $(element).trigger('liszt:updated');
+//        $(element).trigger('chosen:updated');
+        
+//    }
+//};
+ko.bindingHandlers.chosen = {
+    init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        var $element = $(element);
+        var options = ko.unwrap(valueAccessor());
+
+        if (typeof options === 'object')
+            $element.chosen(options);
+        else
+            $element.chosen();
+
+        ['options', 'selectedOptions', 'value'].forEach(function (propName) {
+            if (allBindings.has(propName)) {
+                var prop = allBindings.get(propName);
+                if (ko.isObservable(prop)) {
+                    prop.subscribe(function () {
+                        $element.trigger('chosen:updated');
+                    });
+                }
+            }
+        });
+    }
+}

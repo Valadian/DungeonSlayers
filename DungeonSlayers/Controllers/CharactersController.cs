@@ -13,6 +13,7 @@ using DungeonSlayers.Utils;
 using DungeonSlayers.Extensions;
 using System.Collections;
 using System.Reflection;
+using RefactorThis.GraphDiff;
 
 namespace DungeonSlayers.Controllers
 {
@@ -56,6 +57,7 @@ namespace DungeonSlayers.Controllers
             ViewBag.RaceChoices = db.DefaultRaces.AsChoices(valueStrings: true);
             ViewBag.ClassChoices = db.Classes.AsChoices(valueStrings: true);
             ViewBag.RacialAbilitiesChoices = db.RacialAbilities.AsChoices();
+            ViewBag.RacialAbilities = db.RacialAbilities.ToList();
             ViewBag.HeroClasses = db.HeroClasses.AsChoices(valueStrings: true);
             ViewBag.GenderChoices = SelectListUtil.Of<Gender>(true);
             ViewBag.WeaponChoices = db.Weapons.AsChoices();
@@ -137,7 +139,7 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,Weapons,Armors,Spells,Equipments")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities,Weapons,Armors,Spells,Equipments")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -148,8 +150,15 @@ namespace DungeonSlayers.Controllers
                 //SyncList(character, old_character, c => c.Equipments, ca => ca.Equipment);
                 //db.Entry(old_character).State = EntityState.Detached;
                 //db.Characters.Attach(character);
-                PurgeListsOfDestroyed(character);
-                db.Entry(character).State = EntityState.Modified;
+                //PurgeListsOfDestroyed(character);
+                db.UpdateGraph(character, map => map
+                    .OwnedCollection(c => c.RacialAbilities)
+                    .OwnedCollection(c => c.Weapons)
+                    .OwnedCollection(c => c.Armors)
+                    .OwnedCollection(c => c.Spells)
+                    .OwnedCollection(c => c.Equipments)
+                    );
+                //db.Entry(character).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

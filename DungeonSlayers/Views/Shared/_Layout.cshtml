@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/knockout");
-    @Scripts.Render("~/Scripts/js")
     <script type="text/javascript" src="~/Scripts/bootstrap-select.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap-select.min.css" />
+    <script type="text/javascript" src="~/Scripts/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/chosen.min.css" />
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/Scripts/js")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

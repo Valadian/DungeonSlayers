@@ -51,6 +51,9 @@ namespace DungeonSlayers.Extensions
                     choices = choices ?? GetChoices(Html, Html.NameFor(expr).ToString());
                     body.Append(Html.EditorFor(expr, "EditableDropDown", new { SelectList = choices, editable = editable, multiple = multiple, numShown = numShown, exprText = name }));
                     break;
+                case "koeditabledropdown":
+                    body.Append(Html.EditorFor(expr, "KoEditableDropDown", new { editable = editable, multiple = multiple, numShown = numShown, exprText = name }));
+                    break;
                 default:
                     body.Append("comptype: '" + comptype + "' Invalid ");
                     break;

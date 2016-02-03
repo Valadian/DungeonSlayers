@@ -1,0 +1,35 @@
+﻿@using System.Collections.Generic
+@{    
+    //IEnumerable<SelectListItem> selectList = (IEnumerable<SelectListItem>)ViewData["selectList"] ?? new SelectListItem[] { };
+    bool isMultiple = ViewData["multiple"] as bool? ?? false;
+    string multiple = isMultiple ? "multiple = true" : "";
+    int numShown = ViewData["numShown"] as int? ?? 3;
+    bool editable = ViewData["editable"] as bool? ?? true;
+    string exprText = ViewData["exprText"] as string ?? "";
+    string evnt = ViewData["evnt"] as string ?? "";
+}
+@*, value: @exprText*@
+
+
+@*selectPicker: RacialAbilities*@
+    @*<select class="selectpicker show-tick form-control" @multiple data-bind="@evnt 
+            options: racialChoices,
+            selectedOptions: RacialAbilities,
+            optionsText: 'Name',
+            optionsAfterRender: $root.updateRacialSelectPicker
+            " data-selected-text-format="count>@numShown" data-show-content="false" data-multiple-separator=" | " id="@ViewData.ModelMetadata.PropertyName" name="@ViewData.ModelMetadata.PropertyName">*@
+<select class="chosen-select form-control" @multiple data-bind="options: racialChoices,
+                             selectedOptions: RacialAbilities,
+                             optionsText: 'Name',
+                             optionsAfterRender: $root.updateRacialSelectPicker,
+                             chosen: {}"  name="@ViewData.ModelMetadata.PropertyName">
+
+    @if (editable)
+    {
+        <option data-divider="true"></option>
+        <option style="background-color: #fff" class="additem"
+                data-content="<input type=text onKeyDown='event.stopPropagation();'.
+    onKeyPress='addSelectInpKeyPress(this,event)' onClick='event.stopPropagation()' placeholder='Add item'>
+    <span class='glyphicon glyphicon-plus addnewicon' onClick='addSelectItem(this,event,1);'></span>"></option>
+    }
+</select>

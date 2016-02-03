@@ -135,6 +135,10 @@
       <HintPath>..\packages\kMVC.0.6.0\lib\net40\PerpetuumSoft.Knockout.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RefactorThis.GraphDiff, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RefactorThis.GraphDiff.2.0.1\lib\RefactorThis.GraphDiff.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -225,6 +229,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
     <Content Include="Content\filters.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="packages.config" />
@@ -234,6 +242,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
+    <None Include="Scripts\jquery-2.2.0-vsdoc.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
@@ -248,6 +261,12 @@
     <Content Include="Content\CombatIcons_xcf-TargetedSpellcasting.png" />
     <Content Include="Content\DungeonSlayersTitle.png" />
     <Content Include="Content\gold.png" />
+    <None Include="Scripts\jquery.linq-vsdoc.js" />
+    <Content Include="Scripts\jquery.linq.js" />
+    <Content Include="Scripts\jquery.linq.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
@@ -256,6 +275,7 @@
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\perpetuum.knockout.js" />
+    <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -276,6 +296,7 @@
     <Content Include="Views\Shared\_CharacterHeaderPartial.cshtml" />
     <Content Include="Views\Shared\_WeaponsPartial.cshtml" />
     <Content Include="Views\Shared\_CheckPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\KoEditableDropDown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-select.min.css" />

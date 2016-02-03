@@ -63,6 +63,8 @@
             <div class="col-sm-12 col-md-5">
                 @Html.Partial("~/Views/Shared/_ArmorPartial.cshtml", Model)
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
                 @Html.Partial("~/Views/Shared/_SpellPartial.cshtml", Model)
             </div>
@@ -83,12 +85,16 @@
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_MagicEquipmentPartial.cshtml", Model)
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_TalentPartial.cshtml", Model)
             </div>
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_CheckPartial.cshtml", Model)
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_CharacteristicsPartial.cshtml", Model)
             </div>
@@ -98,7 +104,6 @@
 </form>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
         $(function () {
@@ -107,7 +112,8 @@
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             }))';
-            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy"] });
+            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy","RacialAbilities"] });
+            Model.RacialAbilities = ko.observableArray(Model.RacialAbilities);
 
             var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
             if (antiForgeryToken) {
@@ -141,7 +147,29 @@
                     "    return "+def.DataBinding+";\n"+
                "}, this);\n")
             }
+            var racials = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<RacialAbility>)this.ViewBag.RacialAbilities))');
+            //for (i in racials) {
+            //    racials[i]._new = true;
+            //}
+            Model.racialChoices = ko.observableArray(racials);
+            Model.initializeRacialSelectPicker = function () {
+                var ras = Model.RacialAbilities.removeAll();
+                for (var i in ras) {
+                    var ra = ras[i];
+                    var raFromChoices = Model.racialChoices().filter(function (rc) { return rc.Id == ra.Id })[0];
+                    //raFromChoices._new = false;
+                    Model.RacialAbilities.push(raFromChoices);
+                    //$('[name=RacialAbilities] option').filter(function () { return ($(this).text() == ra.Name()); }).prop('selected', true);
+                }
 
+
+                //Model.RacialAbilities(Model.RacialAbilities());
+            }
+            Model.updateRacialSelectPicker = function(option, item){
+                //$(".chosen-select").chosen();
+                //$("#RacialAbilities").selectpicker('refresh');
+            }
+            //Model.RacialAbilityIds = $.Enumerable.From(model.RacialAbilities()).Select(function (ra) { return ra.Id() }).TojQuery();
             var weapons = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Weapon>)this.ViewBag.Weapons))');
             var armors = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Armor>)this.ViewBag.Armors))');
             var spells = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Spell>)this.ViewBag.Spells))');
@@ -168,8 +196,8 @@
                     $('#{self}Table select').selectpicker('refresh');
                 }}
                 Model.remove{Self} = function({self}) {{
-                    //Model.{Self}s.remove({self});
-                    Model.{Self}s.destroy({self});
+                    Model.{Self}s.remove({self});
+                    //Model.{Self}s.destroy({self});
                 }}
                 Model.switchTo{Self} = function({self}) {{
                     for (var i in Model.{Self}s()) {{
@@ -224,6 +252,9 @@
             }
 
             ko.applyBindings(Model);
+            
+
+            Model.initializeRacialSelectPicker();
         });
     </script>
 }
