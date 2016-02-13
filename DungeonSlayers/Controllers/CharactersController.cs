@@ -239,6 +239,11 @@ namespace DungeonSlayers.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Character character = await db.Characters.FindAsync(id);
+            var ras = character.RacialAbilities.ToList();
+            foreach(var ra in ras)
+            {
+                character.RacialAbilities.Remove(ra);
+            }
             db.Characters.Remove(character);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

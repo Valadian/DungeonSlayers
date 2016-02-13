@@ -9,7 +9,7 @@ namespace DungeonSlayers.Models
     public enum Availability { Hamlets, Villages, Cities, Elven, Dwarven, Temple }
     public abstract class Modified : NamedIdentifiable
     {
-        public ICollection<Modifier> Modifiers { get; set; }
+        public virtual ICollection<Modifier> Modifiers { get; set; } = new List<Modifier>();
     }
     public abstract class Gear : Modified
     {
@@ -23,13 +23,13 @@ namespace DungeonSlayers.Models
     }
     public class Armor : Gear
     {
-        ICollection<Modifier> BaseModifiers { get; set; }
+        public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
         public int AV { get; set; }
         public bool BreakDEFFumble { get; set; }
     }
     public class Weapon : Gear
     {
-        ICollection<Modifier> BaseModifiers { get; set; }
+        public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
         public int WeaponBonus { get; set; }
         public int MagicModifier { get; set; }
         public bool Melee { get; set; } = true;

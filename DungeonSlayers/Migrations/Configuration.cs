@@ -6,6 +6,40 @@ namespace DungeonSlayers.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    //public static class Extensions
+    //{
+    //    public static void AddOrUpdateToParent<TParentEntity, TEntity>(this DbSet<TEntity> entitySet, TParentEntity entity,
+    //        Expression<Func<TParentEntity, ICollection<TEntity>>> listExpression,
+    //        Expression<Func<TEntity, object>> identifierExpression, params TEntity[] entities) where TEntity : Identifiable where TParentEntity : Identifiable
+    //    {
+    //        //identifierExpression.Compile().
+    //        //listExpression.Compile().Invoke(entity
+    //        entities.ToList().ForEach(e => GetSetter(identifierExpression).Invoke(e, entity.Id));
+    //        entitySet.AddOrUpdate();
+
+    //    }
+
+    //    public static Action<T, TProperty> GetSetter<T, TProperty>(this Expression<Func<T, TProperty>> expression)
+    //    {
+    //        var memberExpression = (MemberExpression)expression.Body;
+    //        var property = (PropertyInfo)memberExpression.Member;
+    //        var setMethod = property.GetSetMethod();
+
+    //        var parameterT = Expression.Parameter(typeof(T), "x");
+    //        var parameterTProperty = Expression.Parameter(typeof(TProperty), "y");
+
+    //        var newExpression =
+    //            Expression.Lambda<Action<T, TProperty>>(
+    //                Expression.Call(parameterT, setMethod, parameterTProperty),
+    //                parameterT,
+    //                parameterTProperty
+    //            );
+
+    //        return newExpression.Compile();
+    //    }
+    //}
     internal sealed class Configuration : DbMigrationsConfiguration<DungeonSlayers.Models.ApplicationDbContext>
     {
 
@@ -13,61 +47,115 @@ namespace DungeonSlayers.Migrations
         {
             AutomaticMigrationsEnabled = true;
         }
-
         protected override void Seed(DungeonSlayers.Models.ApplicationDbContext context)
         {
             RacialAbility Gift, Fleet, Night, Immort, Dark, Long, Tough, MagicRes, MeetsTheEye, Quick, Small, Fast, LightSens, GoldLust;
+            RacialAbility Aller, Arro, Mono, Frag, Large, MagGift, MagImp, Clum, Unk, Inc, Desp, Sure, Slow;
             #region Seed RacialAbilities
+            //context.RacialAbilities.AddOrUpdate(p => p.Name,
+            //    Aller = new RacialAbility { Name = "Allergic to Metal -2RP", Value = -2 },
+            //    Arro = new RacialAbility { Name = "Arrogant -1RP", Value = -1 },
+            //    Dark = new RacialAbility { Name = "Darkvision +1RP", Value = 1 },
+            //    Mono = new RacialAbility { Name = "Monocular -1RP", Value = -1, Modifiers = new[] {
+            //        new Modifier {Name = "RAT", Value=-1 },
+            //        new Modifier {Name = "TSC", Value=-1 } } },
+            //    Frag = new RacialAbility { Name = "Fragile -1RP", Value = -1, Modifiers = new[] {
+            //        new Modifier {Name = "DEF", Value=-1 } }
+            //    },
+            //    Quick = new RacialAbility { Name = "Quick +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "INI", Value=1 } }
+            //    },
+            //    GoldLust = new RacialAbility { Name = "Gold Lust -1RP", Value = -1 },
+            //    Large = new RacialAbility { Name = "Large +4RP", Value = 4 },
+            //    Small = new RacialAbility { Name = "Small -4RP", Value = -4 },
+            //    Long = new RacialAbility { Name = "Longevity 0RP", Value = 0 },
+            //    Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "Sneaking", Value=1 } }
+            //    },
+            //    LightSens = new RacialAbility { Name = "Light Sensitivity -1RP", Value = -1 },
+            //    MagicRes = new RacialAbility { Name = "Magic Resistance -1RP", Value = -1 },
+            //    MagGift = new RacialAbility { Name = "Magically Gifted +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "SPC", Value=1 } }
+            //    },
+            //    MagImp = new RacialAbility { Name = "Magically Impotent -1RP", Value = -1 },
+            //    Night = new RacialAbility { Name = "Night Vision +1RP", Value = 1 },
+            //    Fast = new RacialAbility { Name = "Fast +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "MR", Value=1 } }
+            //    },
+            //    Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2, Modifiers = new[] {
+            //        new Modifier {Name = "Talent", Value=1 } }
+            //    },
+            //    Clum = new RacialAbility { Name = "Clumsy -2RP", Value = -2 },
+            //    Unk = new RacialAbility { Name = "Unkempt -1RP", Value = -1 },
+            //    Immort = new RacialAbility { Name = "Immortal 0RP", Value = 0 },
+            //    Inc = new RacialAbility { Name = "Incompetent -4RP", Value = -4 },
+            //    Desp = new RacialAbility { Name = "Despised -1RP", Value = -1 },
+            //    Tough = new RacialAbility { Name = "Tough +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "DEF", Value=1 } }
+            //    },
+            //    MeetsTheEye = new RacialAbility { Name = "More than meets the eye +3RP", Value = 3 },
+            //    Sure = new RacialAbility { Name = "Sure Shot +1RP", Value = 1, Modifiers = new[] {
+            //        new Modifier {Name = "RAT", Value=1 },
+            //        new Modifier {Name = "TSC", Value=1 }}
+            //    },
+            //    Slow = new RacialAbility { Name = "Slow -1RP", Value = -1 , Modifiers = new[] {
+            //        new Modifier {Name = "MR", Value=-1 } }
+            //    }
+            //);
+            context.Set<Modifier>().SqlQuery("delete from dbo.Modifiers where RacialAbility_Id IS NOT NULL");
+            context.SaveChanges();
             context.RacialAbilities.AddOrUpdate(p => p.Name,
-                new RacialAbility { Name = "Allergic to Metal -2RP", Value = -2 },
-                new RacialAbility { Name = "Arrogant -1RP", Value = -1 },
+                Aller = new RacialAbility { Name = "Allergic to Metal -2RP", Value = -2 },
+                Arro = new RacialAbility { Name = "Arrogant -1RP", Value = -1 },
                 Dark = new RacialAbility { Name = "Darkvision +1RP", Value = 1 },
-                new RacialAbility { Name = "Monocular -1RP", Value = -1, Modifiers = new[] {
-                    new Modifier {Name = "RAT", Value=-1 },
-                    new Modifier {Name = "TSC", Value=-1 } } },
-                new RacialAbility { Name = "Fragile -1RP", Value = -1, Modifiers = new[] {
-                    new Modifier {Name = "DEF", Value=-1 } }
-                },
-                Quick = new RacialAbility { Name = "Quick +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "INI", Value=1 } }
-                },
+                Mono = new RacialAbility { Name = "Monocular -1RP", Value = -1 },
+                Frag = new RacialAbility { Name = "Fragile -1RP", Value = -1 },
+                Quick = new RacialAbility { Name = "Quick +1RP", Value = 1 },
                 GoldLust = new RacialAbility { Name = "Gold Lust -1RP", Value = -1 },
-                new RacialAbility { Name = "Large +4RP", Value = 4 },
+                Large = new RacialAbility { Name = "Large +4RP", Value = 4 },
                 Small = new RacialAbility { Name = "Small -4RP", Value = -4 },
-                Long = new RacialAbility { Name = "Longevity +0RP", Value = 0 },
-                Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "Sneaking", Value=1 } }
-                },
+                Long = new RacialAbility { Name = "Longevity 0RP", Value = 0 },
+                Fleet = new RacialAbility { Name = "Fleet Footed +1RP", Value = 1 },
                 LightSens = new RacialAbility { Name = "Light Sensitivity -1RP", Value = -1 },
                 MagicRes = new RacialAbility { Name = "Magic Resistance -1RP", Value = -1 },
-                new RacialAbility { Name = "Magically Gifted +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "SPC", Value=1 } }
-                },
-                new RacialAbility { Name = "Magically Impotent -1RP", Value = -1 },
+                MagGift = new RacialAbility { Name = "Magically Gifted +1RP", Value = 1 },
+                MagImp = new RacialAbility { Name = "Magically Impotent -1RP", Value = -1 },
                 Night = new RacialAbility { Name = "Night Vision +1RP", Value = 1 },
-                Fast = new RacialAbility { Name = "Fast +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "MR", Value=1 } }
-                },
-                Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2, Modifiers = new[] {
-                    new Modifier {Name = "Talent", Value=1 } }
-                },
-                new RacialAbility { Name = "Clumsy -2RP", Value = -2 },
-                new RacialAbility { Name = "Unkempt -1RP", Value = -1 },
-                Immort = new RacialAbility { Name = "Immortal +0RP", Value = 0 },
-                new RacialAbility { Name = "Incompetent -4RP", Value = -4 },
-                new RacialAbility { Name = "Despised -1RP", Value = -1 },
-                Tough = new RacialAbility { Name = "Tough +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "DEF", Value=1 } }
-                },
+                Fast = new RacialAbility { Name = "Fast +1RP", Value = 1 },
+                Gift = new RacialAbility { Name = "Gifted +2RP", Value = 2 },
+                Clum = new RacialAbility { Name = "Clumsy -2RP", Value = -2 },
+                Unk = new RacialAbility { Name = "Unkempt -1RP", Value = -1 },
+                Immort = new RacialAbility { Name = "Immortal 0RP", Value = 0 },
+                Inc = new RacialAbility { Name = "Incompetent -4RP", Value = -4 },
+                Desp = new RacialAbility { Name = "Despised -1RP", Value = -1 },
+                Tough = new RacialAbility { Name = "Tough +1RP", Value = 1 },
                 MeetsTheEye = new RacialAbility { Name = "More than meets the eye +3RP", Value = 3 },
-                new RacialAbility { Name = "Sure Shot +1RP", Value = 1, Modifiers = new[] {
-                    new Modifier {Name = "RAT", Value=1 },
-                    new Modifier {Name = "TSC", Value=1 }}
-                },
-                new RacialAbility { Name = "Slow -1RP", Value = -1, Modifiers = new[] {
-                    new Modifier {Name = "MR", Value=-1 } }
-                }
+                Sure = new RacialAbility { Name = "Sure Shot +1RP", Value = 1 },
+                Slow = new RacialAbility { Name = "Slow -1RP", Value = -1 }
             );
+            new[] { new Modifier {Name = "RAT", Value=-1 },
+                    new Modifier {Name = "TSC", Value=-1 }
+            }.ToList().ForEach(m => Mono.Modifiers.Add(m));
+            new[] { new Modifier {Name = "DEF", Value=-1 }
+            }.ToList().ForEach(m => Frag.Modifiers.Add(m));
+            new[] { new Modifier {Name = "INI", Value=1 }
+            }.ToList().ForEach(m => Quick.Modifiers.Add(m));
+            new[] { new Modifier {Name = "Sneaking", Value=1 }
+            }.ToList().ForEach(m => Fleet.Modifiers.Add(m));
+            new[] { new Modifier {Name = "SPC", Value=1 }
+            }.ToList().ForEach(m => MagGift.Modifiers.Add(m));
+            new[] { new Modifier {Name = "MR", Value=1 }
+            }.ToList().ForEach(m => Fast.Modifiers.Add(m));
+            new[] { new Modifier {Name = "Talent", Value=1 }
+            }.ToList().ForEach(m => Gift.Modifiers.Add(m));
+            new[] { new Modifier {Name = "DEF", Value=1 }
+            }.ToList().ForEach(m => Tough.Modifiers.Add(m));
+            new[] { new Modifier {Name = "RAT", Value=1 },
+                    new Modifier {Name = "TSC", Value=1 }
+            }.ToList().ForEach(m => Sure.Modifiers.Add(m));
+            new[] { new Modifier { Name = "MR", Value = -1 }
+            }.ToList().ForEach(m => Slow.Modifiers.Add(m));
+            context.SaveChanges();
             #endregion
             #region Seed Races
             context.DefaultRaces.AddOrUpdate(p => p.Name,
@@ -170,7 +258,8 @@ namespace DungeonSlayers.Migrations
             #endregion
             #region Seed Weapons
             context.Weapons.AddOrUpdate(p => p.Name,
-                new Weapon { Name = "Axes", TwoHanded = true, WeaponBonus = 3, /*Effect = "INI -2",*/ Availability = Availability.Hamlets, Price = 7, Modifiers = new[] {
+                new Weapon { Name = "Axes", TwoHanded = true, WeaponBonus = 3, /*Effect = "INI -2",*/
+            Availability = Availability.Hamlets, Price = 7, Modifiers = new[] {
                     new Modifier { Name = "INI", Value = -2}
                 } },
                 new Weapon { Name = "Battle Flail", WeaponBonus = 3, Effect = /*INI -4, */"OpDef -4", Availability = Availability.Villages, Price = 16, HitsSelfFumble = true, Modifiers = new[] {
