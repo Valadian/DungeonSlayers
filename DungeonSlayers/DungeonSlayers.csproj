@@ -201,6 +201,10 @@
     <Compile Include="Migrations\201601240712010_FixCharacterSpells.Designer.cs">
       <DependentUpon>201601240712010_FixCharacterSpells.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602140018282_RemoveBaseModifiers.cs" />
+    <Compile Include="Migrations\201602140018282_RemoveBaseModifiers.Designer.cs">
+      <DependentUpon>201602140018282_RemoveBaseModifiers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CharactersController.cs" />
@@ -363,6 +367,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601240712010_FixCharacterSpells.resx">
       <DependentUpon>201601240712010_FixCharacterSpells.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602140018282_RemoveBaseModifiers.resx">
+      <DependentUpon>201602140018282_RemoveBaseModifiers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

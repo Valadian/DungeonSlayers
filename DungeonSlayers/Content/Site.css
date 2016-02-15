@@ -177,6 +177,23 @@ textarea {
     top:115px;
     font-size:x-small
 }
+.cvBase{
+    width:60px;
+    text-align:right;
+    font-size:x-large;
+    padding-right:0px;
+}
+.cvUnModdedBase{
+    width:120px;
+    text-align:center;
+    font-size:x-large;
+}
+.cvModifier{
+    width:60px;
+    text-align:left;
+    font-size:x-large;
+    padding-left:0px;
+}
 .input-group > .input-group-vert-addon {
     display:block;
 }
@@ -267,14 +284,14 @@ input::-webkit-inner-spin-button {
     margin-left: -4px;
 }
 
-.label-INI{
-    background-color: #0c0;
-}
-
-.label-AU{
-    background-color: #c0c;
-}
-
+.label-Talent   {   background-color: #FFD700;  color: black; }
+.label-DX       {   background-color: #600; }
+.label-AU       {   background-color: #606; }
+.label-DEF      {   background-color: #333; }
+.label-INI      {   background-color: #0c0; }
+.label-MR       {   background-color: #00c; }
+.label-SPC      {   background-color: #c0c; }
+.label-TSC      {   background-color: #c00; }
 /*.floating {
         position: fixed;
         top: 54px;
@@ -287,6 +304,10 @@ input::-webkit-inner-spin-button {
 }*/
 .navbar-btn{
     margin-left: 15px;
+}
+.chosen-container{
+    height: 100%;
+    width: 100%;
 }
 .chosen-container-multi .chosen-choices li.search-choice.search-choice-neg{
     background-color: #e9a39f;
@@ -302,4 +323,5 @@ input::-webkit-inner-spin-button {
 .chosen-container.chosen-container-multi .chosen-choices{
     padding-top: 3px;
     padding-bottom: 2px;
+    height:100%!important;
 }

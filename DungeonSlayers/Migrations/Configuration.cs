@@ -133,6 +133,7 @@ namespace DungeonSlayers.Migrations
                 Sure = new RacialAbility { Name = "Sure Shot +1RP", Value = 1 },
                 Slow = new RacialAbility { Name = "Slow -1RP", Value = -1 }
             );
+            context.SaveChanges();
             new[] { new Modifier {Name = "RAT", Value=-1 },
                     new Modifier {Name = "TSC", Value=-1 }
             }.ToList().ForEach(m => Mono.Modifiers.Add(m));

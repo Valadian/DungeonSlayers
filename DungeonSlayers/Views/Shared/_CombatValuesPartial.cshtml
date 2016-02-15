@@ -11,9 +11,12 @@
             <img style="position:absolute;width:90px;" src="/Content/CombatIcons_xcf-@(cv.Name).png" />
             <br style="line-height: 2em" />
             <div class="row">
-                <div class="col-sm-1 combat-offset">
-                    @*@Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })*@
-                    <div data-bind="text: +@cv.Acronym ()" style="width:45px;text-align:center;font-size:x-large;"></div>
+                <div class="col-sm-1">
+                    <div class="row" style="width: 120px">
+                        @*@Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;", data_bind = "value: "+cv.DataBinding } })*@
+                        <div data-bind="css: {cvUnModdedBase: SumModifiersOfName('@cv.Acronym')==0,cvBase: SumModifiersOfName('@cv.Acronym')!=0},text: +base_@cv.Acronym ()" class="col-xs-6"></div>
+                        <div data-bind="visible: SumModifiersOfName('@cv.Acronym')!=0,text: '+' + SumModifiersOfName('@cv.Acronym')" class="col-xs-6 cvModifier"></div>
+                    </div>
                 </div>
             </div>
             <span class="cvLabel cvName">@cv.DisplayName</span>

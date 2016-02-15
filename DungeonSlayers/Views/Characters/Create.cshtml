@@ -1,326 +1,176 @@
 ﻿@using DungeonSlayers.Extensions
 @using DungeonSlayers.Models
 @using DungeonSlayers.Repositories
+@using Newtonsoft.Json
 @model DungeonSlayers.Models.Character
 @{
     ViewBag.Title = "Create Character";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Navbar {
+    <li><button class="btn btn-primary navbar-btn" type="submit" value="Create" data-bind="click: save">Save</button></li>
 
-<div class="row">
-    <div class="col-md-6"><h2>Create - Character</h2></div>
-</div>
+    <li><button class="btn btn-danger navbar-btn" onclick="location.href='@Url.Action("Index")';return false;">Back</button></li>
+    @*<li>@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger navbar-btn" })</li>*@
 
-@using (Html.BeginForm())
-{
+}
+
+<form>
     @Html.AntiForgeryToken()
 
 
     <div class="form-vertical">
-        <hr />
-        @*<div class="btn-group btn-lg">*@
-        @*</div>*@
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group row">
-            <div class="col-sm-offset-4 col-sm-4">
-                <img src="~/Content/DungeonSlayersTitle.png" class="img-responsive text-center" style="max-width: 300px;" />
-            </div>
+        <div class="row">
+            <div class="col-sm-6"><h3>Create - Character</h3></div>
         </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.Owner, "editabledropdown", label: "Player", editable: false)
-            </div>
-            <div class="input-group col-sm-4 pull-right">
-                @Html.AddOnEditorFor(model => model.Name, label: "Name")
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.Race, "editabledropdown")
-           </div>
-            <div class="col-sm-4">
-                <div class="row row-no-padding" style="margin-left:0px;margin-right:0px;">
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.Level, label: "Lvl", width: 25)
-                    </div>
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.PP, abbr: "Progress Points", width: 25)
-                    </div>
-                    <div class="input-group col-md-4">
-                        @Html.AddOnEditorFor(model => model.TP, abbr: "Talent Points", width: 25)
-                    </div>
-                </div>
-            </div>
-            <div class="input-group col-sm-4">
-                @Html.AddOnEditorFor(model => model.ClassName, "editabledropdown", label: "Class", choices: (object)ViewBag.ClassChoices, editable: false)
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.RacialAbilities, "editabledropdown", label: "Racials", multiple: true, editable: false)
-            </div>
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.ExperiencePoints, label: "XP", abbr: "Experience Points", width: 25)
-            </div>
-            <div class="input-group col-sm-12 col-md-4">
-                @Html.AddOnEditorFor(model => model.HeroClassName, "editabledropdown", label: "Hero Cls", editable: false, choices: (object)ViewBag.HeroClasses)
-            </div>
-        </div>
-
-        @*<div class="form-group row">
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Body, true)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Mobility, true)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Mind, true)
-            </div>
-        </div>*@
-
-        @*<div class="form-group row">
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Stength)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Agility)
-            </div>
-            <div class="col-sm-4" style="margin-bottom: 15px;">
-                @Html.AttributeEditorFor(model => model.Intellect)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Constitution)
-            </div>
-            <div class="col-sm-4">
-                @Html.AttributeEditorFor(model => model.Dexterity)
-            </div>
-            <div class="col-sm-4" style="margin-bottom: 15px;">
-                @Html.AttributeEditorFor(model => model.Aura)
-            </div>
-        </div>*@
-        @*<div class="form-group row">
-            @foreach (PropertyDef cv in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).CombatValues())
-            {
-                //background - image:url(/ Content / CombatIcons_xcf -@(cv).png); background - repeat: no - repeat;
-                <div class="col-xs-3 col-sm-1b8" style="min-height:145px;">
-                    <img style="position:absolute;width:90px;" src="/Content/CombatIcons_xcf-@(cv.Name).png"/>
-                    <br style="line-height: 2em"/>
-                    <div class="row">
-                        <div class="col-sm-1 combat-offset">
-                            @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
-                        </div>
-                    </div>
-                    <span class="cvLabel cvName">@cv.DisplayName</span>
-                    <span class="cvLabel cvEquation"><nobr>@cv.Equation.Replace("@", "")</nobr></span>
-                </div>
-            }
-        </div>*@
-
-        @*<div class="row">
-            <div class="col-sm-12 col-md-7">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>WEAPON</th>
-                        <th width="6%">WB</th>
-                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-MeleeAttack.png" width="20" /> </th>
-                        <th width="6%"> <img src="~/Content/CombatIcons_xcf-RangedAttack.png" width="20" /> </th>
-                        <th width="10%">TOTAL</th>
-                        <th>SPECIAL</th>
-                    </tr>
-                    <tr>
-                        <td>UNARMED</td>
-                        <td>+0</td>
-                        <td></td>
-                        <td style="background-color:darkgray"></td>
-                        <td></td>
-                        <td>OPPONENT'S DEFENSE +5</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-5">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>ARMOR</th>
-                        <th width="10%">AV</th>
-                        <th>SPECIAL</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>SPELL</th>
-                        <th width="10%">CB</th>
-                        <th width="5%"><img src="~/Content/CombatIcons_xcf-TargetedSpellcasting.png" width="20" /></th>
-                        <th width="5%"><img src="~/Content/CombatIcons_xcf-Spellcasting.png" width="20" /></th>
-                        <th width="10%">TOTAL</th>
-                        <th width="10%">DISTANCE</th>
-                        <th width="10%">CP</th>
-                        <th>EFFECT</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>*@
-        @*<div class="row" style="font-size:smaller;">
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered table-thin">
-                    <tr>
-                        <th>PP RECORD</th>
-                        <th>START/MAX. VALUE</th>
-                        <th>INCREASE</th>
-                        <th>SPECIAL</th>
-                        <th>TOTAL</th>
-                    </tr>
-                    @foreach (var trait in ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Traits())
-                {
-                        <tr>
-                            <td>@trait.DisplayName</td>
-                            <td style="text-align:center"> / </td>
-                            <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@trait.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
-                            <td></td>
-                            <td>@trait.Acronym :</td>
-                        </tr>
-                    }
-                    @{
-                        var hitpoints = ((IEnumerable<PropertyDef>)ViewBag.PropertyDefs).Where(def => def.Acronym == "HP").First();
-                    }
-                    <tr>
-                        <td>@hitpoints.DisplayName</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;@hitpoints.Acronym (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td></td>
-                        <td>@hitpoints.Acronym :</td>
-                    </tr>
-                    <tr>
-                        <td>Additional TP</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="text-align:right">+&nbsp;&nbsp;&nbsp;TP (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td></td>
-                        <td style="background-color:darkgray"></td>
-                    </tr>
-                    <tr>
-                        <td>Language/Alphabet</td>
-                        <td style="text-align:center">2 / -</td>
-                        <td style="text-align:right">&nbsp;&nbsp;&nbsp; (&nbsp;&nbsp;&nbsp; PP)</td>
-                        <td style="background-color:darkgray"></td>
-                        <td style="background-color:darkgray"></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="col-sm-12 col-md-6">
-                <div class="row" style="text-align:center;border:1px solid black;margin:0px;margin-bottom:15px;padding:15px;">
-                    <div class="col-xs-12"><h3>Loot & Treasure</h3></div>
-                    <div class="form-group row" style="text-align:left">
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
-                            <br style="line-height: 2em" />
-                            <div class="row">
-                                <div class="col-sm-1 combat-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Gold</span>
-                        </div>
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
-                            <br style="line-height: 2em" />
-                            <div class="row">
-                                <div class="col-sm-1 combat-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Silver</span>
-                        </div>
-                        <div class="col-xs-4" style="min-height:100px;">
-                            <img style="position:absolute;width:90px;" src="/Content/gold.png" />
-                            <br style="line-height: 2em" />
-                            <div class="row">
-                                <div class="col-sm-1 combat-offset">
-                                    @Html.EditorFor(model => model.HitPoints.Base, new { htmlAttributes = new { @class = "form-control", style = "width:45px;text-align:center;" } })
-                                </div>
-                            </div>
-                            <span class="goldLabel">Bronze</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">1 Gold = 10 Silver = 100 Copper</div>
-                </div>
-            </div>
-        </div>*@
-        @*<div class="row">
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Equipment</th>
-                        <th>Where Carried?</th>
-                        <th>Special</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Herbs, Potions, Artifacts</th>
-                        <th>Effect</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Talent</th>
-                        <th>Rank</th>
-                        <th>Effect</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>*@
-        <div>
-            <button type="submit" value="Save" class="btn btn-primary">Save</button>
-            <a href="/Characters" class="btn btn-danger">Back</a>
-        </div>
-        @*<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>*@
     </div>
-}
+    <div class="row"><hr /></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-@*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
+        @Html.Partial("~/Views/Shared/_CharacterHeaderPartial.cshtml", Model)
+
+        @Html.Partial("~/Views/Shared/_AttributesTraitsPartial.cshtml", Model)
+
+        @Html.Partial("~/Views/Shared/_CombatValuesPartial.cshtml", Model)
+
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_GoldPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_CharacteristicsPartial.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</form>
+
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+
+            var jsonModel = '@Html.Raw(JsonConvert.SerializeObject(this.Model, Formatting.None, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }))';
+            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy","RacialAbilities"] });
+            Model.RacialAbilities = ko.observableArray(Model.RacialAbilities);
+
+            var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
+            if (antiForgeryToken) {
+                Model.__RequestVerificationToken = antiForgeryToken;
+            }
+
+            Model.AV = ko.computed(function () {
+                var av = 0;
+                for (var i in Model.Armors()) {
+                    var armor = Model.Armors()[i];
+                    if (armor.Equipped()) {
+                        av += armor.Armor.AV();
+                    }
+                }
+                return av;
+            }, this);
+
+            Model.SM = ko.computed(function () {
+                return 0;
+            }, this);
+
+            Model.WB = ko.computed(function () {
+                return 0;
+            }, this);
+
+            var jsonCombatProperties = '@Html.Raw(JsonConvert.SerializeObject(((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).CombatValues()))';
+
+            @foreach(var def in ((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).CombatValues())
+            {
+                @Html.Raw("Model." + def.Acronym+ " = ko.pureComputed(function() {\n" +
+                    "    return "+def.DataBinding+";\n"+
+               "}, this);\n")
+            }
+            var racials = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<RacialAbility>)this.ViewBag.RacialAbilities))');
+            //for (i in racials) {
+            //    racials[i]._new = true;
+            //}
+            Model.racialChoices = ko.observableArray(racials);
+            Model.initializeRacialSelectPicker = function () {
+                var ras = Model.RacialAbilities.removeAll();
+                for (var i in ras) {
+                    var ra = ras[i];
+                    var raFromChoices = Model.racialChoices().filter(function (rc) { return rc.Id == ra.Id })[0];
+                    //raFromChoices._new = false;
+                    Model.RacialAbilities.push(raFromChoices);
+                    //$('[name=RacialAbilities] option').filter(function () { return ($(this).text() == ra.Name()); }).prop('selected', true);
+                }
+
+
+                $('.search-choice:contains(-)').addClass('search-choice-neg');
+                $('.search-choice:contains(+)').addClass('search-choice-pos');
+            }
+            Model.updateRacialSelectPicker = function(option, item){
+
+            }
+
+
+            @foreach (string Self in (IEnumerable<string>)this.ViewBag.SelfTypes)
+            {
+                var self = Self.ToLower();
+                //
+                @Html.Raw($@"Model.update{Self} = function(id) {{
+                    {self} = $.grep({self}s, function(e) {{ return e.Id == id; }});
+                    if ({self})
+                    {{
+                        ko.mapping.fromJS({self}[0], {{ }}, this.{Self});
+                    }}
+                }}
+                Model.add{Self} = function() {{
+                    {self} = {self}s[0];
+                    {self}Id = ko.observable({self}.Id);
+                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false), Quantity: ko.observable(1), Location: ko.observable(''), _new:  true }}
+                    {self}Id.subscribe(Model.update{Self}, wc);
+                    Model.{Self}s.push(wc);
+                    $('#{self}Table select').selectpicker('refresh');
+                }}
+                Model.remove{Self} = function({self}) {{
+                    Model.{Self}s.remove({self});
+                    //Model.{Self}s.destroy({self});
+                }}
+                Model.switchTo{Self} = function({self}) {{
+                    for (var i in Model.{Self}s()) {{
+                        Model.{Self}s()[i].Equipped(false);
+                    }}
+                    {self}.Equipped(true);
+                }}
+                for (i in Model.{Self}s()) {{
+                    wc = Model.{Self}s()[i];
+                    wc.{Self}Id.subscribe(Model.update{Self}, wc);
+                }}");
+                //
+            }
+
+            Model.save = function () {
+                $.ajax({
+                    url: '/Characters/Create',
+                    type: 'POST',
+                    data: ko.toJSON(Model),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        $("#success").text("Character Save Successful").fadeIn(0).delay(3000).fadeOut(1000);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $('#error').text("Character Save Fails (" + xhr.status + ") - " + xhr.responseText).fadeIn(0).delay(10000).fadeOut(1000);
+
+                    }
+                });
+            }
+
+            ko.applyBindings(Model);
+
+
+            Model.initializeRacialSelectPicker();
+
+        });
+</script>
 }

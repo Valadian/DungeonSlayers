@@ -23,13 +23,13 @@ namespace DungeonSlayers.Models
     }
     public class Armor : Gear
     {
-        public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
+        //public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
         public int AV { get; set; }
         public bool BreakDEFFumble { get; set; }
     }
     public class Weapon : Gear
     {
-        public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
+        //public virtual ICollection<Modifier> BaseModifiers { get; set; } = new List<Modifier>();
         public int WeaponBonus { get; set; }
         public int MagicModifier { get; set; }
         public bool Melee { get; set; } = true;

@@ -18,7 +18,12 @@
             </td>
             <td>@Html.EditorFor(model => model.Armors, "EditableDropDown", new { SelectList = (object)ViewBag.ArmorChoices, editable = false, multiple = false, exprText = "ArmorId" })</td>
             <td>+<span data-bind="text: Armor.AV"></span></td>
-            <td data-bind="text: Armor.Effect"></td>
+            <td>
+                <!-- ko foreach: Armor.Modifiers -->
+                <span data-bind="text: Name() + (Value()>=0?' +':' -') + Value(),css: 'label-'+Name()" class="label label-default"></span>
+                <!-- /ko -->
+                <span data-bind="text: Armor.Effect"></span>
+            </td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}"></button>

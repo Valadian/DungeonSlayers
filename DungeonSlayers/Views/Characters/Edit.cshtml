@@ -10,8 +10,8 @@
 }
 
 @section Navbar {
-    <li><button class="btn btn-primary navbar-btn" type="submit" value="Create"  data-bind="click: save">Save</button></li>
-   
+    <li><button id="save" class="btn btn-primary navbar-btn" type="submit" value="Create"  data-bind="click: save">Save (ctrl+S)</button></li>
+    <li><button id="undo" class="btn btn-warning navbar-btn" value="Undo" onClick="window.location.reload()">Undo (ctrl+Z)</button></li>
     <li><button class="btn btn-danger navbar-btn" onclick="location.href='@Url.Action("Index")';return false;" >Back</button></li>
     @*<li>@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger navbar-btn" })</li>*@
     
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>*@
-        </div>
+            </div>
         </div>
         <div class="row" ><hr /></div>
         @*<div id="feedback" class="row">
@@ -112,7 +112,7 @@
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             }))';
-            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy","RacialAbilities"] });
+            var Model = ko.mapping.fromJSON(jsonModel, { copy: ["_destroy", "RacialAbilities"] });
             Model.RacialAbilities = ko.observableArray(Model.RacialAbilities);
 
             var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
@@ -141,10 +141,45 @@
 
             var jsonCombatProperties = '@Html.Raw(JsonConvert.SerializeObject(((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).CombatValues()))';
 
+            @foreach(var def in ((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).AttributesAndTraits())
+            {
+                @Html.Raw("Model.base_" + def.Acronym + " = Model." + def.Acronym + "\n");
+                @Html.Raw("Model." + def.Acronym+ " = ko.pureComputed(function() {\n" +
+                    "    return Model.base_"+def.Acronym + "() + Model.SumModifiersOfName('"+ def.Acronym + "');\n" +
+               "}, this);\n")
+            }
+
+            function GetRacialModifiers(racials) {
+                var mods = [];
+                for (var i in racials) {
+                    var racial = racials[i];
+                    mods = mods.concat(racial.Modifiers);
+                }
+                return mods;
+            }
+            Model.Modifiers = function () {
+                var mods = [];
+                mods = mods.concat(GetModifiersFromEquippable(Model.Weapons(), function (w) { return w.Weapon }));
+                mods = mods.concat(GetModifiersFromEquippable(Model.Armors(), function (w) { return w.Armor }));
+                mods = mods.concat(GetModifiersFromEquippable(Model.Talents(), function (w) { return w.Talent }));
+                mods = mods.concat(GetRacialModifiers(Model.RacialAbilities()));
+                return mods;
+            }
+            Model.SumModifiersOfName = function (name) {
+                return $.Enumerable.From(Model.Modifiers())
+                    .Where(function (x) { return x.Name == name })
+                    .Select(function (x) { return x.Value })
+                    .Sum();
+                //$.Enumerable.From($.Enumerable.From(model.Armors()).Select(function (x) { return x.Armor.Modifiers() }).Aggregate([], "a,b=>a.concat(b)")).Select(function (x) { return x.Value() }).Sum()
+            }
+
             @foreach(var def in ((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).CombatValues())
             {
-                @Html.Raw("Model." + def.Acronym+ " = ko.pureComputed(function() {\n" +
+                @Html.Raw("Model.base_" + def.Acronym+ " = ko.pureComputed(function() {\n" +
                     "    return "+def.DataBinding+";\n"+
+               "}, this);\n")
+                @Html.Raw("Model." + def.Acronym+ " = ko.pureComputed(function() {\n" +
+                    "    return "+def.DataBinding+ " + Model.SumModifiersOfName('"+ def.Acronym + "');\n" +
                "}, this);\n")
             }
             var racials = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<RacialAbility>)this.ViewBag.RacialAbilities))');
@@ -174,7 +209,7 @@
 
                 //Model.RacialAbilities(Model.RacialAbilities());
             }
-            Model.updateRacialSelectPicker = function(option, item){
+            Model.updateRacialSelectPicker = function (option, item) {
                 //$(".chosen-select").chosen();
                 //$("#RacialAbilities").selectpicker('refresh');
 
@@ -221,6 +256,18 @@
                 }}");
                 //
             }
+
+            function GetModifiersFromEquippable(equippables, getEquipmentFunc) {
+                var mods = [];
+                for (var i in equippables) {
+                    var equip = equippables[i];
+                    if (equip.Equipped()) {
+                        mods = mods.concat($.Enumerable.From(getEquipmentFunc(equip).Modifiers()).Select(function (x) { return ko.mapping.toJS(x) }).ToArray());
+                    }
+                }
+                return mods;
+            }
+
             //
 
             //Model.updateWeapon = function (id) {
@@ -262,10 +309,57 @@
             }
 
             ko.applyBindings(Model);
-            
+
 
             Model.initializeRacialSelectPicker();
 
+
         });
+
+
+        //$(document).ready(function () {
+        //    $(document).on("keydown", function (event) {
+        //        if (!(event.which == 115 && event.ctrlKey) &&
+        //            !(event.which == 19) &&
+        //            !(event.which == 83 && event.ctrlKey)
+        //            ) return true;
+        //        $('#save').trigger('click');
+        //        event.stopPropagation();
+        //    });
+        //});
+        document.addEventListener("keydown", function (e) {
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                e.preventDefault();
+                $('#save').trigger('click');
+            }
+            if (e.keyCode == 90 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                //e.preventDefault();
+                $('#undo').trigger('click');
+            }
+            var doPrevent = false;
+            if (event.keyCode === 8) {
+                var d = event.srcElement || event.target;
+                if ((d.tagName.toUpperCase() === 'INPUT' &&
+                     (
+                         d.type.toUpperCase() === 'TEXT' ||
+                         d.type.toUpperCase() === 'PASSWORD' ||
+                         d.type.toUpperCase() === 'FILE' ||
+                         d.type.toUpperCase() === 'SEARCH' ||
+                         d.type.toUpperCase() === 'EMAIL' ||
+                         d.type.toUpperCase() === 'NUMBER' ||
+                         d.type.toUpperCase() === 'DATE')
+                     ) ||
+                     d.tagName.toUpperCase() === 'TEXTAREA') {
+                    doPrevent = d.readOnly || d.disabled;
+                }
+                else {
+                    doPrevent = true;
+                }
+            }
+
+            if (doPrevent) {
+                event.preventDefault();
+            }
+        }, false);
     </script>
 }

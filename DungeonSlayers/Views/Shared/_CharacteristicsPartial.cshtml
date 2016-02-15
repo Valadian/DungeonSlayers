@@ -9,65 +9,65 @@
     </tr>
     <tr>
         <td>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.Gender)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.Gender, "EditableDropDown", new { SelectList = (object)ViewBag.GenderChoices, editable = false, multiple = false, exprText = "Gender" })
                 @*@Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })*@
             </div>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.PlaceOfBirth, "Birthplace")</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.PlaceOfBirth, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </td>
     </tr>
     <tr>
         <td>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.DateOfBirth, "Birthdate")</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
             </div>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.Age)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </td>
     </tr>
     <tr>
         <td>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.Height)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
             </div>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.Weight)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </td>
     </tr>
     <tr>
         <td>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.HairColor)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.HairColor, new { htmlAttributes = new { @class = "form-control" } })
             </div>
-            <div class="col-xs-6 col-sm-2">
+            <div class="col-xs-2">
                 <span>@Html.LabelFor(model => model.EyeColor)</span>
             </div>
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-10 col-sm-4">
                 @Html.EditorFor(model => model.EyeColor, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </td>

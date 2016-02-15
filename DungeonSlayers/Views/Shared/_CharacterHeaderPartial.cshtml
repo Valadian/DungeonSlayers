@@ -39,12 +39,23 @@
 </div>
 <div class="form-group row">
     <div class="input-group col-sm-12 col-md-4">
-        @Html.AddOnEditorFor(model => model.RacialAbilities, "koeditabledropdown", label: "Racials", multiple: true, editable: false)
     </div>
     <div class="input-group col-sm-12 col-md-4">
         @Html.AddOnEditorFor(model => model.ExperiencePoints, label: "XP", abbr: "Experience Points", width: 25)
     </div>
     <div class="input-group col-sm-12 col-md-4">
         @Html.AddOnEditorFor(model => model.HeroClassName, "editabledropdown", label: "Hero Cls", editable: false, choices: (object)ViewBag.HeroClasses)
+    </div>
+</div>
+<div class="form-group row">
+    <div class="input-group col-sm-12">
+        @Html.AddOnEditorFor(model => model.RacialAbilities, "koeditabledropdown", label: "Racials", multiple: true, editable: false)
+        <div class="input-group-addon" style="min-width:80px;">
+            <!-- ko foreach: RacialAbilities -->
+            <!-- ko foreach: Modifiers -->
+            <span data-bind="text: Name + (Value>=0?' +':' -') + Value,css: 'label-'+Name" class="label label-default" style="float:left; margin-bottom:5px"></span>
+            <!-- /ko -->
+            <!-- /ko -->
+        </div>
     </div>
 </div>

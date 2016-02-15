@@ -98,10 +98,16 @@ namespace DungeonSlayers.Extensions
             label.InnerHtml = labelText.ToUpper();
 
             var input = new TagBuilder("div");
-            input.AddCssClass("col-xs-4");
-            input.InnerHtml = Html.EditorFor(expr, new { htmlAttributes = new { @class = "form-control", data_bind = "value: "+name } }).ToString();
+            input.AddCssClass("col-xs-2");
+            input.InnerHtml = Html.EditorFor(expr, new { htmlAttributes = new { @class = "form-control", data_bind = "value: base_"+name } }).ToString();
 
-            row.InnerHtml = label.ToString() + input.ToString();
+            var modifier = new TagBuilder("div");
+            modifier.AddCssClass("col-xs-2");
+            modifier.InnerHtml = "<span data-bind=\"visible: SumModifiersOfName('" + name + "')!=0,text: '+' + SumModifiersOfName('" + name+"')\"></span>";
+
+            row.InnerHtml = label.ToString() + input.ToString() + modifier.ToString();
+
+
 
             body.Append(row);
 

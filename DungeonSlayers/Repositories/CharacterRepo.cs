@@ -10,6 +10,7 @@ namespace DungeonSlayers.Repositories
     {
         public static Character Initialize(this Character character, ApplicationDbContext db)
         {
+            character.DateOfBirth = DateTime.Now;
             //var properties = db.PropertyDefs.AttributesAndTraits().Select((def, i) => new Property { Id = i, Definition = def, Base = 0 }).ToList();
             //foreach(var prop in properties)
             //{

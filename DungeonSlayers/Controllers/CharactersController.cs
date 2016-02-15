@@ -49,7 +49,7 @@ namespace DungeonSlayers.Controllers
             AddChoicesToViewBag(ViewBag, character);
             character.Owner = db.Users.Where(u => u.UserName == User.Identity.Name).First();
             ViewBag.PropertyDefs = db.PropertyDefs;
-            return View();
+            return View(character);
         }
         private void AddChoicesToViewBag(dynamic ViewBag, Character character = null)
         {
@@ -66,7 +66,7 @@ namespace DungeonSlayers.Controllers
             ViewBag.Armors = db.Armors.ToList();
             if (character != null)
             {
-                IEnumerable<Spell> spells = null;
+                IEnumerable<Spell> spells = new List<Spell>();
                 switch (character.ClassName)
                 {
                     case "Healer":
@@ -95,14 +95,17 @@ namespace DungeonSlayers.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note")] Character character)
+        [MyValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include = "Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities")] Character character)
         {
             if (ModelState.IsValid)
             {
+                db.UpdateGraph(character, map => map
+                    .AssociatedCollection(c => c.RacialAbilities)
+                    );
                 //character.Owner = db.Users.Where(u => u.UserName==User.Identity.Name).First();
                 character.DateOfBirth = DateTime.Now;
-                db.Characters.Add(character);
+                //db.Characters.Add(character);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

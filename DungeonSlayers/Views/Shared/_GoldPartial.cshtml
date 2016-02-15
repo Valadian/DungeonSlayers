@@ -8,7 +8,7 @@
             <br style="line-height: 1.5em" />
             <div class="row">
                 <div class="col-sm-1 gold-offset">
-                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
+                    @Html.EditorFor(model => model.Gold, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;", data_bind = "value: Gold" } })
                 </div>
             </div>
             <span class="goldLabel">Gold</span>
@@ -18,7 +18,7 @@
             <br style="line-height: 1.5em" />
             <div class="row">
                 <div class="col-sm-1 gold-offset">
-                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
+                    @Html.EditorFor(model => model.Silver, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;", data_bind = "value: Silver" } })
                 </div>
             </div>
             <span class="goldLabel">Silver</span>
@@ -28,7 +28,7 @@
             <br style="line-height: 1.5em" />
             <div class="row">
                 <div class="col-sm-1 gold-offset">
-                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;" } })
+                    @Html.EditorFor(model => model.Copper, new { htmlAttributes = new { @class = "form-control", style = "width:70px;text-align:center;", data_bind = "value: Copper" } })
                 </div>
             </div>
             <span class="goldLabel">Copper</span>

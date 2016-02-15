@@ -31,7 +31,12 @@
             <td>+<span data-bind="text: Weapon.WeaponBonus"></span></td>
             <td data-bind="css: { naColumn: !Weapon.Melee()},text: Weapon.Melee()?$parent.MAT()+ + Weapon.WeaponBonus():''"></td>
             <td data-bind="css: { naColumn: !Weapon.Ranged()},text: Weapon.Ranged()?$parent.RAT()+ +Weapon.WeaponBonus():''"></td>
-            <td data-bind="text: Weapon.Effect"></td>
+            <td>
+                <!-- ko foreach: Weapon.Modifiers -->
+                <span data-bind="text: Name() + (Value()>-1?' +':' -') + Value(),css: 'label-'+Name()" class="label label-default"></span>
+                <!-- /ko -->
+                <span data-bind="text: Weapon.Effect"></span>
+            </td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" data-bind="click: function(data, event) { $parent.switchToWeapon($data)}">Switch</button>
