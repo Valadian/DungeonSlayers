@@ -26,7 +26,7 @@
             <td data-bind="css: { naColumn: !Spell.Targeted()},text: Spell.Targeted()?+Spell.SM() + +$parent.TSC():''"></td>
             <td data-bind="text: Spell.Distance"></td>
             <td data-bind="text: Spell.CooldownPeriod"></td>
-            <td data-bind="text: Spell.Effect"></td>
+            <td><input data-bind="value: Note, visible: Note" /> <span data-bind="text: Spell.Effect"></span></td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" data-bind="click: function(data, event) { $parent.switchToSpell($data)}">Switch</button>
@@ -36,6 +36,8 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" data-bind="text: Equipped()?'Unequip':'Equip', click: function(data, event) {data.Equipped(!data.Equipped())}"></a></li>
+                        <li><a href="#" data-bind="visible: !Note() ,text: 'Add Note', click: function(data, event) {data.Note(' ');}"></a></li>
+                        <li><a href="#" data-bind="visible: Note ,text: 'Remove Note', click: function(data, event) {data.Note('');}"></a></li>
                     </ul>
                 </div>
             </td>

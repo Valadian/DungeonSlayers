@@ -23,14 +23,7 @@
             <td data-bind="text: Equipment.Effect"></td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" data-bind="click: function(data, event) { if(Quantity()<=1){$parent.removeEquipment($data);} else {Quantity(Quantity()-1};}">Use</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}"></a></li>
-                    </ul>
+                    <button type="button" class="btn btn-default" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}">Use</button>
                 </div>
             </td>
         </tr>

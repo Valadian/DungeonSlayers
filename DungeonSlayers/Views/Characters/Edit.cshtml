@@ -256,6 +256,31 @@
                 }}");
                 //
             }
+            @foreach (string Self in (IEnumerable<string>)this.ViewBag.IdentifiableTypes)
+            {
+                var self = Self.ToLower();
+                @Html.Raw($@"Model.add{Self} = function() {{
+                    wc = {{ CharacterId: Model.Id, Equipped: ko.observable(false), Quantity: ko.observable(1), Note: ko.observable(''), Location: ko.observable(''), _new:  true }}
+                    Model.{Self}s.push(wc);
+                }}
+                Model.remove{Self} = function({self}) {{
+                    Model.{Self}s.remove({self});
+                }}
+                Model.switchTo{Self} = function({self}) {{
+                    for (var i in Model.{Self}s()) {{
+                        Model.{Self}s()[i].Equipped(false);
+                    }}
+                    {self}.Equipped(true);
+                }}
+                Model.use{Self} = function({self}) {{
+                    if({self}.Quantity()<=1)
+                    {{
+                        Model.remove{Self}({self});
+                    }} else {{
+                        Model.Quantity(Model.Quantity() - 1);
+                    }}
+                }}");
+                }
 
             function GetModifiersFromEquippable(equippables, getEquipmentFunc) {
                 var mods = [];

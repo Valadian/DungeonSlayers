@@ -88,6 +88,7 @@ namespace DungeonSlayers.Controllers
             ViewBag.EquipmentChoices = db.Equipment.OrderBy(e => e.Name).AsChoices();
             ViewBag.Equipments = db.Equipment.ToList();
             ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell","Equipment"};
+            ViewBag.IdentifiableTypes = new[] { "MagicEquipment" };
             ViewBag.Checks = db.Checks.ToList();
         }
 
@@ -142,7 +143,7 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities,Weapons,Armors,Spells,Equipments")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities,Weapons,Armors,Spells,Equipments,MagicEquipments")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -160,6 +161,7 @@ namespace DungeonSlayers.Controllers
                     .OwnedCollection(c => c.Armors)
                     .OwnedCollection(c => c.Spells)
                     .OwnedCollection(c => c.Equipments)
+                    .OwnedCollection(c => c.MagicEquipments)
                     );
                 //db.Entry(character).State = EntityState.Modified;
                 await db.SaveChangesAsync();

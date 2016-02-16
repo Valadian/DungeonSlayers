@@ -119,6 +119,7 @@ namespace DungeonSlayers.Models
         public virtual ICollection<CharacterArmor> Armors { get; set; } = new List<CharacterArmor>();
 
         public virtual ICollection<CharacterEquipment> Equipments { get; set; } = new List<CharacterEquipment>();
+        public virtual ICollection<MagicEquipment> MagicEquipments { get; set; } = new List<MagicEquipment>();
 
         public virtual ICollection<Companion> Companions { get; set; } = new List<Companion>();
     }
@@ -129,6 +130,13 @@ namespace DungeonSlayers.Models
 
         public virtual bool Equipped { get; set; }
         public virtual ICollection<Modifier> Modifiers { get; set; }
+        public string Note { get; set; }
+    }
+    public abstract class IdentifiableEquippable : Identifiable
+    {
+        public virtual bool Equipped { get; set; }
+        public virtual ICollection<Modifier> Modifiers { get; set; }
+        public string Note { get; set; }
     }
     public class CharacterTalent : Equippable
     {
@@ -157,6 +165,12 @@ namespace DungeonSlayers.Models
 
         public virtual Character Character { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public int Quantity { get; set; }
+        public string Location { get; set; }
+    }
+    public class MagicEquipment : IdentifiableEquippable
+    {
+        public Character Character { get; set; }
         public int Quantity { get; set; }
         public string Location { get; set; }
     }
