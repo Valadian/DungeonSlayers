@@ -300,7 +300,7 @@
                     if (equip.Equipped()) {
                         var modifiers = $.Enumerable.From(getEquipmentFunc(equip).Modifiers()).Select(function (x) { return ko.mapping.toJS(x) }).ToArray();
                         if (equip.Rank) {
-                            for (var j = 0; j < equip.Rank; j++) {
+                            for (var j = 0; j < equip.Rank(); j++) {
                                 mods = mods.concat(modifiers);
                             }
                         } else {
