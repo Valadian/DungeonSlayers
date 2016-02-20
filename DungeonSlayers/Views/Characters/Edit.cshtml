@@ -69,34 +69,44 @@
                 @Html.Partial("~/Views/Shared/_SpellPartial.cshtml", Model)
             </div>
         </div>
-        <div class="row" style="font-size:smaller;">
-            <div class="col-sm-12 col-md-6">
-                @Html.Partial("~/Views/Shared/_PPRecordPartial.cshtml", Model)
-            </div>
-
-            <div class="col-sm-12 col-md-6">
-                @Html.Partial("~/Views/Shared/_GoldPartial.cshtml",Model)
-            </div>
-        </div>
         <div class="row">
-            <div class="col-sm-12 col-md-6">
-                @Html.Partial("~/Views/Shared/_EquipmentPartial.cshtml",Model)
-            </div>
-            <div class="col-sm-12 col-md-6">
-                @Html.Partial("~/Views/Shared/_MagicEquipmentPartial.cshtml", Model)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
-                @Html.Partial("~/Views/Shared/_TalentPartial.cshtml", Model)
-            </div>
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_CheckPartial.cshtml", Model)
+
+                @Html.Partial("~/Views/Shared/_TalentPartial.cshtml", Model)
+            </div>
+            <div class = "col-sm-12 col-md-6">
+
+                @Html.Partial("~/Views/Shared/_EquipmentPartial.cshtml", Model)
+
+                @Html.Partial("~/Views/Shared/_MagicEquipmentPartial.cshtml", Model)
+
+                @Html.Partial("~/Views/Shared/_GoldPartial.cshtml", Model)
             </div>
         </div>
+        @*<div class="row" style="font-size:smaller;">
+
+            <div class="col-sm-12 col-md-6">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+            </div>
+            <div class="col-sm-12 col-md-6">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+            </div>
+            <div class="col-sm-12 col-md-6">
+            </div>
+        </div>*@
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 @Html.Partial("~/Views/Shared/_CharacteristicsPartial.cshtml", Model)
+            </div>
+            <div class="col-sm-12 col-md-6">
+                @Html.Partial("~/Views/Shared/_PPRecordPartial.cshtml", Model)
             </div>
         </div>
     </div>
@@ -145,7 +155,7 @@
             {
                 @Html.Raw("Model.base_" + def.Acronym + " = Model." + def.Acronym + "\n");
                 @Html.Raw("Model." + def.Acronym+ " = ko.pureComputed(function() {\n" +
-                    "    return Model.base_"+def.Acronym + "() + Model.SumModifiersOfName('"+ def.Acronym + "');\n" +
+                    "    return +Model.base_"+def.Acronym + "() + +Model.SumModifiersOfName('"+ def.Acronym + "');\n" +
                "}, this);\n")
             }
 
@@ -219,6 +229,7 @@
             var armors = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Armor>)this.ViewBag.Armors))');
             var spells = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Spell>)this.ViewBag.Spells))');
             var equipments = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Equipment>)this.ViewBag.Equipments))');
+            var talents = JSON.parse('@Html.Raw(JsonConvert.SerializeObject((IEnumerable<Talent>)this.ViewBag.Talents))');
 
 
             @foreach (string Self in (IEnumerable<string>)this.ViewBag.SelfTypes)
@@ -235,7 +246,7 @@
                 Model.add{Self} = function() {{
                     {self} = {self}s[0];
                     {self}Id = ko.observable({self}.Id);
-                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false), Quantity: ko.observable(1), Location: ko.observable(''), _new:  true }}
+                    wc = {{ CharacterId: Model.Id, {Self}Id: {self}Id, {Self}: ko.mapping.fromJS({self}), Equipped: ko.observable(false), Quantity: ko.observable(1), Location: ko.observable(''), Rank: ko.observable(1), Description: ko.observable(''), _new:  true }}
                     {self}Id.subscribe(Model.update{Self}, wc);
                     Model.{Self}s.push(wc);
                     $('#{self}Table select').selectpicker('refresh');
@@ -287,7 +298,24 @@
                 for (var i in equippables) {
                     var equip = equippables[i];
                     if (equip.Equipped()) {
-                        mods = mods.concat($.Enumerable.From(getEquipmentFunc(equip).Modifiers()).Select(function (x) { return ko.mapping.toJS(x) }).ToArray());
+                        var modifiers = $.Enumerable.From(getEquipmentFunc(equip).Modifiers()).Select(function (x) { return ko.mapping.toJS(x) }).ToArray();
+                        if (equip.Rank) {
+                            for (var j = 0; j < equip.Rank; j++) {
+                                mods = mods.concat(modifiers);
+                            }
+                        } else {
+                            mods = mods.concat(modifiers);
+                        }
+                    }
+                    if (getEquipmentFunc(equip).PassiveModifiers) {
+                        var modifiers = $.Enumerable.From(getEquipmentFunc(equip).PassiveModifiers()).Select(function (x) { return ko.mapping.toJS(x) }).ToArray();
+                        if (equip.Rank) {
+                            for (var j = 0; j < equip.Rank(); j++) {
+                                mods = mods.concat(modifiers);
+                            }
+                        } else {
+                            mods = mods.concat(modifiers);
+                        }
                     }
                 }
                 return mods;
@@ -318,6 +346,10 @@
             //}
             Model.save = function () {
                 //ko.utils.postJson(location.href, { character: ko.toJSON(Model) });
+                @foreach(var def in ((IEnumerable<PropertyDef>)this.ViewBag.PropertyDefs).AttributesAndTraits())
+                {
+                    @Html.Raw("Model." + def.Acronym + " = Model.base_" + def.Acronym + "\n");
+                }
                 $.ajax({
                     url: '/Characters/Edit',
                     type: 'POST',

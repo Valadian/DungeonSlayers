@@ -515,7 +515,7 @@ namespace DungeonSlayers.Migrations
                 );
             #endregion
             #region Seed Equipment
-            context.Equipment.AddOrUpdate(c => c.Name,
+            context.Equipments.AddOrUpdate(c => c.Name,
                 new Equipment { Name = "Clothing", Availability=Availability.Hamlets, Price=0.001},
                 new Equipment { Name = "Backpack", Availability=Availability.Hamlets, Price=2},
                 new Equipment { Name = "Bear Trap (MAT 30)", Availability = Availability.Villages, Price = 10 },
@@ -609,7 +609,7 @@ namespace DungeonSlayers.Migrations
                     new Restriction { className = "ASN", Level = 10, Ranks = 5 },
                     new Restriction { className = "MNK", Level = 10, Ranks = 5 },
                     new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
-                    Modifiers = new[] {
+                    PassiveModifiers = new[] {
                     new Modifier { Name = "Climb", Value= 2},
                     new Modifier { Name = "Jump", Value= 2} }
                 },
@@ -632,7 +632,7 @@ namespace DungeonSlayers.Migrations
                     new Restriction { className = "ASN", Level = 10, Ranks = 10 },
                     new Restriction { className = "RAN", Level = 10, Ranks = 10 },
                     new Restriction { className = "ROG", Level = 10, Ranks = 10 } },
-                    Modifiers = new[]
+                    PassiveModifiers = new[]
                     {
                         new Modifier { Name = "Perception", Value = 2}
                     }
@@ -650,7 +650,7 @@ namespace DungeonSlayers.Migrations
                     Description = "MND+AU detect magical object (NOT MND+IN)",
                     Restrictions = new[] {
                     new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
-                    Modifiers = new[]
+                    PassiveModifiers = new[]
                     {
                         new Modifier { Name = "Appraise", Value = 3}
                     }
@@ -673,7 +673,7 @@ namespace DungeonSlayers.Migrations
                     new Restriction { className = "SCO", Level = 8, Ranks = 5 },
                     new Restriction { className = "BMA", Level = 10, Ranks = 5 },
                     new Restriction { className = "CLR", Level = 10, Ranks = 5 }}
-                    //, Modifiers = new[]
+                    //, PassiveModifiers = new[]
                     //{
                     //    new Modifier { Name = "MR", Value = 0.5}
                     //}
@@ -774,7 +774,1131 @@ namespace DungeonSlayers.Migrations
                     new Restriction { className = "SCO", Level = 4, Ranks = 3 },
                     new Restriction { className = "BMA", Level = 10, Ranks = 5 },
                     new Restriction { className = "CLR", Level = 10, Ranks = 5 },
-                    new Restriction { className = "PAL", Level = 10, Ranks = 5 } }
+                    new Restriction { className = "PAL", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "DEF", Value = 2} }
+                },
+                new Talent
+                {
+                    Name = "Blood Shield",
+                    Description = "sacrifice 2 HP for +2/talent def for D20 rounds (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "DEF", Value = 2} }
+                },
+                new Talent
+                {
+                    Name = "Bloodletting",
+                    Description = "blade/firearm Check<=Bloodletting = OpDef -5/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Bloods Might",
+                    Description = "sacrifice 2 HP 1/day/talent for +attribute on check",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Bloody Healing",
+                    Description = "1/combat/talent 1/round Check = Lvl, healing = check*2, failure = talent*2 damage. Sacrifice 2 HP/talent for +2 bonus (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Brutal Blow",
+                    Description = "1/combat/talent MAT+=BOD",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 4, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "BER", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 16, Ranks = 3 },
+                        new Restriction { className = "CLR", Level = 14, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Called Shot",
+                    Description = "1/24hrs/talent RAT w/ no defense",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 15, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Caller of the Dead",
+                    Description = "1/24hrs/talent ignore cd to raise undead",
+                    Restrictions = new[] {
+                        new Restriction { className = "NEC", Level = 12, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Caregiver",
+                    Description = "+1/talent all healing/protective spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "HEA", Level = 1, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Charming",
+                    Description = "+2/talent social, +3 opposite sex",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Circle Master",
+                    Description = "+1/talent on summoning, up to +2 hours/talent, reduces needed time by 25%/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Class Master (Fighter)",
+                    Description = "+1 BOD",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 15, Ranks = 1 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "BOD", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Class Master (Mage)",
+                    Description = "+1 MND",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 15, Ranks = 1 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "MND", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Class Master (Scout)",
+                    Description = "+1 MOB",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 15, Ranks = 1 } },
+                    PassiveModifiers = new [] {
+                        new Modifier { Name = "MOB", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Close Combat",
+                    Description = "+1/talent MAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 12, Ranks = 5 },
+                        new Restriction { className = "BER", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 5 },
+                        new Restriction { className = "CLR", Level = 12, Ranks = 5 },
+                        new Restriction { className = "PAL", Level = 12, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 10, Ranks = 5 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "MAT", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Combine Elementals",
+                    Description = "+1/talent elemental levels",
+                    Restrictions = new[] {
+                        new Restriction { className = "ELE", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Conjurer",
+                    Description = "+2/talent summon/control demons",
+                    Restrictions = new[] {
+                        new Restriction { className = "SRC", Level = 12, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 16, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Consuming Sprint",
+                    Description = "Sacrifice 1HP/talent, +2/MR/talent for D20/2 rounds",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 10, Ranks = 3 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "MR", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Control Explosion",
+                    Description = "1/battle/talent spare 1 person/talent for AoE",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 16, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Cooldown Sacrifice",
+                    Description = "Sacrifice 1HP/talent reduce cooldown 1/HP spent (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 12, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Defensive Stance",
+                    Description = "No offensive action + Aware of Attack = OpAttacks -2/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "MNK", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Defy Elements",
+                    Description = "1/day/talent no elemental damage for 3*talent rounds (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 16, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 14, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Delay Death",
+                    Description = "cheat death for 1/talent rounds if not decapitated/exploded/vaporized",
+                    Restrictions = new[] {
+                        new Restriction { className = "NEC", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Demon Spawn",
+                    Description = "+1 demon/talent during conjuration",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Demon Spell",
+                    Description = "teach 1 demon a spell per talent (action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Devastating Strike",
+                    Description = "1/24hrs/talent Op no Def",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 15, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Devastation",
+                    Description = "OpDef -1/talent vs spell damage",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "CLR", Level = 16, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 12, Ranks = 5 },
+                        new Restriction { className = "PAL", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Directed Poisoning",
+                    Description = "poison weapons: +2/talent damage, +2/talent min stun, +2/talent rounds paralyze",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Disengage",
+                    Description = "1/combat/talent ignore all MAT for round",
+                    Restrictions = new[] {
+                        new Restriction { className = "MNK", Level = 12, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Diversion",
+                    Description = "1/day/talent divert attention Op Perception Check - Level for talent rounds",
+                    Restrictions = new[] {
+                        new Restriction { className = "ROG", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Dodge",
+                    Description = "1/fight/talent ignore MAT from <+2 size (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "MNK", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Dual Wielding",
+                    Description = "reduces -10 MAT modifier by -2/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 5 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Eagle Form",
+                    Description = "1/day/talent become eagle/bird. MND, IN, AU same",
+                    Restrictions = new[] {
+                        new Restriction { className = "DRU", Level = 16, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Education",
+                    Description = "+2/talent all checks common knowledge/puzzles",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 5 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Elemental Acolyte",
+                    Description = "1/day/talent ignore cooldown for summon elemental/elemental damage spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "ELE", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Elemental Protection",
+                    Description = "ambient temp +-15 C/talent for him an +2 allies/talent within IN m. 1/24hrs/talent +5 def against elemental damage",
+                    Restrictions = new[] {
+                        new Restriction { className = "BMA", Level = 14, Ranks = 5 },
+                        new Restriction { className = "DRU", Level = 12, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 },
+                        new Restriction { className = "MNK", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Embed Magics",
+                    Description = "Can create magical items. Reduces production time and +1/talent to checks",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Enchanted Weapon",
+                    Description = "Specific weapon +1/talent TSC, per rank bind spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Endurance",
+                    Description = "+3/talent HP",
+                    Restrictions = new[] {
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 3 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "HP", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Enhanced Cooldown",
+                    Description = "-1/talent cooldown",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 4, Ranks = 5 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Escape Death",
+                    Description = "<1HP. heals 1HP per 5-talent rounds",
+                    Restrictions = new[] {
+                        new Restriction { className = "HEA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Expertise",
+                    Description = "+3 bonus to all checks for field of knowledge (Old myths, mathematics, science, astronomy, dwarven religion, etc.)",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Scout - INI)",
+                    Description = "+1 animal/talent (falcon, dog, horse, wolf, etc). +1 IN to animal, +1 INI or RAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "INI", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Scout - RAT)",
+                    Description = "+1 animal/talent (falcon, dog, horse, wolf, etc). +1 IN to animal, +1 INI or RAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "RAT", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Mage - SPC)",
+                    Description = "+1 animal/talent (cat, toad, raven etc). Any large animals for druids. +1 IN to animal, +1 SPC or TSC",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 10, Ranks = 10 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "SPC", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Mage - TSC)",
+                    Description = "+1 animal/talent (cat, toad, raven etc). Any large animals for druids. +1 IN to animal, +1 SPC or TSC",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 10, Ranks = 10 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "TSC", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Paladin - DEF)",
+                    Description = "+1 war horse. +1 IN to animal, +1 DEF or MAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "PAL", Level = 10, Ranks = 1 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "DEF", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Familiar (Paladin - MAT)",
+                    Description = "+1 war horse. +1 IN to animal, +1 DEF or MAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "PAL", Level = 10, Ranks = 1 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "MAT", Value = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Fire Magic",
+                    Description = "+1/talent all fire spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "WIZ", Level = 4, Ranks = 3 },
+                        new Restriction { className = "SRC", Level = 1, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Fury",
+                    Description = "may reduce DEF -1/talent to increase MAT +2/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "BER", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "DEF", Value = -1 },
+                        new Modifier { Name = "MAT", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Grand Master (BOD)",
+                    Description = "increases 1 attribute",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 20, Ranks = 1 },
+                        new Restriction { className = "MGE", Level = 20, Ranks = 1 },
+                        new Restriction { className = "SCO", Level = 20, Ranks = 1 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "BOD", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Grand Master (MOB)",
+                    Description = "increases 1 attribute",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 20, Ranks = 1 },
+                        new Restriction { className = "MGE", Level = 20, Ranks = 1 },
+                        new Restriction { className = "SCO", Level = 20, Ranks = 1 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "MOB", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Grand Master (MND)",
+                    Description = "increases 1 attribute",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 20, Ranks = 1 },
+                        new Restriction { className = "MGE", Level = 20, Ranks = 1 },
+                        new Restriction { className = "SCO", Level = 20, Ranks = 1 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "MND", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Heros Luck",
+                    Description = "1/day/talent may reroll dice",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 10, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 10, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Homunculus (IN)",
+                    Description = "small cowardly humanoid companion. 4 each attribute, 6 between traits, bonus if within AUx5 m. May reallocate points (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 14, Ranks = 3 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "IN", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Homunculus (AU)",
+                    Description = "small cowardly humanoid companion. 4 each attribute, 6 between traits, bonus if within AUx5 m. May reallocate points (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 14, Ranks = 3 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "AU", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Hunter",
+                    Description = "+2/talent in tracking, hunter, pathfinding. efortlessly find 1 meal/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 10, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Imp",
+                    Description = "Gets imp up to rank=talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 12, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Injure",
+                    Description = "OpDef -1/talent vs MAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 4, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 12, Ranks = 5 },
+                        new Restriction { className = "BER", Level = 14, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 16, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 14, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Inspired Retribution",
+                    Description = "1/combat/talent MAT+=ServantOfLight/Darkness",
+                    Restrictions = new[] {
+                        new Restriction { className = "HEA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "CLR", Level = 16, Ranks = 5 },
+                        new Restriction { className = "PAL", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Lacerate Tendoms",
+                    Description = "1/combat/talent OpDef/2. On damage: damage/2 and MR-=0.5*talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 12, Ranks = 3 },
+                        new Restriction { className = "WEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Lightning Reflexes",
+                    Description = "+2/talent INI, change/pickup weapon (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BER", Level = 12, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 10, Ranks = 5 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "INI", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Lightning Thrower",
+                    Description = "+1/talent all lightning damage spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "HEA", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SRC", Level = 8, Ranks = 3 },
+                        new Restriction { className = "WIZ", Level = 8, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 12, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Link Familiar",
+                    Description = "telepathic communication. +3/talent to familiar traits. +1 trait on Character Level",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 14, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 10, Ranks = 10 },
+                        new Restriction { className = "PAL", Level = 12, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 12, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Lockpicking",
+                    Description = "+2/talent opening locks. additional attempt/talent without penalty",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 14, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Lucky Devil",
+                    Description = "1/day/talent ignore fumble and repeat check",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 16, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Manipulator",
+                    Description = "+2/talent for mind affecting spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "HEA", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SRC", Level = 8, Ranks = 3 },
+                        new Restriction { className = "WIZ", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 12, Ranks = 5 },
+                        new Restriction { className = "MNK", Level = 14, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Marksman",
+                    Description = "+1/talent RAT & TSC",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 16, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ROG", Level = 14, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 12, Ranks = 5 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "RAT", Value = 1 },
+                        new Modifier { Name = "TSC", Value = 1 } }
+                },
+                new Talent
+                {
+                    Name = "Master Climber",
+                    Description = "+2/talent on all climbing. Climbing speed = MR/2 + talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 12, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 14, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Master of the Elements",
+                    Description = "+1 to all element damage spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "BMA", Level = 14, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Mindful Magic",
+                    Description = "1/combat/talent SPC or TSC +=MND if it harms/heals",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 5 },
+                        new Restriction { className = "PAL", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Mounted Archer",
+                    Description = "enables two-handed ranged attacks while mounted. -5 trot, -10 gallop (2nd/3rd point reduces penalty by 5)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 14, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Nasty Shot",
+                    Description = "1/combat/talent RAT+=MOB",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 4, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 12, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Necromancy",
+                    Description = "+2/talent to ban/raise/control undead",
+                    Restrictions = new[] {
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 8, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Painful Gain",
+                    Description = "Sacrifive 1HP/talent, SPC/TSC +2/talent (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 10, Ranks = 3 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "SPC", Value = 2 },
+                        new Modifier { Name = "TSC", Value = 2 } }
+                },
+                new Talent
+                {
+                    Name = "Painful Change",
+                    Description = "Sacrifice D20/2 HP, 1/combat/talent change active spell (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Parry",
+                    Description = "+1/talent DEF vs aware MAT",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Perfection",
+                    Description = "+1/talent MAT -1/talent OpDef of existing Weapon Expertise",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 10, Ranks = 3 },
+                        new Restriction { className = "WEM", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier { Name = "MAT", Value = 1 },
+                        new Modifier { Name = "OpDef", Value = -1 } }
+                },
+                new Talent
+                {
+                    Name = "Pickpocket",
+                    Description = "1/24hr/talent +MOB pick pocket check",
+                    Restrictions = new[] {
+                        new Restriction { className = "ROG", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Play Instrument",
+                    Description = "specific instrument. +3/talent for all checks with that instrument",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 }}
+                },
+                new Talent
+                {
+                    Name = "Rascal",
+                    Description = "+3/talent social, bluffing, haggling or negotiating",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Reassess Magic",
+                    Description = "once/talent reselect up to Levels count of spells replaced with same level",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 10 },
+                        new Restriction { className = "PAL", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Recuperation",
+                    Description = "1/talent restore BOD lost to resurrection",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 5 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Release Spell",
+                    Description = "once/talent chose magic class. May release spells from scrolls/books for that class. ignore level",
+                    Restrictions = new[] {
+                        new Restriction { className = "ROG", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Resist Magic",
+                    Description = "Op Non-elemental Cast -2/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Riding",
+                    Description = "+2/talent jump/change direction/speed. +1 bonus fighting on foots",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 10, Ranks = 5 },
+                        new Restriction { className = "PAL", Level = 10, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Ritual of Scars",
+                    Description = "+2 def/talent, -1/talent social, -1/talent HP",
+                    Restrictions = new[] {
+                        new Restriction { className = "BLM", Level = 10, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 12, Ranks = 3 },
+                        new Restriction { className = "NEC", Level = 14, Ranks = 3 } },
+                    PassiveModifiers = new[] {
+                        new Modifier { Name = "DEF", Value = 2 },
+                        new Modifier { Name = "HP", Value = -1 },
+                        new Modifier { Name = "Communicate", Value = -1 },
+                        new Modifier { Name = "Flirt", Value = -1 },
+                        new Modifier { Name = "Haggle", Value = -1 } }
+                },
+                new Talent
+                {
+                    Name = "Rune Lore",
+                    Description = "Can Inscribe Scrolls. -1 hour/talent. +1/talent produce/identify scrolls",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Salvo",
+                    Description = "1/combat +1/talent ranged attack (optionally over several rounds)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 14, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 12, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Servant of Darkness",
+                    Description = "+1/talent attacks on creatures/Servants of Light. +1/def/talent against light spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "HEA", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCR", Level = 1, Ranks = 5 },
+                        new Restriction { className = "WIZ", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ASN", Level = 1, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BER", Level = 1, Ranks = 3 },
+                        new Restriction { className = "BLM", Level = 1, Ranks = 3 },
+                        new Restriction { className = "CLR", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ELE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 1, Ranks = 3 },
+                        new Restriction { className = "NEC", Level = 1, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 1, Ranks = 3 },
+                        new Restriction { className = "RAN", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 1, Ranks = 3 },
+                        new Restriction { className = "WEM", Level = 1, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Servant of Light",
+                    Description = "+1/def/talent against creatures or Servants of Darkness. Also Shadow Spells",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "HEA", Level = 1, Ranks = 5 },
+                        new Restriction { className = "SCR", Level = 1, Ranks = 3 },
+                        new Restriction { className = "WIZ", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ARC", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 1, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BER", Level = 1, Ranks = 3 },
+                        new Restriction { className = "BLM", Level = 1, Ranks = 3 },
+                        new Restriction { className = "CLR", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 1, Ranks = 3 },
+                        new Restriction { className = "DRU", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ELE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 1, Ranks = 3 },
+                        new Restriction { className = "NEC", Level = 1, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 10, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 1, Ranks = 3 },
+                        new Restriction { className = "WEM", Level = 1, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Servitude",
+                    Description = "+1/talent summoned question/task, +1 hour/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 5 },
+                        new Restriction { className = "ELE", Level = 16, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Sharpshooter",
+                    Description = "OpDef -1/talent vs Ranged",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 12, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 12, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 8, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 5 },
+                        new Restriction { className = "RAN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "WEM", Level = 14, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Slip Away",
+                    Description = "+1 meter/talent when Getting up/Running. Roll MOB+AG check to squirm out of chain/tied up",
+                    Restrictions = new[] {
+                        new Restriction { className = "ASN", Level = 14, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 12, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Smash Armor",
+                    Description = "On Damage. -1 AV/talent on random non-magical armor",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "BER", Level = 12, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "Smash Demons",
+                    Description = "1/day/talent undefendable attack on demon",
+                    Restrictions = new[] {
+                        new Restriction { className = "CLR", Level = 12, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 14, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Smash Undead",
+                    Description = "1/day/talent undefendable attack on undead",
+                    Restrictions = new[] {
+                        new Restriction { className = "CLR", Level = 10, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 14, Ranks = 3 },
+                        new Restriction { className = "PAL", Level = 12, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Spell Routine",
+                    Description = "+1/talent active specific spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "SpellChanger",
+                    Description = "+2/talent change spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 1, Ranks = 5 },
+                        new Restriction { className = "ARC", Level = 10, Ranks = 10 },
+                        new Restriction { className = "PAL", Level = 10, Ranks = 5 } }
+                },
+                new Talent
+                {
+                    Name = "SpellMaster",
+                    Description = "1/day ignore cd of specific spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "MGE", Level = 15, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Staff Binding",
+                    Description = "Bind on quarterstaff. No break on MAT fumble. +1 TSC/talent, bind 1 spell",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 12, Ranks = 5 } },
+                    Modifiers = new[]
+                    {
+                        new Modifier {  Name="TSC", Value=1 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Steadfast",
+                    Description = "-3 HP feint limit",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 4, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Stealth",
+                    Description = "+2/talent stealth, hiding, pick pocket",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 4, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ASN", Level = 10, Ranks = 5 },
+                        new Restriction { className = "MNK", Level = 10, Ranks = 5 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
+                    Modifiers = new[]
+                    {
+                        new Modifier {  Name="Hide", Value=1 },
+                        new Modifier {  Name="Pick Pocket", Value=1 },
+                        new Modifier {  Name="Sneak", Value=1 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Stunning Blow",
+                    Description = "1/day/talent weaponless attack vs size<+2, no damage, paralyzed 1 round/damage. breaks on attack",
+                    Restrictions = new[] {
+                        new Restriction { className = "MNK", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Subdue Summoned",
+                    Description = "on summon fail, may subdue (action). 1/talent on subdue success attempt to subdue another summon (free action)",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 16, Ranks = 3 },
+                        new Restriction { className = "DEM", Level = 10, Ranks = 3 },
+                        new Restriction { className = "ELE", Level = 10, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Sweeping Blow",
+                    Description = "two-handed/unarmed. +1/talent additional adjacent target (single check). -1 MAT/target, -2 def/target",
+                    Restrictions = new[] {
+                        new Restriction { className = "BER", Level = 14, Ranks = 3 },
+                        new Restriction { className = "MNK", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Swift",
+                    Description = "+1 MR/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 4, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 } },
+                    PassiveModifiers = new[]
+                    {
+                        new Modifier {  Name="MR", Value=1 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Swim",
+                    Description = "can swim. +3/talent swim",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 1, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 1, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 } },
+                    PassiveModifiers = new[]
+                    {
+                        new Modifier {  Name="Swimming", Value=3 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Thievery",
+                    Description = "+2/talent detecting disarming traps/pick pocket, picking locks, cheating when gambling",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "MGE", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 1, Ranks = 3 },
+                        new Restriction { className = "ROG", Level = 10, Ranks = 5 } },
+                    PassiveModifiers = new[]
+                    {
+                        new Modifier {  Name="Disable Traps", Value=2 },
+                        new Modifier {  Name="Open Lock", Value=2 },
+                        new Modifier {  Name="Pick Pocket", Value=2 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Unarmed Master",
+                    Description = "+1/talent WB unarmed. ignore +5 OpDef. OpDef -1/talent. +1 Def/talent. +1 Ini (if no shield and cloth)",
+                    Restrictions = new[] {
+                        new Restriction { className = "MNK", Level = 10, Ranks = 5 } },
+                    Modifiers = new[]
+                    {
+                        new Modifier {  Name="DEF", Value=1 },
+                        new Modifier {  Name="INI", Value=1 },
+                        new Modifier {  Name="WB", Value=1 }
+                    }
+                },
+                new Talent
+                {
+                    Name = "Undead Hordes",
+                    Description = "+3 undead/talent",
+                    Restrictions = new[] {
+                        new Restriction { className = "ARC", Level = 16, Ranks = 5 },
+                        new Restriction { className = "NEC", Level = 10, Ranks = 10 } }
+                },
+                new Talent
+                {
+                    Name = "Versatile Conjuration",
+                    Description = "distribute MND*talent points to conjured demon combat values",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Versatile Raising",
+                    Description = "distribute MND*talent/2 points to raised undead combat values",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Versatile Summoning",
+                    Description = "distribute MND*talent points to summoned elemental combat values",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 16, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Voracious Conjurer",
+                    Description = "1/day/talent ignore cooldown for summon demons",
+                    Restrictions = new[] {
+                        new Restriction { className = "DEM", Level = 14, Ranks = 3 } }
+                },
+                new Talent
+                {
+                    Name = "Weapon Expert",
+                    Description = "+1 MAT/talent specific weapon class. -1 OpDef/talent. Only once per weapon class.",
+                    Restrictions = new[] {
+                        new Restriction { className = "FGT", Level = 8, Ranks = 3 },
+                        new Restriction { className = "SCO", Level = 12, Ranks = 3 },
+                        new Restriction { className = "BMA", Level = 10, Ranks = 3 },
+                        new Restriction { className = "WEM", Level = 10, Ranks = 5 } },
+                    Modifiers = new[] {
+                        new Modifier {  Name="MAT", Value=1 },
+                        new Modifier {  Name="OpDef", Value=-1 } }
                 }
             );
             #endregion

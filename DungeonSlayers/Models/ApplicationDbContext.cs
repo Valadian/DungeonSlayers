@@ -22,7 +22,7 @@ namespace DungeonSlayers.Models
         public DbSet<Armor> Armors { get; set; }
         public DbSet<Check> Checks { get; set; }
         public DbSet<Spell> Spells { get; set; }
-        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Talent> Talents { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -59,6 +59,20 @@ namespace DungeonSlayers.Models
                 .HasRequired(cw => cw.Equipment)
                 .WithMany()
                 .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Talent>()
+                .HasMany(t => t.PassiveModifiers)
+                .WithOptional()
+                .Map(s =>
+                {
+                    s.MapKey("Talent_Id");
+                });
+            modelBuilder.Entity<Talent>()
+                .HasMany(t => t.Modifiers)
+                .WithOptional()
+                .Map(s =>
+                {
+                    s.MapKey("Talent_Id2");
+                });
 
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 

@@ -9,7 +9,8 @@ namespace DungeonSlayers.Models
     public class Talent : Modified
     {
         public string Description { get; set; }
-        public ICollection<Restriction> Restrictions { get; set; }
+        public virtual ICollection<Restriction> Restrictions { get; set; }
+        public virtual ICollection<Modifier> PassiveModifiers { get; set; } = new List<Modifier>();
     }
     public class Restriction : Identifiable
     {

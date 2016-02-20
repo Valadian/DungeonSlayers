@@ -1,14 +1,38 @@
 ﻿@model DungeonSlayers.Models.Character
 
-<table class="table table-bordered">
+<table class="table table-bordered table-thin" id="talentTable">
     <tr>
+        <th width="35px">
+            <button type="button" class="btn btn-success" data-bind="click: addTalent"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        </th>
         <th>Talent</th>
         <th>Rank</th>
         <th>Effect</th>
+        <th width="100px">Action</th>
     </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody>
+        <!-- ko foreach: Talents -->
+        <tr data-bind="css: {equipped: Equipped()}">
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.removeTalent"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            </td>
+            <td>@Html.EditorFor(model => model.Talents, "EditableDropDown", new { SelectList = (object)ViewBag.TalentChoices, editable = false, multiple = false, exprText = "TalentId" })</td>
+            <td><input data-bind="value: Rank"/></td>
+            <td>
+                <!-- ko foreach: Talent.Modifiers -->
+                <span data-bind="text: 'E:'+Name() + (Value()>=0?' +':' -') + Value()*$parent.Rank(),css: 'label-'+Name()" class="label label-default"></span>
+                <!-- /ko -->                
+                <!-- ko foreach: Talent.PassiveModifiers -->
+                <span data-bind="text: Name() + (Value()>=0?' +':' -') + Value()*$parent.Rank(),css: 'label-'+Name()" class="label label-default"></span>
+                <!-- /ko -->
+                <span data-bind="text: Talent.Description"></span>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-bind="text: Equipped()?'Unequip':'Equip',click: function(data, event) {data.Equipped(!data.Equipped())}"></button>
+                </div>
+            </td>
+        </tr>
+        <!-- /ko -->
+    </tbody>
 </table>

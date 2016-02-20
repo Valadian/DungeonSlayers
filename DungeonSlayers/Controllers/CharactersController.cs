@@ -85,9 +85,11 @@ namespace DungeonSlayers.Controllers
                 ViewBag.SpellChoices = db.Spells.AsChoices();
             }
             ViewBag.Spells = db.Spells.ToList();
-            ViewBag.EquipmentChoices = db.Equipment.OrderBy(e => e.Name).AsChoices();
-            ViewBag.Equipments = db.Equipment.ToList();
-            ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell","Equipment"};
+            ViewBag.EquipmentChoices = db.Equipments.OrderBy(e => e.Name).AsChoices();
+            ViewBag.Equipments = db.Equipments.ToList();
+            ViewBag.TalentChoices = db.Talents.OrderBy(e => e.Name).AsChoices();
+            ViewBag.Talents = db.Talents.ToList();
+            ViewBag.SelfTypes = new []{ "Weapon","Armor","Spell","Equipment","Talent"};
             ViewBag.IdentifiableTypes = new[] { "MagicEquipment" };
             ViewBag.Checks = db.Checks.ToList();
         }
@@ -143,7 +145,7 @@ namespace DungeonSlayers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [MyValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities,Weapons,Armors,Spells,Equipments,MagicEquipments")] Character character)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Race,Level,PP,TP,ClassName,HeroClassName,ExperiencePoints,Size,Gender,PlaceOfBirth,DateOfBirth,Age,Height,Weight,HairColor,EyeColor,Special,Languages,Alphabets,Name,Note,BOD,MOB,MND,ST,AG,IN,CO,DX,AU,Gold,Silver,Copper,RacialAbilities,Weapons,Armors,Spells,Equipments,MagicEquipments,Talents")] Character character)
         {
             if (ModelState.IsValid)
             {
@@ -162,6 +164,7 @@ namespace DungeonSlayers.Controllers
                     .OwnedCollection(c => c.Spells)
                     .OwnedCollection(c => c.Equipments)
                     .OwnedCollection(c => c.MagicEquipments)
+                    .OwnedCollection(c => c.Talents)
                     );
                 //db.Entry(character).State = EntityState.Modified;
                 await db.SaveChangesAsync();

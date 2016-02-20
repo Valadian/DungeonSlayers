@@ -144,12 +144,17 @@ namespace DungeonSlayers.Models
         public int CharacterId { get; set; }
         [Key, ForeignKey("Talent"), Column(Order = 1)]
         public int TalentId { get; set; }
+        public override bool Equals(object obj)
+        {
+            return (CharacterId == (obj as CharacterTalent)?.CharacterId) &&
+                   (TalentId == (obj as CharacterTalent)?.TalentId);
+        }
 
         public virtual Character Character { get; set; }
         public virtual Talent Talent { get; set; }
         public int Rank { get; set; }
-        [NotMapped]
-        public override bool Equipped { get; set; } = true;
+        //[NotMapped]
+        //public override bool Equipped { get; set; } = true;
     }
     public class CharacterEquipment : Equippable
     {

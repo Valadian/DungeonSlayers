@@ -205,6 +205,14 @@
     <Compile Include="Migrations\201602140018282_RemoveBaseModifiers.Designer.cs">
       <DependentUpon>201602140018282_RemoveBaseModifiers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602170342138_AddTalentActiveModifiers.cs" />
+    <Compile Include="Migrations\201602170342138_AddTalentActiveModifiers.Designer.cs">
+      <DependentUpon>201602170342138_AddTalentActiveModifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602200451593_SwapModifierNames.cs" />
+    <Compile Include="Migrations\201602200451593_SwapModifierNames.Designer.cs">
+      <DependentUpon>201602200451593_SwapModifierNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CharactersController.cs" />
@@ -370,6 +378,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602140018282_RemoveBaseModifiers.resx">
       <DependentUpon>201602140018282_RemoveBaseModifiers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602170342138_AddTalentActiveModifiers.resx">
+      <DependentUpon>201602170342138_AddTalentActiveModifiers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602200451593_SwapModifierNames.resx">
+      <DependentUpon>201602200451593_SwapModifierNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

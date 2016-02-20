@@ -292,6 +292,14 @@ input::-webkit-inner-spin-button {
 .label-MR       {   background-color: #00c; }
 .label-SPC      {   background-color: #c0c; }
 .label-TSC      {   background-color: #c00; }
+.label-HP       {   background-color: #f00; }
+.label-Communicate,
+.label-Flirt,
+.label-Haggle {
+    background-color: #fff;
+    color: black;
+    outline: 1px solid black;
+}
 /*.floating {
         position: fixed;
         top: 54px;

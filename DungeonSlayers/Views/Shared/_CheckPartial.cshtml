@@ -12,7 +12,7 @@
         <tr>
             <td>@check.Name</td>
             <td>@check.PrettyBinding</td>
-            <td data-bind="text: @check.DataBinding"></td>
+            <td><span data-bind="text: @check.DataBinding"></span> <span data-bind="visible: SumModifiersOfName('@check.Name')!=0,text: + (SumModifiersOfName('@check.Name')>0?' +':'') + SumModifiersOfName('@check.Name');"></span></td>
         </tr>
     }
 </table>
